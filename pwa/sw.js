@@ -1,8 +1,9 @@
-const STATIC_CACHE = "ai2m2ia-pwa-static-v9";
+const STATIC_CACHE = "ai2m2ia-pwa-static-v10";
 const API_CACHE = "ai2m2ia-api-v1";
 const STATIC_ASSETS = [
   "./",
   "./index.html",
+  "./offline.html",
   "./manifest.webmanifest",
   "./assets/styles.css",
   "./assets/app.js?v=9",
@@ -47,10 +48,17 @@ self.addEventListener("fetch", event => {
 async function cacheFirst(request) {
   const cached = await caches.match(request);
   if (cached) return cached;
-  const response = await fetch(request);
-  const cache = await caches.open(STATIC_CACHE);
-  cache.put(request, response.clone());
-  return response;
+  try {
+    const response = await fetch(request);
+    const cache = await caches.open(STATIC_CACHE);
+    cache.put(request, response.clone());
+    return response;
+  } catch (_) {
+    if (request.mode === "navigate") {
+      return caches.match("./offline.html");
+    }
+    return offlineResponse(request);
+  }
 }
 
 async function staleWhileRevalidate(request) {
@@ -61,6 +69,21 @@ async function staleWhileRevalidate(request) {
       if (response.ok) cache.put(request, response.clone());
       return response;
     })
-    .catch(() => cached);
+    .catch(() => cached || offlineResponse(request));
   return cached || network;
+}
+
+function offlineResponse(request) {
+  const accept = request.headers.get("accept") || "";
+  const isJson = accept.includes("application/json") || new URL(request.url).pathname.endsWith(".json");
+  if (isJson) {
+    return new Response(
+      JSON.stringify({ error: "offline", message: "Resource unavailable offline and not yet cached." }),
+      { status: 503, headers: { "Content-Type": "application/json; charset=utf-8" } }
+    );
+  }
+  return new Response("Resource unavailable offline and not yet cached.", {
+    status: 503,
+    headers: { "Content-Type": "text/plain; charset=utf-8" }
+  });
 }
