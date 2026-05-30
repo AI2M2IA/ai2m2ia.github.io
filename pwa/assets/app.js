@@ -83,7 +83,7 @@ async function loadCatalog(options = {}) {
     renderLibrary();
   } catch (error) {
     nodes.count.textContent = "Não foi possível carregar o catálogo.";
-    nodes.bookGrid.innerHTML = `<div class="empty-state">${escapeHtml(error.message)}</div>`;
+    renderEmptyState(nodes.bookGrid, error.message);
   }
 }
 
@@ -109,7 +109,11 @@ async function fetchJson(url, options = {}) {
 function populateLanguageFilter(books) {
   const selected = nodes.language.value;
   const languages = [...new Set(books.flatMap(book => book.languages || []))].sort();
-  nodes.language.innerHTML = `<option value="">Todos os idiomas</option>`;
+  nodes.language.textContent = "";
+  const allOption = document.createElement("option");
+  allOption.value = "";
+  allOption.textContent = "Todos os idiomas";
+  nodes.language.append(allOption);
   for (const language of languages) {
     const option = document.createElement("option");
     option.value = language;
@@ -136,7 +140,7 @@ function renderLibrary() {
   nodes.bookGrid.textContent = "";
 
   if (!books.length) {
-    nodes.bookGrid.innerHTML = `<div class="empty-state">Nenhum livro encontrado.</div>`;
+    renderEmptyState(nodes.bookGrid, "Nenhum livro encontrado.");
     return;
   }
 
@@ -176,11 +180,25 @@ function renderCover(container, book) {
 }
 
 function renderFallbackCover(container, book) {
-  container.innerHTML = "";
+  container.textContent = "";
   const fallback = document.createElement("div");
   fallback.className = "fallback-cover";
-  fallback.innerHTML = `<span>${escapeHtml(book.format)}</span><strong>${escapeHtml(shortTitle(book.title))}</strong><span>${escapeHtml(book.author || "AI(2)M(2)IA")}</span>`;
+  const format = document.createElement("span");
+  format.textContent = book.format;
+  const title = document.createElement("strong");
+  title.textContent = shortTitle(book.title);
+  const author = document.createElement("span");
+  author.textContent = book.author || "AI(2)M(2)IA";
+  fallback.append(format, title, author);
   container.append(fallback);
+}
+
+function renderEmptyState(container, message) {
+  container.textContent = "";
+  const empty = document.createElement("div");
+  empty.className = "empty-state";
+  empty.textContent = message;
+  container.append(empty);
 }
 
 async function downloadBook(book, button) {

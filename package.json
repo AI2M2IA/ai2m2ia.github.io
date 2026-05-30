@@ -1,6 +1,7 @@
 {
   "name": "ai2m2ia.github.io",
   "private": true,
+  "license": "AGPL-3.0-only",
   "scripts": {
     "build:api": "python3 tools/api/scripts/build_catalog.py",
     "test": "npm run test:coverage && npm run test:e2e",
