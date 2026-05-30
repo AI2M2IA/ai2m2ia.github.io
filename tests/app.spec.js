@@ -53,8 +53,16 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
 
     const html = page.locator('html');
     const langMenuBtn = page.locator('#lang-menu-btn');
+    const langMenuText = langMenuBtn.locator('.lang-text');
     const langDropdown = page.locator('#lang-dropdown');
     const exploreBtn = page.locator('a[data-i18n="heroPrimaryCTA"]');
+    const labelFor = lang => ({
+      'pt-BR': 'PT-BR',
+      'es-419': 'ES',
+      'zh-CN': 'ZH',
+      'zh-TW': 'ZH',
+      yue: 'YUE',
+    }[lang] || lang.split('-')[0].toUpperCase());
 
     // Default language is English
     await expect(html).toHaveAttribute('lang', 'en');
@@ -96,6 +104,7 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
 
       // 6. Verify the text translated correctly
       await expect(exploreBtn).toHaveText(expectedText);
+      await expect(langMenuText).toHaveText(labelFor(lang));
     }
   });
 
@@ -139,6 +148,7 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
 
     // Initially, it should be collapsed (aria-expanded="false" or not have class 'open')
     await expect(toggleBtn).toHaveAttribute('aria-expanded', 'false');
+    await expect(auditPanel).toHaveAttribute('aria-hidden', 'true');
     await expect(auditPanel).not.toHaveClass(/open/);
 
     // Click to expand
@@ -146,6 +156,7 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
 
     // Now it should be open
     await expect(toggleBtn).toHaveAttribute('aria-expanded', 'true');
+    await expect(auditPanel).toHaveAttribute('aria-hidden', 'false');
     await expect(auditPanel).toHaveClass(/open/);
     
     // Verify that audit items are rendered
@@ -155,6 +166,7 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
     // Click again to collapse
     await toggleBtn.click();
     await expect(toggleBtn).toHaveAttribute('aria-expanded', 'false');
+    await expect(auditPanel).toHaveAttribute('aria-hidden', 'true');
     await expect(auditPanel).not.toHaveClass(/open/);
   });
 
