@@ -1,6 +1,33 @@
 const { test, expect } = require('@playwright/test');
 
 test.describe('PWA reader', () => {
+  test('exposes installable manifest icons', async ({ request }) => {
+    const response = await request.get('/pwa/manifest.webmanifest');
+    expect(response.ok()).toBeTruthy();
+
+    const manifest = await response.json();
+    expect(manifest.icons).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        src: 'assets/icon-192.png',
+        sizes: '192x192',
+        type: 'image/png',
+        purpose: 'any',
+      }),
+      expect.objectContaining({
+        src: 'assets/icon-512.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'maskable',
+      }),
+    ]));
+
+    for (const icon of manifest.icons.filter(item => item.type === 'image/png')) {
+      const iconResponse = await request.get(`/pwa/${icon.src}`);
+      expect(iconResponse.ok()).toBeTruthy();
+      expect(iconResponse.headers()['content-type']).toContain('image/png');
+    }
+  });
+
   test('opens the library and reader from local static files', async ({ page }) => {
     await page.goto('/pwa/');
     await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveCount(1);
