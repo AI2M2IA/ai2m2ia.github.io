@@ -286,9 +286,15 @@ const I18N = {
     const btn  = document.getElementById('lang-menu-btn');
     if (!menu || !btn) return;
 
-    menu.innerHTML = this.AVAILABLE_LANGS.map(l =>
-      `<button class="lang-option${l.code === this.current ? ' active' : ''}" data-lang="${l.code}">${l.label}</button>`
-    ).join('');
+    menu.textContent = '';
+    for (const lang of this.AVAILABLE_LANGS) {
+      const option = document.createElement('button');
+      option.className = `lang-option${lang.code === this.current ? ' active' : ''}`;
+      option.dataset.lang = lang.code;
+      option.type = 'button';
+      option.textContent = lang.label;
+      menu.append(option);
+    }
 
     menu.querySelectorAll('.lang-option').forEach(opt => {
       opt.addEventListener('click', () => {
@@ -356,6 +362,31 @@ const DataStore = {
   }
 };
 
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function safeUrl(value, { external = false } = {}) {
+  if (!value) return '';
+  try {
+    const url = new URL(value, window.location.href);
+    if (!['http:', 'https:'].includes(url.protocol)) return '#';
+    if (!external && url.origin !== window.location.origin) return '#';
+    return value;
+  } catch (_) {
+    return '#';
+  }
+}
+
+function safeMediaId(value) {
+  return /^[\w.-]+$/.test(String(value || '')) ? String(value) : '';
+}
+
 /* --------------------------------------------------------------------------
    CATALOG RENDERER
    -------------------------------------------------------------------------- */
@@ -379,7 +410,7 @@ const CatalogRenderer = {
   _card(work) {
     const tagClass = this.genreTagClass[work.genre] || 'tag-start';
     const coverEl  = work.coverImage
-      ? `<img class="book-cover" src="${work.coverImage}" alt="${work.coverAlt}" loading="lazy" width="562" height="900">`
+      ? `<img class="book-cover" src="${escapeHtml(safeUrl(work.coverImage))}" alt="${escapeHtml(work.coverAlt)}" loading="lazy" width="562" height="900">`
       : `<div class="book-cover-placeholder"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>`;
 
     /* WIP badge */
@@ -391,28 +422,28 @@ const CatalogRenderer = {
     const authorshipEl = (work.authorshipVariants && work.authorshipVariants.length)
       ? `<div class="book-authorship">${work.authorshipVariants.map(v =>
           v === 'human'
-            ? `<span class="authorship-badge human"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${I18N.t('authorshipHuman') || 'Human-written'}</span>`
-            : `<span class="authorship-badge human-ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>${I18N.t('authorshipHumanAI') || 'Human + AI'}</span>`
+            ? `<span class="authorship-badge human"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${escapeHtml(I18N.t('authorshipHuman') || 'Human-written')}</span>`
+            : `<span class="authorship-badge human-ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>${escapeHtml(I18N.t('authorshipHumanAI') || 'Human + AI')}</span>`
         ).join('')}</div>`
       : '';
 
     return `
-      <article class="book-card" data-genre="${work.genre}" data-id="${work.id}">
+      <article class="book-card" data-genre="${escapeHtml(work.genre)}" data-id="${escapeHtml(work.id)}">
         ${coverEl}
         <div class="book-body">
           ${wipEl}
-          <span class="book-tag ${tagClass}">${I18N.t('workTag_' + work.id) || work.tag || ''}</span>
+          <span class="book-tag ${tagClass}">${escapeHtml(I18N.t('workTag_' + work.id) || work.tag || '')}</span>
           ${authorshipEl}
-          <h3 class="book-title">${work.name}</h3>
-          <p class="book-summary">${I18N.t('workSummary_' + work.id) || work.summary}</p>
+          <h3 class="book-title">${escapeHtml(work.name)}</h3>
+          <p class="book-summary">${escapeHtml(I18N.t('workSummary_' + work.id) || work.summary)}</p>
           <div class="book-actions">
-            <a class="book-link" href="${work.route}">
-              <span data-i18n="learnMore">${I18N.t('learnMore')}</span>
+            <a class="book-link" href="${escapeHtml(safeUrl(work.route))}">
+              <span data-i18n="learnMore">${escapeHtml(I18N.t('learnMore'))}</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
             ${work.amazonUrl
-              ? `<a class="book-link" href="${work.amazonUrl}" target="_blank" rel="noopener noreferrer">
-                  <span data-i18n="buyOnAmazon">${I18N.t('buyOnAmazon')}</span>
+              ? `<a class="book-link" href="${escapeHtml(safeUrl(work.amazonUrl, { external: true }))}" target="_blank" rel="noopener noreferrer">
+                  <span data-i18n="buyOnAmazon">${escapeHtml(I18N.t('buyOnAmazon'))}</span>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 </a>`
               : ''}
@@ -458,14 +489,14 @@ const CharacterRenderer = {
     return `
       <article class="character-card">
         <div class="char-portrait-container">
-          ${c.portraitImage ? `<img src="${c.portraitImage}" alt="${c.portraitAlt}" loading="lazy">` : ''}
-          <div class="card-glow-bg ${c.glowClass}"></div>
+          ${c.portraitImage ? `<img src="${escapeHtml(safeUrl(c.portraitImage))}" alt="${escapeHtml(c.portraitAlt)}" loading="lazy">` : ''}
+          <div class="card-glow-bg ${escapeHtml(c.glowClass)}"></div>
         </div>
         <div class="char-info">
-          <h3>${c.name}</h3>
-          <span class="char-title-role" data-i18n="${titleKey}">${I18N.t(titleKey)}</span>
-          <p class="char-desc" data-i18n="${descKey}">${I18N.t(descKey)}</p>
-          <span class="char-tag ${genreTagClass}" data-i18n="${genreKey}">${I18N.t(genreKey)}</span>
+          <h3>${escapeHtml(c.name)}</h3>
+          <span class="char-title-role" data-i18n="${titleKey}">${escapeHtml(I18N.t(titleKey))}</span>
+          <p class="char-desc" data-i18n="${descKey}">${escapeHtml(I18N.t(descKey))}</p>
+          <span class="char-tag ${genreTagClass}" data-i18n="${genreKey}">${escapeHtml(I18N.t(genreKey))}</span>
         </div>
       </article>`;
   }
@@ -479,6 +510,7 @@ const MediaRenderer = {
     const grid = document.getElementById('media-grid');
     if (!grid || !DataStore.media?.items?.length) return;
     grid.innerHTML = DataStore.media.items.map(item => this._card(item)).join('');
+    this.bindEmbeds(grid);
   },
 
   _card(item) {
@@ -492,16 +524,17 @@ const MediaRenderer = {
             </div>
           </div>
           <div class="media-body">
-            <p class="media-title">${item.title}</p>
-            <p class="media-desc">${item.description}</p>
+            <p class="media-title">${escapeHtml(item.title)}</p>
+            <p class="media-desc">${escapeHtml(item.description)}</p>
           </div>
         </div>`;
     }
 
     const isTikTok   = item.type === 'tiktok';
+    const mediaId = isTikTok ? safeMediaId(item.tiktokId) : safeMediaId(item.youtubeId);
     const dataAttr   = isTikTok
-      ? `data-tiktok-id="${item.tiktokId}"`
-      : `data-youtube-id="${item.youtubeId}"`;
+      ? `data-tiktok-id="${escapeHtml(mediaId)}"`
+      : `data-youtube-id="${escapeHtml(mediaId)}"`;
     const platformBadge = isTikTok
       ? `<span class="media-platform-badge tiktok" aria-hidden="true">TikTok</span>`
       : `<span class="media-platform-badge youtube" aria-hidden="true">YouTube</span>`;
@@ -509,22 +542,33 @@ const MediaRenderer = {
       <div class="media-card${isTikTok ? ' media-card--tiktok' : ''}">
         <div class="media-embed-wrapper">
           <div class="media-embed-placeholder" role="button" tabindex="0"
-               aria-label="${I18N.t('clickToLoad')}: ${item.title}"
-               ${dataAttr}
-               onclick="MediaRenderer.loadEmbed(this)"
-               onkeydown="if(event.key==='Enter'||event.key===' ')MediaRenderer.loadEmbed(this)">
+               aria-label="${escapeHtml(I18N.t('clickToLoad'))}: ${escapeHtml(item.title)}"
+               ${dataAttr}>
             <div class="play-btn-ring" aria-hidden="true">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             </div>
-            <span class="embed-load-label" data-i18n="clickToLoad">${I18N.t('clickToLoad')}</span>
+            <span class="embed-load-label" data-i18n="clickToLoad">${escapeHtml(I18N.t('clickToLoad'))}</span>
             ${platformBadge}
           </div>
         </div>
         <div class="media-body">
-          <p class="media-title">${item.title}</p>
-          <p class="media-desc">${item.description}</p>
+          <p class="media-title">${escapeHtml(item.title)}</p>
+          <p class="media-desc">${escapeHtml(item.description)}</p>
         </div>
       </div>`;
+  },
+
+  bindEmbeds(root) {
+    root.querySelectorAll('.media-embed-placeholder').forEach(placeholder => {
+      const load = () => this.loadEmbed(placeholder);
+      placeholder.addEventListener('click', load);
+      placeholder.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          load();
+        }
+      });
+    });
   },
 
   loadEmbed(placeholder) {
@@ -577,10 +621,10 @@ const AuditPanel = {
     if (!container || !DataStore.sources?.sources) return;
     container.innerHTML = DataStore.sources.sources.map(s => `
       <div class="source-item">
-        <p class="source-label">${s.label}</p>
-        <p class="source-type">${s.type}</p>
-        <p class="source-note">${s.note}</p>
-        ${s.url ? `<a class="source-link" href="${s.url}" target="_blank" rel="noopener noreferrer">${s.url}</a>` : ''}
+        <p class="source-label">${escapeHtml(s.label)}</p>
+        <p class="source-type">${escapeHtml(s.type)}</p>
+        <p class="source-note">${escapeHtml(s.note)}</p>
+        ${s.url ? `<a class="source-link" href="${escapeHtml(safeUrl(s.url, { external: true }))}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.url)}</a>` : ''}
       </div>`).join('');
   },
 
@@ -656,7 +700,7 @@ const ScrollBehavior = {
     const header = document.querySelector('.site-header');
     if (!header) return;
     window.addEventListener('scroll', () => {
-      header.style.boxShadow = window.scrollY > 10 ? '0 4px 24px rgba(0,0,0,0.2)' : '';
+      header.classList.toggle('is-scrolled', window.scrollY > 10);
     }, { passive: true });
   }
 };

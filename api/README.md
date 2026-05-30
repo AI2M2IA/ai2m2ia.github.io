@@ -9,6 +9,10 @@ Static JSON contract served from GitHub Pages.
 - Book covers: `/api/books/<book-id>/cover.jpg`
 - Schemas: `/api/schemas/catalog.schema.json` and `/api/schemas/content.schema.json`
 
+Some catalog entries can intentionally expose `coverUrl: null`. At the moment,
+volumes 17-30 of `The Last Archive` do not have public cover files yet; clients
+should render their fallback cover state until those assets are added.
+
 Production URLs use the canonical site origin:
 
 ```text

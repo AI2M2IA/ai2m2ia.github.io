@@ -265,6 +265,10 @@ p + p { margin-top: 0.9em; }
   transition: background 0.3s, border-color 0.3s;
 }
 
+.site-header.is-scrolled {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+}
+
 [data-theme="light"] .site-header {
   background: rgba(251, 250, 247, 0.90);
 }
