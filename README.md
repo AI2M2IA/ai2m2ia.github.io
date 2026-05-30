@@ -69,6 +69,10 @@ Runs the Node.js unit tests for the API contract tooling.
 ### `npm run test:pwa`
 Runs the PWA E2E test against `/pwa/`.
 
+### `npm run test:prod`
+Runs smoke checks against the public production site at
+`https://ai2m2ia.github.io`. This is also scheduled in GitHub Actions.
+
 ### `npm run test:i18n`
 Runs validation checks across all 23 language files inside `data/i18n/` to ensure:
 - JSON structures are valid.
