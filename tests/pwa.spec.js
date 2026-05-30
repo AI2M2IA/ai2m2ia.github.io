@@ -3,6 +3,8 @@ const { test, expect } = require('@playwright/test');
 test.describe('PWA reader', () => {
   test('opens the library and reader from local static files', async ({ page }) => {
     await page.goto('/pwa/');
+    await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveCount(1);
+    await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
     await expect(page.getByText('31 de 31 livros')).toBeVisible();
     await expect(page.getByRole('heading', { name: "Let's Build on AWS Together" })).toBeVisible();
 

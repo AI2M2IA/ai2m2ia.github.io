@@ -13,6 +13,8 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
     await expect(page).toHaveTitle(/AI\(2\)M\(2\)IA/);
     const heroTitle = page.locator('.hero-title');
     await expect(heroTitle).toContainText('AI(2)M(2)IA');
+    await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveCount(1);
+    await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
   });
 
   test('should toggle theme between light and dark modes', async ({ page }) => {
