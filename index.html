@@ -6,6 +6,7 @@
   <title>AI(2)M(2)IA | AI-Assisted Literary Fiction</title>
   <meta name="description" content="AI(2)M(2)IA — one impossible book at a time. Progression fantasy, gothic dark fantasy, and speculative war fiction built with full AI-process transparency.">
   <meta name="color-scheme" content="dark light">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-src https://www.youtube-nocookie.com https://www.tiktok.com; form-action 'self'">
 
   <!-- Canonical & social -->
   <meta property="og:title" content="AI(2)M(2)IA | AI-Assisted Literary Fiction">
@@ -14,13 +15,7 @@
   <meta name="twitter:card" content="summary_large_image">
 
   <!-- Prevent flash of un-themed content -->
-  <script>
-    (function () {
-      var saved = localStorage.getItem('ai2m2ia-theme');
-      var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-      document.documentElement.setAttribute('data-theme', theme);
-    }());
-  </script>
+  <script src="theme-init.js?v=20260530a"></script>
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -32,10 +27,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=20260529c">
+  <link rel="stylesheet" href="styles.css?v=20260530a">
 
   <!-- Application logic (deferred) -->
-  <script src="app.js?v=20260529c" defer></script>
+  <script src="app.js?v=20260530a" defer></script>
 </head>
 
 <body>
