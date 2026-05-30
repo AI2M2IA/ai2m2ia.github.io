@@ -17,12 +17,13 @@ const MIME_TYPES = {
 
 const server = http.createServer((req, res) => {
   const rootDir = path.resolve(__dirname, '..');
+  const safeRootDir = rootDir.endsWith(path.sep) ? rootDir : `${rootDir}${path.sep}`;
   const requestPath = req.url === '/' ? 'index.html' : req.url.split('?')[0];
   const targetPath = requestPath.endsWith('/') ? `${requestPath}index.html` : requestPath;
   const resolvedPath = path.resolve(path.join(rootDir, targetPath));
 
   // Prevent path traversal
-  if (!resolvedPath.startsWith(rootDir)) {
+  if (resolvedPath !== rootDir && !resolvedPath.startsWith(safeRootDir)) {
     res.writeHead(403, { 'Content-Type': 'text/plain' });
     res.end('403 Forbidden: Path traversal attempt detected');
     return;

@@ -65,7 +65,13 @@ function localPathForApiUrl(apiDir, catalog, urlValue) {
   }
 
   const relativePath = urlValue.slice(expectedPrefix.length);
-  return path.join(apiDir, relativePath);
+  const apiRoot = path.resolve(apiDir);
+  const safeApiRoot = apiRoot.endsWith(path.sep) ? apiRoot : `${apiRoot}${path.sep}`;
+  const resolvedPath = path.resolve(apiRoot, relativePath);
+  if (resolvedPath !== apiRoot && !resolvedPath.startsWith(safeApiRoot)) {
+    return null;
+  }
+  return resolvedPath;
 }
 
 function validateCatalog(catalog, apiDir) {
