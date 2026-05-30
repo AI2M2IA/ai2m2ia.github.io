@@ -38,6 +38,9 @@ Work should flow from `feature/**` branches into `develop`, then from `develop`
 into `main`. Public releases are tagged from `main` with version tags such as
 `v1.0.0`.
 
+See `CONTRIBUTING.md` for the pull request policy, required gates, and
+recommended GitHub branch protection settings.
+
 ## License
 
 This project is licensed under AGPL-3.0-only. See `LICENSE`.
