@@ -1,0 +1,206 @@
+{
+  "workFamilies": [
+    {
+      "id": "level-zero",
+      "name": "Level Zero",
+      "type": "series",
+      "genre": "progression",
+      "tag": "Recommended start",
+      "summary": "A complete progression fantasy trilogy about Rowan Vale and Analyze, the lowest-ranked ability in a world built on ranked power.",
+      "description": "Rowan Vale receives Analyze, the lowest-classified skill in Wardspire, and begins reading the hidden architecture of the system that ranked him weak. A trilogy about power, structure, and the cost of understanding what you are inside.",
+      "route": "works/level-zero/",
+      "coverImage": "assets/covers/level-zero.jpg",
+      "coverAlt": "Cover art for Level Zero",
+      "amazonUrl": "https://www.amazon.com/dp/B0GYRG25H1",
+      "workIds": [
+        "level-zero-weakest-skill",
+        "level-zero-break-ladder",
+        "level-zero-rewrite-world"
+      ],
+      "mediaIds": [
+        "media:level-zero-ch01-tiktok",
+        "media:level-zero-ch02-tiktok",
+        "media:level-zero-ch03-tiktok"
+      ]
+    },
+    {
+      "id": "analyze",
+      "name": "Analyze",
+      "type": "complete-edition",
+      "genre": "progression",
+      "tag": "Light novel adaptation",
+      "summary": "A seven-volume light novel adaptation of Level Zero. Same architecture, different magnification.",
+      "description": "A seven-volume light novel adaptation of the Level Zero trilogy. More scene texture, illustrations, cast material, and reader breathing room. For readers who want to inhabit the world, not just trace its argument.",
+      "route": "works/analyze/",
+      "coverImage": "assets/covers/analyze.jpg",
+      "coverAlt": "Cover art for Analyze",
+      "amazonUrl": "https://www.amazon.com/dp/B0GYDYRL75",
+      "workIds": [
+        "analyze-complete-edition"
+      ],
+      "mediaIds": [
+        "media:analyze-trailer-1-tiktok",
+        "media:analyze-trailer-2-tiktok"
+      ]
+    },
+    {
+      "id": "bell-that-remembers",
+      "name": "The Bell That Remembers",
+      "type": "adaptation",
+      "genre": "dark-fantasy",
+      "tag": "Gothic adaptation",
+      "summary": "A gothic light novel adaptation of The Crater Gospel with Mara Ansel, Saint Loss, and the bone bell.",
+      "description": "A gothic light novel adaptation of The Crater Gospel centered on Mara Ansel, Saint Loss, grief, language, and a bone bell tied to a dead man's throat. For readers who want illustrated dread and sentences that carry weight.",
+      "route": "works/bell-that-remembers/",
+      "coverImage": "assets/covers/bell-that-remembers.jpg",
+      "coverAlt": "Cover art for The Bell That Remembers",
+      "amazonUrl": "https://www.amazon.com/dp/B0GYDYRL75",
+      "workIds": [
+        "bell-that-remembers-complete"
+      ],
+      "mediaIds": [
+        "media:bell-coming"
+      ]
+    },
+    {
+      "id": "crater-gospel",
+      "name": "The Crater Gospel",
+      "type": "standalone",
+      "genre": "dark-fantasy",
+      "tag": "Dark fantasy",
+      "summary": "Dark fantasy about language as power, institutions as architecture, and grief managed like paperwork.",
+      "description": "A dark fantasy about language as power, institutions as architecture, and the cost of asking the right question in Saint Loss. A compact standalone route into the gothic line.",
+      "route": "works/crater-gospel/",
+      "coverImage": "assets/covers/crater-gospel.jpg",
+      "coverAlt": "Cover art for The Crater Gospel",
+      "amazonUrl": "https://www.amazon.com/dp/B0GYDYRL75",
+      "workIds": [
+        "crater-gospel"
+      ],
+      "mediaIds": [
+        "media:crater-ch01-youtube",
+        "media:crater-ch02-youtube",
+        "media:crater-ch03-youtube",
+        "media:crater-ch01-tiktok",
+        "media:crater-ch02-tiktok",
+        "media:crater-ch03-tiktok"
+      ]
+    },
+    {
+      "id": "venomous-garden",
+      "name": "The Venomous Garden",
+      "type": "series",
+      "genre": "war",
+      "tag": "Literary light novel series",
+      "summary": "A five-volume series about people processed correctly by a system that still gets them wrong.",
+      "description": "A five-volume literary light novel series about five people shaped by the same war and the same probability assessment. For readers drawn to war, records, probability, and unfinished arguments.",
+      "route": "works/venomous-garden/",
+      "coverImage": "assets/covers/venomous-garden.jpg",
+      "coverAlt": "Cover art for The Venomous Garden",
+      "amazonUrl": "https://www.amazon.com/dp/B0GYDYRL75",
+      "workIds": [
+        "venomous-before-gate",
+        "venomous-weight",
+        "venomous-two-notebooks",
+        "venomous-numbers",
+        "venomous-argument"
+      ],
+      "mediaIds": [
+        "media:venomous-coming"
+      ]
+    },
+    {
+      "id": "ashen-bloom",
+      "name": "Ashen Bloom",
+      "type": "standalone",
+      "genre": "war",
+      "tag": "Speculative war fiction",
+      "summary": "Literary speculative war fiction about an AI casualty-forecasting system and responsibility after uncertainty narrows.",
+      "description": "A literary speculative war novel about the Laplacian Index, an AI casualty-forecasting system, and the responsibility that remains when uncertainty narrows. The source work for The Venomous Garden series.",
+      "route": "works/ashen-bloom/",
+      "coverImage": "assets/covers/ashen-bloom.jpg",
+      "coverAlt": "Cover art for Ashen Bloom",
+      "amazonUrl": "https://www.amazon.com/dp/B0GYDYRL75",
+      "workIds": [
+        "ashen-bloom"
+      ],
+      "mediaIds": [
+        "media:ashen-tessa-tiktok",
+        "media:ashen-editorial-tiktok",
+        "media:ashen-corvin-tiktok",
+        "media:ashen-sable-tiktok",
+        "media:ashen-fen1-tiktok",
+        "media:ashen-fen2-tiktok"
+      ]
+    },
+    {
+      "id": "the-princess-and-the-turtle",
+      "name": "The Princess and the Turtle",
+      "type": "wip",
+      "genre": "fantasy",
+      "tag": "Epic Fantasy",
+      "summary": "A fisherman saves a wounded sea turtle and is taken to an underwater kingdom where time moves differently, war looms between sea peoples, and love grows stronger through adversity.",
+      "description": "An orphaned fisherman, refugee of human wars, saves a wounded sea turtle from the village children. Years later a young noblewoman finds him and takes him to a magical underwater kingdom — where the Elixir of Immortality keeps the turtle kingdom prosperous while other sea creatures starve. Now those kingdoms stand on the brink of total war. The fisherman, now the princess's husband, brings something no warrior can: he has survived human wars and recognizes the pattern of escalation. His value is not arms — it is translation. A work in progress in two parallel tracks: human-only and human + AI assisted.",
+      "route": "works/the-princess-and-the-turtle/",
+      "coverImage": "assets/covers/the-princess-and-the-turtle.jpg",
+      "coverAlt": "The Princess and the Turtle — a princess in teal hanfu robes embracing a sea turtle in an underwater palace",
+      "amazonUrl": null,
+      "wip": true,
+      "authorshipVariants": [
+        "human",
+        "human-ai"
+      ],
+      "workIds": [],
+      "mediaIds": [
+        "media:tartaruga-ch01-youtube",
+        "media:tartaruga-tiktok-1"
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "id": "rowan",
+      "name": "Rowan Vale",
+      "title": "The Lowest Class",
+      "workFamilyId": "level-zero",
+      "genre": "progression",
+      "portraitImage": "assets/characters/analyze/CHAR-ROWAN.webp",
+      "portraitAlt": "Spoiler-light character portrait of Rowan Vale",
+      "glowClass": "glow-teal",
+      "description": "Ranked as Level Zero. His ability Analyze can only read structure. In a society that ranks physical force, he uses it to dissect the system itself."
+    },
+    {
+      "id": "mara",
+      "name": "Mara Ansel",
+      "title": "The Archivist",
+      "workFamilyId": "bell-that-remembers",
+      "genre": "dark-fantasy",
+      "portraitImage": "assets/characters/bell-that-remembers/CHAR-MARA.webp",
+      "portraitAlt": "Spoiler-light character portrait of Mara Ansel",
+      "glowClass": "glow-rose",
+      "description": "An archivist in the gothic city of Saint Loss. She retrieves a bone bell tied to a dead man's throat and begins hearing her missing brother's voice."
+    },
+    {
+      "id": "sera",
+      "name": "Sera Quill",
+      "title": "The Watcher",
+      "workFamilyId": "analyze",
+      "genre": "progression",
+      "portraitImage": "assets/characters/analyze/CHAR-SERA.webp",
+      "portraitAlt": "Spoiler-light character portrait of Sera Quill",
+      "glowClass": "glow-gold",
+      "description": "A core member of the lower-yard network in Analyze. She helps Rowan decode the civic scripts of Wardspire while hiding her own institutional status."
+    },
+    {
+      "id": "tomas",
+      "name": "Tomas",
+      "title": "The Lost Brother",
+      "workFamilyId": "bell-that-remembers",
+      "genre": "dark-fantasy",
+      "portraitImage": "assets/characters/bell-that-remembers/CHAR-TOMAS.webp",
+      "portraitAlt": "Spoiler-light character portrait of Tomas",
+      "glowClass": "glow-purple",
+      "description": "Mara's brother, whose disappearance leads her into the depths. His voice is the one echoing through the bone bells in the tide crypts."
+    }
+  ]
+}

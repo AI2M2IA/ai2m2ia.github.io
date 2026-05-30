@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8c77a"/>
+      <stop offset="100%" stop-color="#d4a84b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="64" height="64" rx="9" fill="url(#bg)"/>
+  <rect width="64" height="64" rx="9" fill="none" stroke="#e8c77a" stroke-width="0.8" opacity="0.4"/>
+
+  <!-- ── A — four corners ── -->
+  <text x="7"  y="12" font-family="Georgia,serif" font-size="10" font-weight="bold" text-anchor="middle" fill="url(#gold)">A</text>
+  <text x="57" y="12" font-family="Georgia,serif" font-size="10" font-weight="bold" text-anchor="middle" fill="url(#gold)">A</text>
+  <text x="7"  y="59" font-family="Georgia,serif" font-size="10" font-weight="bold" text-anchor="middle" fill="url(#gold)">A</text>
+  <text x="57" y="59" font-family="Georgia,serif" font-size="10" font-weight="bold" text-anchor="middle" fill="url(#gold)">A</text>
+
+  <!-- ── I — inner diagonal ring ── -->
+  <text x="17" y="22" font-family="Georgia,serif" font-size="8.5" text-anchor="middle" fill="url(#gold)" opacity="0.88">I</text>
+  <text x="47" y="22" font-family="Georgia,serif" font-size="8.5" text-anchor="middle" fill="url(#gold)" opacity="0.88">I</text>
+  <text x="17" y="48" font-family="Georgia,serif" font-size="8.5" text-anchor="middle" fill="url(#gold)" opacity="0.88">I</text>
+  <text x="47" y="48" font-family="Georgia,serif" font-size="8.5" text-anchor="middle" fill="url(#gold)" opacity="0.88">I</text>
+
+  <!-- ── (2) — intermediate ring ── -->
+  <text x="25" y="29.5" font-family="Georgia,serif" font-size="5.8" text-anchor="middle" fill="url(#gold)" opacity="0.75">(2)</text>
+  <text x="39" y="29.5" font-family="Georgia,serif" font-size="5.8" text-anchor="middle" fill="url(#gold)" opacity="0.75">(2)</text>
+  <text x="25" y="40"   font-family="Georgia,serif" font-size="5.8" text-anchor="middle" fill="url(#gold)" opacity="0.75">(2)</text>
+  <text x="39" y="40"   font-family="Georgia,serif" font-size="5.8" text-anchor="middle" fill="url(#gold)" opacity="0.75">(2)</text>
+
+  <!-- ── M — center ── -->
+  <text x="32" y="37" font-family="Georgia,serif" font-size="13" font-weight="bold" text-anchor="middle" fill="url(#gold)">M</text>
+</svg>

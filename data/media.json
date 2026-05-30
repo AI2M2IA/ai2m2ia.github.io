@@ -1,0 +1,189 @@
+{
+  "items": [
+    {
+      "id": "media:level-zero-ch01-tiktok",
+      "type": "tiktok",
+      "workFamilyId": "level-zero",
+      "title": "Level Zero — Chapter 01: The Morning Of",
+      "tiktokId": "7638811117527010577",
+      "description": "The system ranked Rowan Vale as the weakest. That morning, everything else was still ordinary.",
+      "thumbnailAlt": "Level Zero Chapter 01 TikTok"
+    },
+    {
+      "id": "media:level-zero-ch02-tiktok",
+      "type": "tiktok",
+      "workFamilyId": "level-zero",
+      "title": "Level Zero — Chapter 02: Ceremony of Measure",
+      "tiktokId": "7638811536584166673",
+      "description": "The ranking ceremony. Every student learns their place. Rowan learns his last.",
+      "thumbnailAlt": "Level Zero Chapter 02 TikTok"
+    },
+    {
+      "id": "media:level-zero-ch03-tiktok",
+      "type": "tiktok",
+      "workFamilyId": "level-zero",
+      "title": "Level Zero — Chapter 03: The First Test",
+      "tiktokId": "7638812081461988609",
+      "description": "The first test after ranking. What can the weakest skill actually do?",
+      "thumbnailAlt": "Level Zero Chapter 03 TikTok"
+    },
+    {
+      "id": "media:analyze-trailer-1-tiktok",
+      "type": "tiktok",
+      "workFamilyId": "analyze",
+      "title": "Analyze — Rowan Vale Intro Trailer",
+      "tiktokId": "7638813791106452737",
+      "description": "Rowan Vale receives the Analyze skill. An official series trailer.",
+      "thumbnailAlt": "Analyze Rowan Intro Trailer TikTok"
+    },
+    {
+      "id": "media:analyze-trailer-2-tiktok",
+      "type": "tiktok",
+      "workFamilyId": "analyze",
+      "title": "Analyze — Analyzing the System Trailer",
+      "tiktokId": "7638814085521378561",
+      "description": "What happens when someone with the right skill asks the wrong question about the system?",
+      "thumbnailAlt": "Analyze System Trailer TikTok"
+    },
+    {
+      "id": "media:ashen-tessa-tiktok",
+      "type": "tiktok",
+      "workFamilyId": "ashen-bloom",
+      "title": "Ashen Bloom — Tessa at Camp Ashfield",
+      "tiktokId": "7638814582395505937",
+      "description": "Tessa Quill arrives at Camp Ashfield. Literary speculative fiction audiobook sample.",
+      "thumbnailAlt": "Ashen Bloom Tessa TikTok"
+    },
+    {
+      "id": "media:ashen-editorial-tiktok",
+      "type": "tiktok",
+      "workFamilyId": "ashen-bloom",
+      "title": "Ashen Bloom — Editorial Note",
+      "tiktokId": "7638814641430269200",
+      "description": "The editorial question behind The Venomous Garden and Ashen Bloom.",
+      "thumbnailAlt": "Ashen Bloom Editorial Note TikTok"
+    },
+    {
+      "id": "media:ashen-corvin-tiktok",
+      "type": "tiktok",
+      "workFamilyId": "ashen-bloom",
+      "title": "Ashen Bloom — Corvin at Fifth Division",
+      "tiktokId": "7638815192553409809",
+      "description": "Corvin Ashfield at Fifth Division. Literary speculative fiction audiobook sample.",
+      "thumbnailAlt": "Ashen Bloom Corvin TikTok"
+    },
+    {
+      "id": "media:ashen-sable-tiktok",
+      "type": "tiktok",
+      "workFamilyId": "ashen-bloom",
+      "title": "Ashen Bloom — Sable in the Safe House",
+      "tiktokId": "7638815456396053761",
+      "description": "Sable in the safe house. The probability assessment begins.",
+      "thumbnailAlt": "Ashen Bloom Sable TikTok"
+    },
+    {
+      "id": "media:ashen-fen1-tiktok",
+      "type": "tiktok",
+      "workFamilyId": "ashen-bloom",
+      "title": "Ashen Bloom — Fen on Foot",
+      "tiktokId": "7638815602064248081",
+      "description": "Fen on foot. Literary speculative fiction audiobook sample.",
+      "thumbnailAlt": "Ashen Bloom Fen TikTok"
+    },
+    {
+      "id": "media:ashen-fen2-tiktok",
+      "type": "tiktok",
+      "workFamilyId": "ashen-bloom",
+      "title": "Ashen Bloom — Fen on the Ridgeline",
+      "tiktokId": "7638815657043266833",
+      "description": "Fen on the ridgeline. The Laplacian Index at work.",
+      "thumbnailAlt": "Ashen Bloom Fen Ridgeline TikTok"
+    },
+    {
+      "id": "media:crater-ch01-tiktok",
+      "type": "tiktok",
+      "workFamilyId": "crater-gospel",
+      "title": "The Crater Gospel — Ch01: Ash on the Tide (TikTok)",
+      "tiktokId": "7638983945685601553",
+      "description": "Mara Ansel finds a bone bell in the tide crypt — and hears her dead brother speak.",
+      "thumbnailAlt": "Crater Gospel Ch01 TikTok"
+    },
+    {
+      "id": "media:crater-ch02-tiktok",
+      "type": "tiktok",
+      "workFamilyId": "crater-gospel",
+      "title": "The Crater Gospel — Ch02: The Bell That Remembers (TikTok)",
+      "tiktokId": "7639377467697794305",
+      "description": "The bone bell answers in Tomas's voice. In Saint Loss, memory has a price.",
+      "thumbnailAlt": "Crater Gospel Ch02 TikTok"
+    },
+    {
+      "id": "media:crater-ch03-tiktok",
+      "type": "tiktok",
+      "workFamilyId": "crater-gospel",
+      "title": "The Crater Gospel — Ch03: The White Maw (TikTok)",
+      "tiktokId": "7639459063134293265",
+      "description": "Under Saint Loss, the church's mercy has a mouth. The bishop has been waiting.",
+      "thumbnailAlt": "Crater Gospel Ch03 TikTok"
+    },
+    {
+      "id": "media:bell-coming",
+      "type": "coming-soon",
+      "workFamilyId": "bell-that-remembers",
+      "title": "The Bell That Remembers — Preview",
+      "description": "Preview coming soon."
+    },
+    {
+      "id": "media:venomous-coming",
+      "type": "coming-soon",
+      "workFamilyId": "venomous-garden",
+      "title": "The Venomous Garden — Preview",
+      "description": "Preview coming soon."
+    },
+    {
+      "id": "media:crater-ch01-youtube",
+      "type": "youtube",
+      "workFamilyId": "crater-gospel",
+      "title": "The Crater Gospel — Chapter 01: Ash on the Tide",
+      "description": "Mara Ansel finds a bone bell in the tide crypt — and hears her dead brother speak. Dark fantasy audiobook sample.",
+      "youtubeId": "UyPuqg4QZTw",
+      "thumbnailAlt": "The Crater Gospel Chapter 01 audiobook sample thumbnail"
+    },
+    {
+      "id": "media:crater-ch02-youtube",
+      "type": "youtube",
+      "workFamilyId": "crater-gospel",
+      "title": "The Crater Gospel — Chapter 02: The Bell That Remembers",
+      "description": "Mara pays the bone bell with blood — and it answers in her brother's voice. Dark fantasy audiobook sample.",
+      "youtubeId": "XvAKykCHLTw",
+      "thumbnailAlt": "The Crater Gospel Chapter 02 audiobook sample thumbnail"
+    },
+    {
+      "id": "media:crater-ch03-youtube",
+      "type": "youtube",
+      "workFamilyId": "crater-gospel",
+      "title": "The Crater Gospel — Chapter 03: The White Maw",
+      "description": "Under Saint Loss, the church's mercy has a mouth. Mara finds what the bishop has been waiting for. Dark fantasy audiobook sample.",
+      "youtubeId": "6H4iJ79wg94",
+      "thumbnailAlt": "The Crater Gospel Chapter 03 audiobook sample thumbnail"
+    },
+    {
+      "id": "media:tartaruga-ch01-youtube",
+      "type": "youtube",
+      "workFamilyId": "the-princess-and-the-turtle",
+      "title": "The Princess and the Turtle — Chapter 01: The Sea | Human-Written | Audiobook Sample",
+      "description": "Chapter 01 begins with an ordinary day at sea, a poor fishing village, and a green sea turtle caught in an old net. Written by the author alone, without AI co-writing.",
+      "youtubeId": "9ZLvsx-ejaY",
+      "thumbnailAlt": "The Princess and the Turtle Chapter 1 audiobook sample thumbnail"
+    },
+    {
+      "id": "media:tartaruga-tiktok-1",
+      "type": "tiktok",
+      "workFamilyId": "the-princess-and-the-turtle",
+      "title": "The Princess and the Turtle — TikTok Preview",
+      "description": "Short preview clip from The Princess and the Turtle project on the AI(2)M(2)IA TikTok channel.",
+      "tiktokId": "7638813212804254992",
+      "thumbnailAlt": "The Princess and the Turtle TikTok preview"
+    }
+  ]
+}

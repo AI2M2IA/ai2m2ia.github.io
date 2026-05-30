@@ -1,0 +1,67 @@
+{
+  "sources": [
+    {
+      "id": "source:amazon-author",
+      "label": "Amazon Author Page",
+      "type": "storefront",
+      "url": "https://www.amazon.com/stores/AI%282%29M%282%29IA-AI%282%29M%282%29IA/author/B0GYDYRL75",
+      "note": "Primary public storefront. All ASIN and publication date references are verified here."
+    },
+    {
+      "id": "source:youtube-channel",
+      "label": "YouTube Channel",
+      "type": "media",
+      "url": "https://www.youtube.com/@AI2M2IA",
+      "note": "Official channel for audiobook previews and character trailers."
+    },
+    {
+      "id": "source:tiktok-profile",
+      "label": "TikTok Profile",
+      "type": "media",
+      "url": "https://www.tiktok.com/@ai2m2ia",
+      "note": "Short-form video content and community updates."
+    },
+    {
+      "id": "source:amazon-level-zero-series",
+      "label": "Level Zero Series — Amazon",
+      "type": "storefront",
+      "url": "https://www.amazon.com/dp/B0GYRG25H1",
+      "note": "Series page for the Level Zero trilogy."
+    },
+    {
+      "id": "source:amazon-analyze",
+      "label": "Analyze — Amazon",
+      "type": "storefront",
+      "url": "https://www.amazon.com/dp/B0GYDYRL75",
+      "note": "Listing for the Analyze complete edition."
+    },
+    {
+      "id": "source:amazon-bell",
+      "label": "The Bell That Remembers — Amazon",
+      "type": "storefront",
+      "url": "https://www.amazon.com/dp/B0GYDYRL75",
+      "note": "Listing for The Bell That Remembers."
+    },
+    {
+      "id": "source:amazon-crater",
+      "label": "The Crater Gospel — Amazon",
+      "type": "storefront",
+      "url": "https://www.amazon.com/dp/B0GYDYRL75",
+      "note": "Listing for The Crater Gospel."
+    },
+    {
+      "id": "source:amazon-venomous-series",
+      "label": "The Venomous Garden Series — Amazon",
+      "type": "storefront",
+      "url": "https://www.amazon.com/dp/B0GYDYRL75",
+      "note": "Series page for The Venomous Garden."
+    },
+    {
+      "id": "source:amazon-ashen",
+      "label": "Ashen Bloom — Amazon",
+      "type": "storefront",
+      "url": "https://www.amazon.com/dp/B0GYDYRL75",
+      "note": "Listing for Ashen Bloom."
+    }
+  ]
+}
