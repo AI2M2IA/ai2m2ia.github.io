@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai2m2ia.github.io/api/schemas/content.schema.json",
+  "title": "AI2M2IA Book Content Manifest",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "bookId", "format", "language", "revision", "chapters"],
+  "properties": {
+    "schemaVersion": { "type": "integer", "minimum": 1 },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "bookId": { "type": "string", "minLength": 1 },
+    "format": { "enum": ["PROSE", "LIGHT_NOVEL", "MANGA", "MANHWA"] },
+    "language": { "type": "string", "minLength": 2 },
+    "revision": { "type": "string", "minLength": 1 },
+    "chapters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["index", "title"],
+        "properties": {
+          "index": { "type": "integer", "minimum": 0 },
+          "title": { "type": "string", "minLength": 1 },
+          "text": { "type": ["string", "null"] },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["url", "order"],
+              "properties": {
+                "url": { "type": "string", "format": "uri" },
+                "order": { "type": "integer", "minimum": 0 },
+                "altText": { "type": ["string", "null"] }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

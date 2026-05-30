@@ -1,0 +1,533 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-05-29T00:00:00Z",
+  "apiBaseUrl": "https://ai2m2ia.github.io",
+  "apiPrefix": "/api",
+  "books": [
+    {
+      "id": "lets-learn-aws-together",
+      "title": "Let's Build on AWS Together",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/lets-learn-aws-together/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "Anna B. Fiore",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/lets-learn-aws-together/cover.jpg",
+      "description": "When Maya realized her family restaurant was losing orders because the phone was always busy, she didn't know what the cloud meant. Neither did Tom, Leo, or Priya. This book follows their journey from the first EC2 instance to a production-grade AWS infrastructure — teaching every major AWS service through a real startup story. Covers the full AWS SAA-C03 exam curriculum, from cloud fundamentals to Well-Architected senior-level architecture thinking.",
+      "links": {
+        "amazonKindleUrl": "https://www.amazon.com/dp/B0D5WSMD8D"
+      }
+    },
+    {
+      "id": "the-last-archive-vol-001",
+      "title": "The Last Archive: Volume I — The Echo That Wouldn't Fade",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-001/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-001/cover.jpg",
+      "description": "Volume I of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-002",
+      "title": "The Last Archive: Volume II — The Frequencies Between",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-002/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-002/cover.jpg",
+      "description": "Volume II of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-003",
+      "title": "The Last Archive: Volume III — The Branded Heretic",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-003/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-003/cover.jpg",
+      "description": "Volume III of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-004",
+      "title": "The Last Archive: Volume IV — Flight",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-004/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-004/cover.jpg",
+      "description": "Volume IV of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-005",
+      "title": "The Last Archive: Volume V — Unwoven Society",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-005/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-005/cover.jpg",
+      "description": "Volume V of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-006",
+      "title": "The Last Archive: Volume VI — The Null",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-006/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-006/cover.jpg",
+      "description": "Volume VI of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-007",
+      "title": "The Last Archive: Volume VII — Act I Finale",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-007/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-007/cover.jpg",
+      "description": "Volume VII of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-008",
+      "title": "The Last Archive: Volume VIII — Into the Unwoven",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-008/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-008/cover.jpg",
+      "description": "Volume VIII of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-009",
+      "title": "The Last Archive: Volume IX — The Deepening Conspiracy",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-009/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-009/cover.jpg",
+      "description": "Volume IX of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-010",
+      "title": "The Last Archive: Volume X — The Cost of Intelligence",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-010/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-010/cover.jpg",
+      "description": "Volume X of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-011",
+      "title": "The Last Archive: Volume XI — Fractures",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-011/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-011/cover.jpg",
+      "description": "Volume XI of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-012",
+      "title": "The Last Archive: Volume XII — Hidden Costs",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-012/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-012/cover.jpg",
+      "description": "Volume XII of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-013",
+      "title": "The Last Archive: Volume XIII — Convergence",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-013/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-013/cover.jpg",
+      "description": "Volume XIII of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-014",
+      "title": "The Last Archive: Volume XIV — The Turning Point",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-014/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-014/cover.jpg",
+      "description": "Volume XIV of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-015",
+      "title": "The Last Archive: Volume XV — Into the Layer",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-015/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-015/cover.jpg",
+      "description": "Volume XV of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-016",
+      "title": "The Last Archive: Volume XVI — The Layer Deepens",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-016/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-016/cover.jpg",
+      "description": "Volume XVI of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-017",
+      "title": "The Last Archive: Volume XVII — The Cost of Contact",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-017/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": null,
+      "description": "Volume XVII of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-018",
+      "title": "The Last Archive: Volume XVIII — Resonance Core",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-018/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": null,
+      "description": "Volume XVIII of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-019",
+      "title": "The Last Archive: Volume XIX — Institutional Conflict",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-019/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": null,
+      "description": "Volume XIX of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-020",
+      "title": "The Last Archive: Volume XX — The Catalogue Zero",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-020/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": null,
+      "description": "Volume XX of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-021",
+      "title": "The Last Archive: Volume XXI — The Cost of Transition",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-021/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": null,
+      "description": "Volume XXI of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-022",
+      "title": "The Last Archive: Volume XXII — The Warning",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-022/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": null,
+      "description": "Volume XXII of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-023",
+      "title": "The Last Archive: Volume XXIII — Unified Resistance",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-023/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": null,
+      "description": "Volume XXIII of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-024",
+      "title": "The Last Archive: Volume XXIV — Conflicting Records",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-024/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": null,
+      "description": "Volume XXIV of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-025",
+      "title": "The Last Archive: Volume XXV — Parallel Lines",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-025/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": null,
+      "description": "Volume XXV of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-026",
+      "title": "The Last Archive: Volume XXVI — The Gathering Storm",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-026/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": null,
+      "description": "Volume XXVI of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-027",
+      "title": "The Last Archive: Volume XXVII — Last Opening",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-027/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": null,
+      "description": "Volume XXVII of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-028",
+      "title": "The Last Archive: Volume XXVIII — The Fragile Present",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-028/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": null,
+      "description": "Volume XXVIII of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-029",
+      "title": "The Last Archive: Volume XXIX — Protection",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-029/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": null,
+      "description": "Volume XXIX of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    },
+    {
+      "id": "the-last-archive-vol-030",
+      "title": "The Last Archive: Volume XXX — Preservation",
+      "format": "PROSE",
+      "manifestUrl": "https://ai2m2ia.github.io/api/books/the-last-archive-vol-030/content.json",
+      "languages": [
+        "en"
+      ],
+      "author": "AI(2)M(2)IA",
+      "coverUrl": null,
+      "description": "Volume XXX of 'The Last Archive', a 30-volume speculative fiction novel series by AI(2)M(2)IA exploring Chronometry, timelines, and the cost of human choice.",
+      "links": {
+        "youtubeTrailerUrl": null,
+        "tiktokSampleUrl": null,
+        "amazonKindleUrl": null
+      }
+    }
+  ]
+}

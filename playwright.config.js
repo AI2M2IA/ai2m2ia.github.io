@@ -29,6 +29,16 @@ module.exports = defineConfig({
       use: { ...devices['iPhone 12'] },
       testMatch: '**/mobile.spec.js',
     },
+    {
+      name: 'static-api',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: '**/api.spec.js',
+    },
+    {
+      name: 'pwa',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: '**/pwa.spec.js',
+    },
   ],
   webServer: {
     command: 'node tests/server.js',
