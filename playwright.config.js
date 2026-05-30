@@ -36,7 +36,7 @@ module.exports = defineConfig({
     },
     {
       name: 'pwa',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'], serviceWorkers: 'block' },
       testMatch: '**/pwa.spec.js',
     },
     {

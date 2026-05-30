@@ -201,7 +201,7 @@ const I18N = {
       if (remoteDate && remoteDate === cachedDate) {
         /* Cache is fresh — use stored strings, discard the fetched body */
         const cached = localStorage.getItem(cacheKey);
-        if (cached) return JSON.parse(cached);
+        if (cached) return safeParseJson(cached);
       }
 
       /* Cache is stale or missing — store new strings and date */
@@ -217,7 +217,7 @@ const I18N = {
       /* Network or parse error — fall back to stale cache if available */
       console.warn(`[i18n] Could not fetch ${url}:`, err.message);
       const cached = localStorage.getItem(cacheKey);
-      return cached ? JSON.parse(cached) : null;
+      return safeParseJson(cached);
     }
   },
 
@@ -272,9 +272,9 @@ const I18N = {
   _updateDropdown() {
     const btn = document.getElementById('lang-menu-btn');
     if (btn) {
-      const lang = this.AVAILABLE_LANGS.find(l => l.code === this.current);
-      btn.querySelector('.lang-text').textContent =
-        this.current === 'pt-BR' ? 'PT-BR' : 'EN';
+      const label = languageButtonLabel(this.current);
+      const text = btn.querySelector('.lang-text');
+      if (text) text.textContent = label;
     }
     document.querySelectorAll('.lang-option').forEach(opt => {
       opt.classList.toggle('active', opt.dataset.lang === this.current);
@@ -344,23 +344,50 @@ const DataStore = {
   sources: null,
 
   async loadAll() {
-    try {
-      const bust = `?v=${Date.now()}`;
-      const [works, author, media, sources] = await Promise.all([
-        fetch('data/works.json' + bust).then(r => r.json()),
-        fetch('data/author.json' + bust).then(r => r.json()),
-        fetch('data/media.json'  + bust).then(r => r.json()),
-        fetch('data/sources.json'+ bust).then(r => r.json())
-      ]);
-      this.works   = works;
-      this.author  = author;
-      this.media   = media;
-      this.sources = sources;
-    } catch (err) {
-      console.warn('[AI2M2IA] Could not fetch data files:', err.message);
-    }
+    const bust = `?v=${Date.now()}`;
+    const entries = [
+      ['works', 'data/works.json' + bust],
+      ['author', 'data/author.json' + bust],
+      ['media', 'data/media.json' + bust],
+      ['sources', 'data/sources.json' + bust]
+    ];
+    const results = await Promise.allSettled(entries.map(([, url]) => fetchJson(url)));
+    results.forEach((result, index) => {
+      const [key, url] = entries[index];
+      if (result.status === 'fulfilled') {
+        this[key] = result.value;
+      } else {
+        console.warn(`[AI2M2IA] Could not fetch ${url}:`, result.reason.message);
+      }
+    });
   }
 };
+
+function fetchJson(url) {
+  return fetch(url).then(response => {
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  });
+}
+
+function safeParseJson(raw) {
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch (_) {
+    return null;
+  }
+}
+
+function languageButtonLabel(lang) {
+  return ({
+    'pt-BR': 'PT-BR',
+    'es-419': 'ES',
+    'zh-CN': 'ZH',
+    'zh-TW': 'ZH',
+    yue: 'YUE',
+  })[lang] || String(lang || 'en').split('-')[0].toUpperCase();
+}
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -647,6 +674,7 @@ const AuditPanel = {
       this.open = !this.open;
       panel.classList.toggle('open', this.open);
       btn.setAttribute('aria-expanded', String(this.open));
+      panel.setAttribute('aria-hidden', String(!this.open));
       const labelEl = btn.querySelector('[data-audit-label]');
       if (labelEl) labelEl.textContent = I18N.t(this.open ? 'hideAudit' : 'showAudit');
     });
