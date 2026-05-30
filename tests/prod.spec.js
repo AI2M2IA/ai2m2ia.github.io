@@ -15,6 +15,8 @@ test.describe('Production smoke checks', () => {
     const body = await response.text();
     expect(body).toContain('AI(2)M(2)IA');
     expect(body).toContain('pwa/');
+    expect(body).toContain('http-equiv="Content-Security-Policy"');
+    expect(body).toContain('name="referrer" content="strict-origin-when-cross-origin"');
   });
 
   test('serves a valid public API catalog and first manifest', async ({ request }) => {
@@ -46,6 +48,7 @@ test.describe('Production smoke checks', () => {
   test('loads the public PWA library and manifest', async ({ page, request }) => {
     const manifestResponse = await request.get(absolute('/pwa/manifest.webmanifest'));
     expect(manifestResponse.status()).toBe(200);
+    expect(manifestResponse.headers()['content-type']).toContain('manifest');
 
     const webManifest = await manifestResponse.json();
     expect(webManifest.name).toContain('AI(2)M(2)IA');
@@ -53,6 +56,8 @@ test.describe('Production smoke checks', () => {
 
     await page.goto(absolute('/pwa/'));
     await expect(page).toHaveTitle(/AI\(2\)M\(2\)IA Books/);
+    await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveCount(1);
+    await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
     await expect(page.getByText(/31 de 31 livros/)).toBeVisible();
     await expect(page.getByRole('heading', { name: "Let's Build on AWS Together" })).toBeVisible();
   });
