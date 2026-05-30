@@ -2,7 +2,8 @@ const configuredApi = new URLSearchParams(window.location.search).get("api");
 const CANONICAL_API_BASE_URL = "https://ai2m2ia.github.io";
 const DEFAULT_API_BASE_URL = window.location.origin;
 const API_PREFIX = "/api";
-const API_BASE_URL = (configuredApi || DEFAULT_API_BASE_URL).replace(/\/$/, "");
+const API_BASE_URL = resolveConfiguredApiBaseUrl(configuredApi);
+const USES_CONFIGURED_API = API_BASE_URL !== DEFAULT_API_BASE_URL;
 const CATALOG_URL = `${API_BASE_URL}${API_PREFIX}/catalog.json`;
 const API_CACHE = "ai2m2ia-api-v1";
 const DOWNLOADED_KEY = "ai2m2ia-pwa-downloaded";
@@ -314,7 +315,7 @@ function resolveApiUrl(url) {
     const parsed = new URL(url);
     if (
       parsed.pathname.startsWith(`${API_PREFIX}/`) &&
-      (configuredApi || parsed.origin === CANONICAL_API_BASE_URL)
+      (USES_CONFIGURED_API || parsed.origin === CANONICAL_API_BASE_URL)
     ) {
       return `${API_BASE_URL}${parsed.pathname}`;
     }
@@ -322,6 +323,29 @@ function resolveApiUrl(url) {
     return url;
   }
   return url;
+}
+
+function resolveConfiguredApiBaseUrl(value) {
+  if (!value) return DEFAULT_API_BASE_URL;
+  try {
+    const parsed = new URL(value, window.location.href);
+    if (!["http:", "https:"].includes(parsed.protocol)) return DEFAULT_API_BASE_URL;
+    if (
+      parsed.origin === DEFAULT_API_BASE_URL ||
+      parsed.origin === CANONICAL_API_BASE_URL ||
+      isLocalDevOrigin(parsed)
+    ) {
+      return parsed.origin.replace(/\/$/, "");
+    }
+  } catch (_) {
+    return DEFAULT_API_BASE_URL;
+  }
+  console.warn("[AI2M2IA] Ignoring unsupported API origin:", value);
+  return DEFAULT_API_BASE_URL;
+}
+
+function isLocalDevOrigin(url) {
+  return ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname);
 }
 
 function getDownloaded() {
