@@ -12,9 +12,15 @@ This is the definitive static web platform for the **AI(2)M(2)IA** author brand,
 │   ├── media.json           # Sample players and previews
 │   ├── sources.json         # Traceability data for catalog entries
 │   └── works.json           # Catalog dataset for books and adaptations
+├── api/                     # Public static books API served from /api/
+├── pwa/                     # Public reader PWA served from /pwa/
+├── tools/
+│   └── api/                 # API build, schema, validation, and unit test tooling
 ├── tests/
+│   ├── api.spec.js          # Static API E2E contract smoke test
 │   ├── app.spec.js          # Desktop E2E tests (theme toggle, i18n pages, catalog filters, audit panel)
 │   ├── mobile.spec.js       # Mobile E2E tests (hamburger menu, responsiveness visibility, and stack grids)
+│   ├── pwa.spec.js          # PWA library and reader E2E tests
 │   ├── i18n.test.js         # Integration tests for i18n JSON schema coverage
 │   └── server.js            # Custom local HTTP test server with directory traversal protection
 ├── app.js                   # Client-side core application logic
@@ -26,12 +32,42 @@ This is the definitive static web platform for the **AI(2)M(2)IA** author brand,
 
 ---
 
+## Branching and Releases
+
+Work should flow from `feature/**` branches into `develop`, then from `develop`
+into `main`. Public releases are tagged from `main` with version tags such as
+`v1.0.0`.
+
+---
+
 ## Available Scripts
 
 Use the following scripts in the project directory to serve files and run testing suites:
 
 ### `npm test`
-Runs both the translation coverage suite and all Playwright browser E2E tests across both desktop and mobile viewports.
+Runs the API contract validation, API unit tests, translation coverage suite, and all Playwright browser E2E tests across site, API, PWA, desktop, and mobile viewports.
+
+### `npm run test:ci`
+Runs the same gate used by GitHub Actions.
+
+### `npm run test:coverage`
+Runs the Node.js API/i18n tests with the built-in coverage checker. The minimum
+threshold is 80% for lines, branches, and functions.
+
+### `npm run build:api`
+Rebuilds the public static API under `api/` from the source manuscripts configured in `tools/api/scripts/build_catalog.py`.
+
+### `npm run test:api`
+Runs the API contract validation, API unit tests, and static API E2E smoke test.
+
+### `npm run test:api:contract`
+Validates the public JSON contract under `api/`.
+
+### `npm run test:api:unit`
+Runs the Node.js unit tests for the API contract tooling.
+
+### `npm run test:pwa`
+Runs the PWA E2E test against `/pwa/`.
 
 ### `npm run test:i18n`
 Runs validation checks across all 23 language files inside `data/i18n/` to ensure:

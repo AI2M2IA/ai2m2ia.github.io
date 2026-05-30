@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101820">
+    <meta name="description" content="PWA oficial para ler os livros públicos da AI(2)M(2)IA, com suporte offline.">
+    <title>AI(2)M(2)IA Books</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="assets/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#library" aria-label="AI(2)M(2)IA Books">
+        <span class="brand-mark">A2</span>
+        <span>AI(2)M(2)IA Books</span>
+      </a>
+      <nav class="top-actions" aria-label="Navegação">
+        <button class="icon-button" id="refresh-button" type="button" title="Atualizar catálogo" aria-label="Atualizar catálogo">↻</button>
+        <button class="install-button" id="install-button" type="button" hidden>Instalar</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="library-shell" id="library-view">
+        <div class="library-header">
+          <div>
+            <p class="eyebrow">Catálogo público</p>
+            <h1>Leitura offline para a biblioteca AI(2)M(2)IA</h1>
+          </div>
+          <div class="status-pill" id="network-status">Sincronizando</div>
+        </div>
+
+        <div class="toolbar" aria-label="Filtros da biblioteca">
+          <label class="search-field">
+            <span>Buscar</span>
+            <input id="search-input" type="search" placeholder="Título, autor ou descrição">
+          </label>
+          <select id="format-filter" aria-label="Formato">
+            <option value="">Todos os formatos</option>
+            <option value="PROSE">Prosa</option>
+            <option value="LIGHT_NOVEL">Light novel</option>
+            <option value="MANGA">Manga</option>
+            <option value="MANHWA">Manhwa</option>
+          </select>
+          <select id="language-filter" aria-label="Idioma">
+            <option value="">Todos os idiomas</option>
+          </select>
+        </div>
+
+        <div class="meta-row">
+          <span id="catalog-count">Carregando catálogo</span>
+          <span id="catalog-version"></span>
+        </div>
+
+        <div class="book-grid" id="book-grid"></div>
+      </section>
+
+      <section class="reader-shell" id="reader-view" hidden>
+        <aside class="reader-sidebar">
+          <a class="back-link" href="#library">← Biblioteca</a>
+          <h2 id="reader-book-title">Livro</h2>
+          <p id="reader-book-author"></p>
+          <div class="chapter-list" id="chapter-list"></div>
+        </aside>
+        <article class="reader-panel">
+          <div class="reader-tools">
+            <button id="prev-chapter" type="button">Anterior</button>
+            <span id="reader-position"></span>
+            <button id="next-chapter" type="button">Próximo</button>
+          </div>
+          <h1 id="chapter-title"></h1>
+          <div class="chapter-body" id="chapter-body"></div>
+        </article>
+      </section>
+    </main>
+
+    <template id="book-card-template">
+      <article class="book-card">
+        <div class="cover-slot"></div>
+        <div class="book-copy">
+          <div class="book-kicker"></div>
+          <h2></h2>
+          <p></p>
+          <div class="book-actions">
+            <a class="read-link">Ler</a>
+            <button class="download-button" type="button">Baixar</button>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <script src="assets/app.js?v=8" type="module"></script>
+  </body>
+</html>

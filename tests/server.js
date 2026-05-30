@@ -11,11 +11,14 @@ const MIME_TYPES = {
   '.json': 'application/json',
   '.svg': 'image/svg+xml',
   '.webp': 'image/webp',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
 };
 
 const server = http.createServer((req, res) => {
   const rootDir = path.resolve(__dirname, '..');
-  const targetPath = req.url === '/' ? 'index.html' : req.url.split('?')[0];
+  const requestPath = req.url === '/' ? 'index.html' : req.url.split('?')[0];
+  const targetPath = requestPath.endsWith('/') ? `${requestPath}index.html` : requestPath;
   const resolvedPath = path.resolve(path.join(rootDir, targetPath));
 
   // Prevent path traversal

@@ -3,6 +3,10 @@ node_modules/
 jspm_packages/
 web_modules/
 
+# Python artifacts
+__pycache__/
+*.py[cod]
+
 # Debug logs
 npm-debug.log*
 yarn-debug.log*
@@ -27,12 +31,14 @@ Thumbs.db
 .settings/
 .vscode/
 *.sublime-workspace
+.antigravitycli/
 
 # Playwright / Test outputs
 test-results/
 playwright-report/
 blob-report/
 playwright/.local-browsers
+coverage/
 
 # Local environment files
 .env
