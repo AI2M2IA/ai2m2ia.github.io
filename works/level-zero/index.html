@@ -6,13 +6,9 @@
   <title>Level Zero — AI(2)M(2)IA</title>
   <meta name="description" content="Level Zero — a complete progression fantasy trilogy about Rowan Vale and Analyze, the lowest-ranked ability in a world built on ranked power.">
   <meta name="color-scheme" content="dark light">
-  <script>
-    (function () {
-      var saved = localStorage.getItem('ai2m2ia-theme');
-      var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-      document.documentElement.setAttribute('data-theme', theme);
-    }());
-  </script>
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; form-action 'self'">
+  <script src="../../theme-init.js?v=20260530b"></script>
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
   <link rel="alternate icon" href="../../favicon.svg">
@@ -144,13 +140,6 @@
     </div>
   </footer>
 
-  <script>
-    document.getElementById('theme-toggle').addEventListener('click', function () {
-      var current = document.documentElement.getAttribute('data-theme') || 'dark';
-      var next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('ai2m2ia-theme', next);
-    });
-  </script>
+  <script src="../../works/shared.js?v=20260530a" defer></script>
 </body>
 </html>

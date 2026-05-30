@@ -81,6 +81,20 @@ button, input, select {
   font-weight: 700;
 }
 
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  margin-top: 14px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+}
+
 .library-shell {
   width: min(1180px, calc(100% - 32px));
   margin: 28px auto 56px;

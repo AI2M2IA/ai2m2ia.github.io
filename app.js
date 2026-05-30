@@ -384,7 +384,15 @@ function safeUrl(value, { external = false } = {}) {
 }
 
 function safeMediaId(value) {
-  return /^[\w.-]+$/.test(String(value || '')) ? String(value) : '';
+  return /^[A-Za-z0-9_-]+$/.test(String(value || '')) ? String(value) : '';
+}
+
+function isSafeYouTubeId(value) {
+  return /^[A-Za-z0-9_-]{11}$/.test(String(value || ''));
+}
+
+function isSafeTikTokId(value) {
+  return /^\d{15,20}$/.test(String(value || ''));
 }
 
 /* --------------------------------------------------------------------------
@@ -575,6 +583,8 @@ const MediaRenderer = {
     const ytId  = placeholder.dataset.youtubeId;
     const ttId  = placeholder.dataset.tiktokId;
     if (!ytId && !ttId) return;
+    if (ytId && !isSafeYouTubeId(ytId)) return;
+    if (ttId && !isSafeTikTokId(ttId)) return;
     const wrapper = placeholder.parentElement;
     placeholder.remove();
     const iframe = document.createElement('iframe');

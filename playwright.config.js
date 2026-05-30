@@ -39,6 +39,11 @@ module.exports = defineConfig({
       use: { ...devices['Desktop Chrome'] },
       testMatch: '**/pwa.spec.js',
     },
+    {
+      name: 'works',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: '**/works.spec.js',
+    },
   ],
   webServer: {
     command: 'node tests/server.js',
