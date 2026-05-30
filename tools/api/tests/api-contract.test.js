@@ -36,6 +36,16 @@ test('maps canonical API URLs to local files', () => {
   assert.equal(localPathForApiUrl(apiDir, catalog, 'https://example.com/api/books/example/content.json'), null);
 });
 
+test('rejects API URLs that escape the local API directory', () => {
+  const catalog = {
+    apiBaseUrl: 'https://ai2m2ia.github.io',
+    apiPrefix: '/api',
+  };
+
+  assert.equal(localPathForApiUrl(apiDir, catalog, 'https://ai2m2ia.github.io/api/../../package.json'), null);
+  assert.equal(localPathForApiUrl(apiDir, catalog, 'https://ai2m2ia.github.io/api/books/../../../package.json'), null);
+});
+
 test('validates the published API contract', () => {
   assert.deepEqual(validateApi(apiDir), []);
 });
