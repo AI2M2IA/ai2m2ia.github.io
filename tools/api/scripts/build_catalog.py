@@ -4,9 +4,10 @@ import json
 import shutil
 import re
 import argparse
+import sys
 from datetime import datetime, timezone
 
-DEFAULT_WORKSPACE = os.environ.get("AI2M2IA_WORKSPACE", "/Volumes/WORK/projects")
+DEFAULT_WORKSPACE = os.environ.get("AI2M2IA_WORKSPACE")
 DEFAULT_BASE_URL = os.environ.get("AI2M2IA_API_BASE_URL", "https://ai2m2ia.github.io")
 DEFAULT_API_PREFIX = os.environ.get("AI2M2IA_API_PREFIX", "/api")
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -14,6 +15,17 @@ REPO_DIR = os.path.dirname(os.path.dirname(PROJECT_DIR))
 SCHEMAS_DIR = os.path.join(PROJECT_DIR, "schemas")
 DEFAULT_OUT_DIR = os.environ.get("AI2M2IA_API_OUT_DIR", os.path.join(REPO_DIR, "api"))
 SCHEMA_VERSION = 1
+
+def workspace_path(dirname):
+    if not DEFAULT_WORKSPACE:
+        return None
+    return os.path.join(DEFAULT_WORKSPACE, dirname)
+
+def realpath_inside(parent, child):
+    parent_real = os.path.realpath(parent)
+    child_real = os.path.realpath(child)
+    safe_parent = parent_real if parent_real.endswith(os.path.sep) else f"{parent_real}{os.path.sep}"
+    return child_real == parent_real or child_real.startswith(safe_parent)
 
 # Roman numerals mapping
 ROMAN = {
@@ -149,6 +161,8 @@ def process_aws_book(aws_book_dir, books_out_dir, base_url, api_prefix, generate
     # 2. Parse chapters
     chapters = []
     chapters_dir = os.path.join(aws_book_dir, "chapters")
+    if not os.path.isdir(chapters_dir):
+        raise FileNotFoundError(f"AWS chapters directory not found: {chapters_dir}")
     if os.path.exists(chapters_dir):
         # Sort directories numerically
         dirs = sorted([d for d in os.listdir(chapters_dir) if os.path.isdir(os.path.join(chapters_dir, d))])
@@ -206,9 +220,8 @@ def process_last_archive(last_archive_dir, books_out_dir, base_url, api_prefix, 
     catalog_entries = []
     manuscripts_dir = os.path.join(last_archive_dir, "manuscripts")
     
-    if not os.path.exists(manuscripts_dir):
-        print("  Error: Manuscripts directory not found.")
-        return catalog_entries
+    if not os.path.isdir(manuscripts_dir):
+        raise FileNotFoundError(f"The Last Archive manuscripts directory not found: {manuscripts_dir}")
         
     # Process volumes 1 to 30
     for vol_num in range(1, 31):
@@ -297,17 +310,22 @@ def process_last_archive(last_archive_dir, books_out_dir, base_url, api_prefix, 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Build the AI(2)M(2)IA static book API.")
-    parser.add_argument("--aws-book-dir", default=os.path.join(DEFAULT_WORKSPACE, "lets-learn-aws-together"))
-    parser.add_argument("--last-archive-dir", default=os.path.join(DEFAULT_WORKSPACE, "teste"))
+    parser.add_argument("--aws-book-dir", default=workspace_path("lets-learn-aws-together"))
+    parser.add_argument("--last-archive-dir", default=workspace_path("teste"))
     parser.add_argument("--out-dir", default=DEFAULT_OUT_DIR)
     parser.add_argument("--base-url", default=DEFAULT_BASE_URL)
     parser.add_argument("--api-prefix", default=DEFAULT_API_PREFIX)
     parser.add_argument("--generated-at", default=datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"))
-    return parser.parse_args()
+    args = parser.parse_args()
+    if not args.aws_book_dir or not args.last_archive_dir:
+        parser.error("AI2M2IA_WORKSPACE must be set, or both --aws-book-dir and --last-archive-dir must be provided.")
+    if not realpath_inside(REPO_DIR, args.out_dir):
+        parser.error(f"--out-dir must be inside the repository: {REPO_DIR}")
+    return args
 
 def main():
     args = parse_args()
-    api_out_dir = args.out_dir
+    api_out_dir = os.path.realpath(args.out_dir)
     books_out_dir = os.path.join(api_out_dir, "books")
     os.makedirs(books_out_dir, exist_ok=True)
     copy_schemas(api_out_dir)
@@ -321,18 +339,25 @@ def main():
     }
     
     # Process AWS Book
+    success = True
     try:
         aws_entry = process_aws_book(args.aws_book_dir, books_out_dir, args.base_url, args.api_prefix, args.generated_at)
         catalog["books"].append(aws_entry)
     except Exception as e:
-        print(f"Error processing AWS book: {e}")
+        print(f"ERROR processing AWS book: {e}", file=sys.stderr)
+        success = False
         
     # Process The Last Archive volumes
     try:
         la_entries = process_last_archive(args.last_archive_dir, books_out_dir, args.base_url, args.api_prefix, args.generated_at)
         catalog["books"].extend(la_entries)
     except Exception as e:
-        print(f"Error processing The Last Archive: {e}")
+        print(f"ERROR processing The Last Archive: {e}", file=sys.stderr)
+        success = False
+
+    if not success:
+        print("Catalog build failed before writing catalog.json.", file=sys.stderr)
+        sys.exit(1)
         
     # Save catalog
     catalog_path = os.path.join(api_out_dir, "catalog.json")

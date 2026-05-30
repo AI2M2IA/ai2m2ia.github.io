@@ -44,3 +44,16 @@ currently Python; contract validation and tests run in Node.js through
 npm run build:api
 npm run test:api
 ```
+
+`npm run build:api` intentionally has no machine-specific default workspace.
+Set `AI2M2IA_WORKSPACE` or pass both source directories explicitly:
+
+```bash
+AI2M2IA_WORKSPACE=/path/to/workspace npm run build:api
+
+python3 tools/api/scripts/build_catalog.py \
+  --aws-book-dir /path/to/lets-learn-aws-together \
+  --last-archive-dir /path/to/the-last-archive
+```
+
+For publication safety, `--out-dir` must stay inside this repository.
