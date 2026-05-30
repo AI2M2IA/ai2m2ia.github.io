@@ -1499,7 +1499,6 @@ p + p { margin-top: 0.9em; }
   .character-showcase-grid { grid-template-columns: repeat(2, 1fr); }
 
   .header-container { padding: 0 16px; }
-  .header-controls .control-btn:not(.menu-btn) { display: none; }
   .menu-btn { display: flex; }
 }
 

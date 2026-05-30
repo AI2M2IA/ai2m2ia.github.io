@@ -32,35 +32,35 @@
       "id": "source:amazon-analyze",
       "label": "Analyze — Amazon",
       "type": "storefront",
-      "url": "https://www.amazon.com/dp/B0GYDYRL75",
+      "url": "https://www.amazon.com/dp/B0GY9W9RZ1",
       "note": "Listing for the Analyze complete edition."
     },
     {
       "id": "source:amazon-bell",
       "label": "The Bell That Remembers — Amazon",
       "type": "storefront",
-      "url": "https://www.amazon.com/dp/B0GYDYRL75",
+      "url": "https://www.amazon.com/dp/B0GZMH3QSK",
       "note": "Listing for The Bell That Remembers."
     },
     {
       "id": "source:amazon-crater",
       "label": "The Crater Gospel — Amazon",
       "type": "storefront",
-      "url": "https://www.amazon.com/dp/B0GYDYRL75",
+      "url": "https://www.amazon.com/dp/B0GX3DD3H3",
       "note": "Listing for The Crater Gospel."
     },
     {
       "id": "source:amazon-venomous-series",
       "label": "The Venomous Garden Series — Amazon",
       "type": "storefront",
-      "url": "https://www.amazon.com/dp/B0GYDYRL75",
+      "url": "https://www.amazon.com/dp/B0GZ27J2DK",
       "note": "Series page for The Venomous Garden."
     },
     {
       "id": "source:amazon-ashen",
       "label": "Ashen Bloom — Amazon",
       "type": "storefront",
-      "url": "https://www.amazon.com/dp/B0GYDYRL75",
+      "url": "https://www.amazon.com/dp/B0GYV3SL3R",
       "note": "Listing for Ashen Bloom."
     }
   ]

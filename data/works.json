@@ -34,7 +34,7 @@
       "route": "works/analyze/",
       "coverImage": "assets/covers/analyze.jpg",
       "coverAlt": "Cover art for Analyze",
-      "amazonUrl": "https://www.amazon.com/dp/B0GYDYRL75",
+      "amazonUrl": "https://www.amazon.com/dp/B0GY9W9RZ1",
       "workIds": [
         "analyze-complete-edition"
       ],
@@ -54,7 +54,7 @@
       "route": "works/bell-that-remembers/",
       "coverImage": "assets/covers/bell-that-remembers.jpg",
       "coverAlt": "Cover art for The Bell That Remembers",
-      "amazonUrl": "https://www.amazon.com/dp/B0GYDYRL75",
+      "amazonUrl": "https://www.amazon.com/dp/B0GZMH3QSK",
       "workIds": [
         "bell-that-remembers-complete"
       ],
@@ -73,7 +73,7 @@
       "route": "works/crater-gospel/",
       "coverImage": "assets/covers/crater-gospel.jpg",
       "coverAlt": "Cover art for The Crater Gospel",
-      "amazonUrl": "https://www.amazon.com/dp/B0GYDYRL75",
+      "amazonUrl": "https://www.amazon.com/dp/B0GX3DD3H3",
       "workIds": [
         "crater-gospel"
       ],
@@ -97,7 +97,7 @@
       "route": "works/venomous-garden/",
       "coverImage": "assets/covers/venomous-garden.jpg",
       "coverAlt": "Cover art for The Venomous Garden",
-      "amazonUrl": "https://www.amazon.com/dp/B0GYDYRL75",
+      "amazonUrl": "https://www.amazon.com/dp/B0GZ27J2DK",
       "workIds": [
         "venomous-before-gate",
         "venomous-weight",
@@ -120,7 +120,7 @@
       "route": "works/ashen-bloom/",
       "coverImage": "assets/covers/ashen-bloom.jpg",
       "coverAlt": "Cover art for Ashen Bloom",
-      "amazonUrl": "https://www.amazon.com/dp/B0GYDYRL75",
+      "amazonUrl": "https://www.amazon.com/dp/B0GYV3SL3R",
       "workIds": [
         "ashen-bloom"
       ],

@@ -50,13 +50,48 @@ test.describe('AI(2)M(2)IA Website Mobile E2E Tests', () => {
     await expect(menuBtn).toHaveAttribute('aria-expanded', 'false');
   });
 
-  test('should hide theme and language controls on small mobile viewports', async ({ page }) => {
+  test('should toggle theme between light and dark modes on mobile', async ({ page }) => {
+    const html = page.locator('html');
     const themeBtn = page.locator('#theme-toggle');
-    const langBtn = page.locator('#lang-menu-btn');
 
-    // These control buttons should be hidden on screens < 600px (Pixel 5, iPhone 12)
-    await expect(themeBtn).not.toBeVisible();
-    await expect(langBtn).not.toBeVisible();
+    await expect(themeBtn).toBeVisible();
+
+    const initialTheme = await html.getAttribute('data-theme');
+    expect(initialTheme).toMatch(/^(dark|light)$/);
+
+    const expectedToggledTheme = initialTheme === 'dark' ? 'light' : 'dark';
+
+    await themeBtn.click();
+    const toggledTheme = await html.getAttribute('data-theme');
+    expect(toggledTheme).toBe(expectedToggledTheme);
+
+    await themeBtn.click();
+    const finalTheme = await html.getAttribute('data-theme');
+    expect(finalTheme).toBe(initialTheme);
+  });
+
+  test('should switch language to Portuguese on mobile', async ({ page }) => {
+    const html = page.locator('html');
+    const langMenuBtn = page.locator('#lang-menu-btn');
+    const langDropdown = page.locator('#lang-dropdown');
+    const exploreBtn = page.locator('a[data-i18n="heroPrimaryCTA"]');
+
+    await expect(langMenuBtn).toBeVisible();
+
+    // Default language is English
+    await expect(html).toHaveAttribute('lang', 'en');
+
+    // Open dropdown
+    await langMenuBtn.click();
+    await expect(langDropdown).not.toHaveClass(/hidden/);
+
+    // Click Portuguese option
+    const option = page.locator('.lang-option[data-lang="pt-BR"]');
+    await option.click();
+
+    // Verify lang attribute and text update
+    await expect(html).toHaveAttribute('lang', 'pt-BR');
+    await expect(exploreBtn).toHaveText('Explorar Catálogo');
   });
 
   test('should stack books catalog in a single column layout on mobile', async ({ page }) => {
