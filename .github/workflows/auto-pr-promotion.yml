@@ -6,6 +6,10 @@ on:
     types:
       - completed
 
+concurrency:
+  group: auto-pr-promotion-${{ github.event.workflow_run.head_branch || github.run_id }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   pull-requests: write
