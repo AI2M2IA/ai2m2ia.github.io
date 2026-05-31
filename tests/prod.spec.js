@@ -58,7 +58,7 @@ test.describe('Production smoke checks', () => {
     await expect(page).toHaveTitle(/AI\(2\)M\(2\)IA Books/);
     await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveCount(1);
     await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
-    await expect(page.getByText(/31 de 31 livros/)).toBeVisible();
+    await expect(page.getByText(/31 (of|de) 31 (books|livros)/)).toBeVisible();
     await expect(page.getByRole('heading', { name: "Let's Build on AWS Together" })).toBeVisible();
   });
 });

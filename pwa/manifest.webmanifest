@@ -1,7 +1,7 @@
 {
   "name": "AI(2)M(2)IA Books",
   "short_name": "AI Books",
-  "description": "Leitor PWA dos livros públicos da AI(2)M(2)IA.",
+  "description": "PWA reader for AI(2)M(2)IA public books.",
   "start_url": "./#library",
   "scope": "./",
   "display": "standalone",

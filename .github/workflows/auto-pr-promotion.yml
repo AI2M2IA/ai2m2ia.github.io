@@ -1,0 +1,77 @@
+name: Auto PR Promotion
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  promote:
+    name: Create Promotion PR
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      (startsWith(github.event.workflow_run.head_branch, 'feature/') ||
+       github.event.workflow_run.head_branch == 'develop')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate bot token
+        if: ${{ secrets.BOT_GH_TOKEN == '' }}
+        run: |
+          echo "Missing BOT_GH_TOKEN secret. Configure a PAT/GitHub App token with pull request write permissions."
+          exit 1
+
+      - name: Create or reuse promotion PR
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.BOT_GH_TOKEN }}
+          script: |
+            const branch = context.payload.workflow_run.head_branch;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const target = branch.startsWith('feature/') ? 'develop' : 'main';
+
+            const { data: prs } = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'open',
+              base: target,
+              head: `${owner}:${branch}`,
+              per_page: 100
+            });
+
+            if (prs.length > 0) {
+              core.info(`Open PR already exists: #${prs[0].number}`);
+              return;
+            }
+
+            const title = branch.startsWith('feature/')
+              ? `Promote ${branch} into develop`
+              : 'Promote develop into main';
+
+            const body = [
+              'This PR was opened automatically after CI passed on a push.',
+              '',
+              `- Source branch: \`${branch}\``,
+              `- Target branch: \`${target}\``,
+              '',
+              'Please review and merge when ready.'
+            ].join('\n');
+
+            const { data: pr } = await github.rest.pulls.create({
+              owner,
+              repo,
+              title,
+              head: branch,
+              base: target,
+              body
+            });
+
+            core.info(`Created PR #${pr.number}: ${pr.html_url}`);

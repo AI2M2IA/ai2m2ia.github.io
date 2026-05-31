@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1800" height="2700" viewBox="0 0 1800 2700" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="cover-title cover-desc">
+  <title id="cover-title">Let's Build on AWS Together</title>
+  <desc id="cover-desc">Book cover for "Let's Build on AWS Together" by AI(2)M(2)IA — AWS That Actually Makes Sense: Build and Deploy Real Applications Step by Step</desc>
+  <defs>
+    <filter id="depth" x="-12%" y="-12%" width="124%" height="124%">
+      <feDropShadow dx="0" dy="12" stdDeviation="9" flood-color="#031c24" flood-opacity="0.30"/>
+    </filter>
+  </defs>
+  <rect width="1800" height="2700" fill="#073b46"/>
+  <path d="M0 0 H1800 V1000 Q1160 920 790 1130 Q440 1330 0 1275 Z" fill="#0b7c83" opacity="0.78"/>
+  <path d="M0 1680 Q500 1580 875 1690 Q1280 1810 1800 1660 V2700 H0 Z" fill="#031c24" opacity="0.76"/>
+  <path d="M0 760 H1800 V1390 Q1160 1325 770 1500 Q415 1660 0 1600 Z" fill="#0c626b" opacity="0.28"/>
+  <g stroke="#d7fffb" stroke-width="2" opacity="0.075">
+    <path d="M0 120 H1800 M0 240 H1800 M0 360 H1800 M0 480 H1800 M0 600 H1800 M0 720 H1800 M0 840 H1800 M0 960 H1800 M0 1080 H1800 M0 1200 H1800 M0 1320 H1800 M0 1440 H1800 M0 1560 H1800 M0 1680 H1800 M0 1800 H1800 M0 1920 H1800 M0 2040 H1800 M0 2160 H1800 M0 2280 H1800 M0 2400 H1800 M0 2520 H1800"/>
+    <path d="M120 0 V2700 M240 0 V2700 M360 0 V2700 M480 0 V2700 M600 0 V2700 M720 0 V2700 M840 0 V2700 M960 0 V2700 M1080 0 V2700 M1200 0 V2700 M1320 0 V2700 M1440 0 V2700 M1560 0 V2700 M1680 0 V2700"/>
+  </g>
+
+  <g font-family="Aptos Display,Inter,DejaVu Sans,Arial,sans-serif" text-anchor="middle">
+    <text x="900" y="195" font-size="72" font-weight="700" fill="#ffc857">Let's Build on</text>
+    <text x="900" y="550" font-size="350" font-weight="900" fill="#ffffff">AWS</text>
+    <text x="900" y="740" font-size="112" font-weight="800" fill="#ffffff">Together</text>
+  </g>
+
+  <g transform="translate(0 835)">
+    <g fill="none" stroke="#e7fffc" stroke-width="9" opacity="0.90" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M900 270 V485"/>
+      <path d="M900 485 H315 V715"/>
+      <path d="M900 485 H605 V910"/>
+      <path d="M900 485 H1195 V715"/>
+      <path d="M900 485 H1485 V910"/>
+      <path d="M315 865 H605 M605 910 H1195 M1195 865 H1485"/>
+    </g>
+    <g fill="#ff7a3d">
+      <circle cx="900" cy="485" r="14"/>
+      <circle cx="315" cy="715" r="14"/>
+      <circle cx="605" cy="910" r="14"/>
+      <circle cx="1195" cy="715" r="14"/>
+      <circle cx="1485" cy="910" r="14"/>
+    </g>
+    <g filter="url(#depth)">
+      <path d="M560 276 Q462 268 462 178 Q462 96 548 78 Q598 -42 730 18 Q830 -84 960 18 Q1100 -36 1180 88 Q1338 108 1338 236 Q1338 334 1200 334 H558 Q490 334 446 298"
+            fill="#f6fbfa" stroke="#9be3df" stroke-width="8"/>
+      <text x="900" y="195" font-family="Aptos,Inter,DejaVu Sans,Arial,sans-serif" font-size="45" font-weight="800" text-anchor="middle" fill="#08737a">cloud architecture</text>
+      <text x="900" y="252" font-family="Aptos,Inter,DejaVu Sans,Arial,sans-serif" font-size="30" font-weight="500" text-anchor="middle" fill="#536b71">practical AWS for builders</text>
+    </g>
+
+    <g font-family="Aptos,Inter,DejaVu Sans,Arial,sans-serif" text-anchor="middle" font-weight="800" filter="url(#depth)">
+      <g transform="translate(95 698)">
+        <rect width="430" height="168" rx="20" fill="#ff7a3d"/>
+        <text x="215" y="78" font-size="62" fill="#ffffff">EC2</text>
+        <text x="215" y="128" font-size="31" fill="#fff0e7" font-weight="700">compute</text>
+      </g>
+      <g transform="translate(390 893)">
+        <rect width="430" height="168" rx="20" fill="#e14f35"/>
+        <text x="215" y="78" font-size="62" fill="#ffffff">S3</text>
+        <text x="215" y="128" font-size="31" fill="#ffe9e4" font-weight="700">storage</text>
+      </g>
+      <g transform="translate(985 698)">
+        <rect width="430" height="168" rx="20" fill="#ffc857"/>
+        <text x="215" y="78" font-size="62" fill="#173642">RDS</text>
+        <text x="215" y="128" font-size="31" fill="#294854" font-weight="800">database</text>
+      </g>
+      <g transform="translate(1275 893)">
+        <rect width="430" height="168" rx="20" fill="#143b5a"/>
+        <text x="215" y="78" font-size="55" fill="#ffffff">Lambda</text>
+        <text x="215" y="128" font-size="31" fill="#dfefff" font-weight="700">serverless</text>
+      </g>
+      <g transform="translate(710 452)">
+        <rect width="380" height="138" rx="18" fill="#eef8f7" stroke="#9be3df" stroke-width="5"/>
+        <text x="190" y="60" font-size="42" fill="#08737a">API Gateway</text>
+        <text x="190" y="102" font-size="25" fill="#566d73" font-weight="600">entry point</text>
+      </g>
+    </g>
+  </g>
+
+  <g font-family="Aptos,Inter,DejaVu Sans,Arial,sans-serif" text-anchor="middle">
+    <rect x="100" y="2032" width="1600" height="276" rx="26" fill="#f8ffff" opacity="0.98"/>
+    <text x="900" y="2148" font-size="62" font-weight="900" fill="#052f38">AWS That Actually Makes Sense</text>
+    <text x="900" y="2232" font-size="41" font-weight="600" fill="#315c63">Build and Deploy Real Applications Step by Step</text>
+    <path d="M640 2478 H1160" stroke="#9be3df" stroke-width="4" opacity="0.55"/>
+    <text x="900" y="2595" font-size="80" font-weight="700" fill="#ffffff">AI(2)M(2)IA</text>
+  </g>
+</svg>
