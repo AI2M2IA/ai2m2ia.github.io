@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#101820">
-    <meta name="description" content="PWA oficial para ler os livros públicos da AI(2)M(2)IA, com suporte offline.">
+    <meta name="description" content="Official PWA for reading AI(2)M(2)IA public books with offline support.">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: https://ai2m2ia.github.io; connect-src 'self' https://ai2m2ia.github.io; worker-src 'self'; manifest-src 'self'; form-action 'self'">
     <title>AI(2)M(2)IA Books</title>
@@ -17,9 +17,9 @@
         <span class="brand-mark">A2</span>
         <span>AI(2)M(2)IA Books</span>
       </a>
-      <nav class="top-actions" aria-label="Navegação">
-        <button class="icon-button" id="refresh-button" type="button" title="Atualizar catálogo" aria-label="Atualizar catálogo">↻</button>
-        <button class="install-button" id="install-button" type="button" hidden>Instalar</button>
+      <nav class="top-actions" aria-label="Navigation">
+        <button class="icon-button" id="refresh-button" type="button" title="Refresh catalog" aria-label="Refresh catalog">↻</button>
+        <button class="install-button" id="install-button" type="button" hidden>Install</button>
       </nav>
     </header>
 
@@ -27,31 +27,31 @@
       <section class="library-shell" id="library-view">
         <div class="library-header">
           <div>
-            <p class="eyebrow">Catálogo público</p>
-            <h1>Leitura offline para a biblioteca AI(2)M(2)IA</h1>
+            <p class="eyebrow">Public catalog</p>
+            <h1>Offline reading for the AI(2)M(2)IA library</h1>
           </div>
-          <div class="status-pill" id="network-status">Sincronizando</div>
+          <div class="status-pill" id="network-status">Syncing</div>
         </div>
 
-        <div class="toolbar" aria-label="Filtros da biblioteca">
+        <div class="toolbar" aria-label="Library filters">
           <label class="search-field">
-            <span>Buscar</span>
-            <input id="search-input" type="search" placeholder="Título, autor ou descrição">
+            <span>Search</span>
+            <input id="search-input" type="search" placeholder="Title, author, or description">
           </label>
-          <select id="format-filter" aria-label="Formato">
-            <option value="">Todos os formatos</option>
-            <option value="PROSE">Prosa</option>
+          <select id="format-filter" aria-label="Format">
+            <option value="">All formats</option>
+            <option value="PROSE">Prose</option>
             <option value="LIGHT_NOVEL">Light novel</option>
             <option value="MANGA">Manga</option>
             <option value="MANHWA">Manhwa</option>
           </select>
-          <select id="language-filter" aria-label="Idioma">
-            <option value="">Todos os idiomas</option>
+          <select id="language-filter" aria-label="Language">
+            <option value="">All languages</option>
           </select>
         </div>
 
         <div class="meta-row">
-          <span id="catalog-count">Carregando catálogo</span>
+          <span id="catalog-count">Loading catalog</span>
           <span id="catalog-version"></span>
         </div>
 
@@ -60,16 +60,16 @@
 
       <section class="reader-shell" id="reader-view" hidden>
         <aside class="reader-sidebar">
-          <a class="back-link" href="#library">← Biblioteca</a>
-          <h2 id="reader-book-title">Livro</h2>
+          <a class="back-link" href="#library">← Library</a>
+          <h2 id="reader-book-title">Book</h2>
           <p id="reader-book-author"></p>
           <div class="chapter-list" id="chapter-list"></div>
         </aside>
         <article class="reader-panel">
           <div class="reader-tools">
-            <button id="prev-chapter" type="button">Anterior</button>
+            <button id="prev-chapter" type="button">Previous</button>
             <span id="reader-position"></span>
-            <button id="next-chapter" type="button">Próximo</button>
+            <button id="next-chapter" type="button">Next</button>
           </div>
           <h1 id="chapter-title"></h1>
           <div class="chapter-body" id="chapter-body"></div>
@@ -85,8 +85,8 @@
           <h2></h2>
           <p></p>
           <div class="book-actions">
-            <a class="read-link">Ler</a>
-            <button class="download-button" type="button">Baixar</button>
+            <a class="read-link">Read</a>
+            <button class="download-button" type="button">Download</button>
           </div>
         </div>
       </article>

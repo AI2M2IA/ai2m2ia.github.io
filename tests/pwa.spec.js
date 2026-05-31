@@ -32,7 +32,7 @@ test.describe('PWA reader', () => {
     await page.goto('/pwa/');
     await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveCount(1);
     await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
-    await expect(page.getByText('31 de 31 livros')).toBeVisible();
+    await expect(page.getByText('31 of 31 books')).toBeVisible();
     await expect(page.getByRole('heading', { name: "Let's Build on AWS Together" })).toBeVisible();
 
     await page.goto('/pwa/#book=lets-learn-aws-together');
@@ -49,7 +49,7 @@ test.describe('PWA reader', () => {
     });
 
     await page.goto('/pwa/?api=https://evil.example#library');
-    await expect(page.getByText('31 de 31 livros')).toBeVisible();
+    await expect(page.getByText('31 of 31 books')).toBeVisible();
     expect(externalRequests).toEqual([]);
   });
 

@@ -156,30 +156,35 @@ def process_aws_book(aws_book_dir, books_out_dir, base_url, api_prefix, generate
     
     title = meta.get("title", "Let's Build on AWS Together")
     description = meta.get("description", "AWS That Actually Makes Sense.")
-    author = meta.get("author", "Anna B. Fiore")
+    author = meta.get("author", "AI(2)M(2)IA")
     
     # 2. Parse chapters
     chapters = []
     chapters_dir = os.path.join(aws_book_dir, "chapters")
     if not os.path.isdir(chapters_dir):
         raise FileNotFoundError(f"AWS chapters directory not found: {chapters_dir}")
-    if os.path.exists(chapters_dir):
-        # Sort directories numerically
-        dirs = sorted([d for d in os.listdir(chapters_dir) if os.path.isdir(os.path.join(chapters_dir, d))])
-        for idx, dir_name in enumerate(dirs):
-            ch_file = os.path.join(chapters_dir, dir_name, "chapter.md")
+
+    chapter_files = []
+    for entry in sorted(os.listdir(chapters_dir)):
+        entry_path = os.path.join(chapters_dir, entry)
+        if os.path.isdir(entry_path):
+            ch_file = os.path.join(entry_path, "chapter.md")
             if os.path.exists(ch_file):
-                with open(ch_file, 'r', encoding='utf-8') as f:
-                    ch_content = f.read()
-                ch_title, ch_text = clean_markdown_chapter(ch_content)
-                # If title starts with Chapter X:, let's standardise it
-                chapters.append({
-                    "index": idx,
-                    "title": ch_title,
-                    "text": ch_text,
-                    "images": []
-                })
-                print(f"  Added chapter {idx}: {ch_title}")
+                chapter_files.append(ch_file)
+        elif entry.endswith(".md"):
+            chapter_files.append(entry_path)
+
+    for idx, ch_file in enumerate(chapter_files):
+        with open(ch_file, 'r', encoding='utf-8') as f:
+            ch_content = f.read()
+        ch_title, ch_text = clean_markdown_chapter(ch_content)
+        chapters.append({
+            "index": idx,
+            "title": ch_title,
+            "text": ch_text,
+            "images": []
+        })
+        print(f"  Added chapter {idx}: {ch_title}")
                 
     # 3. Save content manifest
     content_manifest = build_content_manifest(book_id, "PROSE", chapters, generated_at)
@@ -187,17 +192,19 @@ def process_aws_book(aws_book_dir, books_out_dir, base_url, api_prefix, generate
         json.dump(content_manifest, f, indent=2, ensure_ascii=False)
         
     # 4. Copy cover
-    src_cover = os.path.join(aws_book_dir, "build", "kdp", "cover.jpg")
-    dest_cover = os.path.join(book_out_dir, "cover.jpg")
-    if os.path.exists(src_cover):
-        shutil.copy2(src_cover, dest_cover)
-    else:
-        # Fallback to copy from assets if exists
-        fallback = os.path.join(aws_book_dir, "assets", "cover", "cover.jpg")
-        if os.path.exists(fallback):
-            shutil.copy2(fallback, dest_cover)
-        else:
-            print("  Warning: No cover image found for AWS book.")
+    cover_filename = None
+    cover_candidates = [
+        ("cover.jpg", os.path.join(aws_book_dir, "build", "kdp", "cover.jpg")),
+        ("cover.jpg", os.path.join(aws_book_dir, "assets", "cover", "cover.jpg")),
+        ("cover.svg", os.path.join(aws_book_dir, "assets", "cover", "cover.svg")),
+    ]
+    for filename, src_cover in cover_candidates:
+        if os.path.exists(src_cover):
+            cover_filename = filename
+            shutil.copy2(src_cover, os.path.join(book_out_dir, filename))
+            break
+    if not cover_filename:
+        print("  Warning: No cover image found for AWS book.")
             
     # 5. Return catalog entry
     return {
@@ -207,7 +214,7 @@ def process_aws_book(aws_book_dir, books_out_dir, base_url, api_prefix, generate
         "manifestUrl": absolute_url(base_url, api_path(api_prefix, f"books/{book_id}/content.json")),
         "languages": ["en"],
         "author": author,
-        "coverUrl": absolute_url(base_url, api_path(api_prefix, f"books/{book_id}/cover.jpg")),
+        "coverUrl": absolute_url(base_url, api_path(api_prefix, f"books/{book_id}/{cover_filename}")) if cover_filename else None,
         "description": description,
         "links": {
             "amazonKindleUrl": "https://www.amazon.com/dp/B0D5WSMD8D" # Placeholder or standard link if exists
@@ -310,7 +317,7 @@ def process_last_archive(last_archive_dir, books_out_dir, base_url, api_prefix, 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Build the AI(2)M(2)IA static book API.")
-    parser.add_argument("--aws-book-dir", default=workspace_path("lets-learn-aws-together"))
+    parser.add_argument("--aws-book-dir", default=workspace_path("book-lets-build-on-aws-together"))
     parser.add_argument("--last-archive-dir", default=workspace_path("teste"))
     parser.add_argument("--out-dir", default=DEFAULT_OUT_DIR)
     parser.add_argument("--base-url", default=DEFAULT_BASE_URL)

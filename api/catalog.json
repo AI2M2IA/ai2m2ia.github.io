@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-29T00:00:00Z",
+  "generatedAt": "2026-05-31T03:09:42Z",
   "apiBaseUrl": "https://ai2m2ia.github.io",
   "apiPrefix": "/api",
   "books": [
@@ -12,8 +12,8 @@
       "languages": [
         "en"
       ],
-      "author": "Anna B. Fiore",
-      "coverUrl": "https://ai2m2ia.github.io/api/books/lets-learn-aws-together/cover.jpg",
+      "author": "AI(2)M(2)IA",
+      "coverUrl": "https://ai2m2ia.github.io/api/books/lets-learn-aws-together/cover.svg",
       "description": "When Maya realized her family restaurant was losing orders because the phone was always busy, she didn't know what the cloud meant. Neither did Tom, Leo, or Priya. This book follows their journey from the first EC2 instance to a production-grade AWS infrastructure — teaching every major AWS service through a real startup story. Covers the full AWS SAA-C03 exam curriculum, from cloud fundamentals to Well-Architected senior-level architecture thinking.",
       "links": {
         "amazonKindleUrl": "https://www.amazon.com/dp/B0D5WSMD8D"

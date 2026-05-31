@@ -83,7 +83,7 @@ async function loadCatalog(options = {}) {
     populateLanguageFilter(state.books);
     renderLibrary();
   } catch (error) {
-    nodes.count.textContent = "Não foi possível carregar o catálogo.";
+    nodes.count.textContent = "Unable to load the catalog.";
     renderEmptyState(nodes.bookGrid, error.message);
   }
 }
@@ -103,7 +103,7 @@ async function fetchJson(url, options = {}) {
   } catch (error) {
     const cached = await cache.match(url);
     if (cached) return cached.json();
-    throw new Error("Sem rede e sem cópia offline disponível.");
+    throw new Error("No network connection and no offline copy is available.");
   }
 }
 
@@ -113,7 +113,7 @@ function populateLanguageFilter(books) {
   nodes.language.textContent = "";
   const allOption = document.createElement("option");
   allOption.value = "";
-  allOption.textContent = "Todos os idiomas";
+  allOption.textContent = "All languages";
   nodes.language.append(allOption);
   for (const language of languages) {
     const option = document.createElement("option");
@@ -136,12 +136,12 @@ function renderLibrary() {
       (!language || (book.languages || []).includes(language));
   });
 
-  nodes.count.textContent = `${books.length} de ${state.books.length} livros`;
-  nodes.version.textContent = state.catalog?.generatedAt ? `Gerado em ${formatDate(state.catalog.generatedAt)}` : "";
+  nodes.count.textContent = `${books.length} of ${state.books.length} books`;
+  nodes.version.textContent = state.catalog?.generatedAt ? `Generated ${formatDate(state.catalog.generatedAt)}` : "";
   nodes.bookGrid.textContent = "";
 
   if (!books.length) {
-    renderEmptyState(nodes.bookGrid, "Nenhum livro encontrado.");
+    renderEmptyState(nodes.bookGrid, "No books found.");
     return;
   }
 
@@ -157,9 +157,9 @@ function renderLibrary() {
     renderCover(cover, book);
     kicker.textContent = `${labelFormat(book.format)} · ${(book.languages || []).join(", ").toUpperCase()}`;
     title.textContent = book.title;
-    description.textContent = book.description || "Sem descrição disponível.";
+    description.textContent = book.description || "No description available.";
     read.href = `#book=${encodeURIComponent(book.id)}`;
-    download.textContent = downloaded.has(book.id) ? "Offline" : "Baixar";
+    download.textContent = downloaded.has(book.id) ? "Offline" : "Download";
     download.classList.toggle("cached", downloaded.has(book.id));
     download.addEventListener("click", () => downloadBook(book, download));
     nodes.bookGrid.append(card);
@@ -171,7 +171,7 @@ function renderCover(container, book) {
   if (book.coverUrl) {
     const img = document.createElement("img");
     img.src = resolveApiUrl(book.coverUrl);
-    img.alt = `Capa de ${book.title}`;
+    img.alt = `Cover of ${book.title}`;
     img.loading = "lazy";
     img.addEventListener("error", () => renderFallbackCover(container, book));
     container.append(img);
@@ -204,7 +204,7 @@ function renderEmptyState(container, message) {
 
 async function downloadBook(book, button) {
   button.disabled = true;
-  button.textContent = "Baixando";
+  button.textContent = "Downloading";
   try {
     const manifestUrl = resolveApiUrl(book.manifestUrl);
     const content = await fetchJson(manifestUrl, { refresh: true });
@@ -285,7 +285,7 @@ function setChapter(index) {
 }
 
 function renderProse(text) {
-  if (!text.trim()) return "<p>Este capítulo está em branco.</p>";
+  if (!text.trim()) return "<p>This chapter is blank.</p>";
   return text.split(/\n\s*\n+/).map(block => {
     const clean = escapeHtml(block.trim());
     if (!clean) return "";
@@ -386,7 +386,7 @@ function registerServiceWorker() {
 
 function labelFormat(format) {
   return {
-    PROSE: "Prosa",
+    PROSE: "Prose",
     LIGHT_NOVEL: "Light novel",
     MANGA: "Manga",
     MANHWA: "Manhwa"
@@ -399,7 +399,7 @@ function shortTitle(title) {
 
 function formatDate(value) {
   try {
-    return new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" }).format(new Date(value));
+    return new Intl.DateTimeFormat("en", { dateStyle: "medium" }).format(new Date(value));
   } catch {
     return value;
   }

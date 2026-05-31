@@ -1,18 +1,18 @@
 # AI(2)M(2)IA Books PWA
 
-Progressive Web App estática para GitHub Pages. Ela consome o contrato público em `/api/catalog.json`, usa Cache API + service worker para leitura offline e salva progresso no `localStorage`.
-Quando um recurso ainda não existe no cache e a rede cai, o service worker
-retorna um fallback 503 legível em vez de uma resposta indefinida.
+Static Progressive Web App for GitHub Pages. It consumes the public contract in `/api/catalog.json`, uses Cache API + service worker for offline reading, and saves reading progress in `localStorage`.
+When a resource is not cached yet and the network drops, the service worker
+returns a readable 503 fallback instead of an undefined response.
 
-## Desenvolvimento local
+## Local Development
 
 ```bash
 python3 -m http.server 4173
 ```
 
-Abra `http://localhost:4173/pwa/`.
+Open `http://localhost:4173/pwa/`.
 
-## Testes
+## Tests
 
 From the repository root:
 
@@ -20,7 +20,6 @@ From the repository root:
 npm run test:pwa
 ```
 
-## Publicação
+## Publishing
 
-Publique este diretório como parte do GitHub Pages do repositório
-`ai2m2ia.github.io`. O app fica disponível em `/pwa/` e não precisa de build.
+Publish this directory as part of the `ai2m2ia.github.io` repository GitHub Pages site. The app is available at `/pwa/` and does not need a build step.
