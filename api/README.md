@@ -52,7 +52,7 @@ Set `AI2M2IA_WORKSPACE` or pass both source directories explicitly:
 AI2M2IA_WORKSPACE=/path/to/workspace npm run build:api
 
 python3 tools/api/scripts/build_catalog.py \
-  --aws-book-dir /path/to/lets-learn-aws-together \
+  --aws-book-dir /path/to/book-lets-build-on-aws-together \
   --last-archive-dir /path/to/the-last-archive
 ```
 

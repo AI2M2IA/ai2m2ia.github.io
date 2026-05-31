@@ -32,7 +32,10 @@ test.describe('PWA reader', () => {
     await page.goto('/pwa/');
     await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveCount(1);
     await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
-    await expect(page.getByText('31 de 31 livros')).toBeVisible();
+    await expect(page.getByText('31 of 31 books')).toBeVisible();
+    await expect(page.locator('#ui-language')).toHaveValue('en');
+    await expect(page.locator('#book-language-filter option')).toHaveCount(2);
+    await expect(page.locator('.series-summary strong', { hasText: 'The Last Archive' })).toBeVisible();
     await expect(page.getByRole('heading', { name: "Let's Build on AWS Together" })).toBeVisible();
 
     await page.goto('/pwa/#book=lets-learn-aws-together');
@@ -49,7 +52,7 @@ test.describe('PWA reader', () => {
     });
 
     await page.goto('/pwa/?api=https://evil.example#library');
-    await expect(page.getByText('31 de 31 livros')).toBeVisible();
+    await expect(page.getByText('31 of 31 books')).toBeVisible();
     expect(externalRequests).toEqual([]);
   });
 
@@ -98,5 +101,70 @@ test.describe('PWA reader', () => {
     await expect(page.locator('#chapter-body')).toContainText('<script>window.XSSFLAG = true</script>');
     await expect(page.locator('#chapter-body strong')).toHaveText('safe bold');
     expect(await page.evaluate(() => window.XSSFLAG)).toBeUndefined();
+  });
+
+  test('manages wishlist and downloaded books with per-book removal', async ({ page }) => {
+    const catalog = {
+      schemaVersion: 1,
+      generatedAt: '2026-05-31T00:00:00Z',
+      apiBaseUrl: 'https://ai2m2ia.github.io',
+      apiPrefix: '/api',
+      books: [
+        {
+          id: 'book-one',
+          title: 'Book One',
+          format: 'PROSE',
+          manifestUrl: 'https://ai2m2ia.github.io/api/books/book-one/content.json',
+          languages: ['en'],
+          author: 'AI(2)M(2)IA',
+          coverUrl: 'https://ai2m2ia.github.io/api/books/book-one/cover.jpg',
+          description: 'First fixture book',
+          links: {},
+        },
+        {
+          id: 'book-two',
+          title: 'Book Two',
+          format: 'PROSE',
+          manifestUrl: 'https://ai2m2ia.github.io/api/books/book-two/content.json',
+          languages: ['en'],
+          author: 'AI(2)M(2)IA',
+          coverUrl: 'https://ai2m2ia.github.io/api/books/book-two/cover.jpg',
+          description: 'Second fixture book',
+          links: {},
+        }
+      ],
+    };
+    const content = {
+      schemaVersion: 1,
+      generatedAt: '2026-05-31T00:00:00Z',
+      format: 'PROSE',
+      language: 'en',
+      revision: '2026-05-31',
+      chapters: [{ index: 0, title: 'Chapter 0: Start', text: 'Hello world.', images: [] }],
+    };
+
+    await page.route('**/api/catalog.json', route => route.fulfill({ json: catalog }));
+    await page.route('**/api/books/book-one/content.json', route => route.fulfill({ json: { ...content, bookId: 'book-one' } }));
+    await page.route('**/api/books/book-two/content.json', route => route.fulfill({ json: { ...content, bookId: 'book-two' } }));
+    await page.route('**/api/books/book-one/cover.jpg', route => route.fulfill({ status: 200, body: 'cover1', contentType: 'image/jpeg' }));
+    await page.route('**/api/books/book-two/cover.jpg', route => route.fulfill({ status: 200, body: 'cover2', contentType: 'image/jpeg' }));
+
+    await page.goto('/pwa/');
+    await expect(page.getByText('2 of 2 books')).toBeVisible();
+
+    const firstCard = page.locator('.book-card').first();
+    await firstCard.getByRole('button', { name: 'Save for later' }).click();
+    await page.getByRole('tab', { name: 'Wishlist' }).click();
+    await expect(page.getByText('1 of 1 saved')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Book One' })).toBeVisible();
+
+    await page.getByRole('tab', { name: 'Catalog' }).click();
+    await firstCard.getByRole('button', { name: 'Download' }).click();
+    await page.getByRole('tab', { name: 'Downloaded' }).click();
+    await expect(page.getByText('1 of 1 downloaded')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Book One' })).toBeVisible();
+
+    await page.getByRole('button', { name: 'Remove download' }).click();
+    await expect(page.getByText('No downloaded books found.')).toBeVisible();
   });
 });
