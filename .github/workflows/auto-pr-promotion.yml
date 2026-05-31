@@ -21,9 +21,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Validate bot token
+        if: ${{ secrets.BOT_GH_TOKEN == '' }}
+        run: |
+          echo "Missing BOT_GH_TOKEN secret. Configure a PAT/GitHub App token with pull request write permissions."
+          exit 1
+
       - name: Create or reuse promotion PR
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.BOT_GH_TOKEN }}
           script: |
             const branch = context.payload.workflow_run.head_branch;
             const owner = context.repo.owner;

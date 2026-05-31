@@ -11,6 +11,37 @@ const WISHLIST_KEY = "ai2m2ia-pwa-wishlist";
 const UI_LANGUAGE_KEY = "ai2m2ia-pwa-ui-language";
 const DEFAULT_UI_LANGUAGE = "en";
 const LIBRARY_MODES = ["catalog", "downloaded", "wishlist"];
+const SUPPORTED_UI_LANGUAGES = [
+  "en", "pt-BR", "es-419", "fr", "it", "de", "pl", "tr", "ru",
+  "id", "vi", "fil", "th", "ja", "zh-CN", "zh-TW", "yue",
+  "ko", "hi", "ur", "ar", "fa", "he"
+];
+const UI_LANGUAGE_LABELS = {
+  en: "English",
+  "pt-BR": "Portuguese (Brazil)",
+  "es-419": "Spanish (Latin America)",
+  fr: "French",
+  it: "Italian",
+  de: "German",
+  pl: "Polish",
+  tr: "Turkish",
+  ru: "Russian",
+  id: "Indonesian",
+  vi: "Vietnamese",
+  fil: "Filipino",
+  th: "Thai",
+  ja: "Japanese",
+  "zh-CN": "Chinese (Simplified)",
+  "zh-TW": "Chinese (Traditional)",
+  yue: "Cantonese",
+  ko: "Korean",
+  hi: "Hindi",
+  ur: "Urdu",
+  ar: "Arabic",
+  fa: "Persian",
+  he: "Hebrew"
+};
+const RTL_LANGUAGES = new Set(["ar", "fa", "he", "ur"]);
 const UI_STRINGS = {
   en: {
     nav: "Navigation",
@@ -165,6 +196,7 @@ const nodes = {
 init();
 
 async function init() {
+  populateUiLanguageOptions();
   state.uiLanguage = readUiLanguage();
   nodes.uiLanguage.value = state.uiLanguage;
   applyUiStrings();
@@ -710,7 +742,7 @@ function t() {
 }
 
 function normalizeUiLanguage(value) {
-  return Object.hasOwn(UI_STRINGS, value) ? value : DEFAULT_UI_LANGUAGE;
+  return SUPPORTED_UI_LANGUAGES.includes(value) ? value : DEFAULT_UI_LANGUAGE;
 }
 
 function readUiLanguage() {
@@ -723,6 +755,8 @@ function saveUiLanguage(value) {
 
 function applyUiStrings() {
   const strings = t();
+  document.documentElement.lang = state.uiLanguage;
+  document.documentElement.dir = RTL_LANGUAGES.has(state.uiLanguage) ? "rtl" : "ltr";
   nodes.refresh.title = strings.refresh;
   nodes.refresh.setAttribute("aria-label", strings.refresh);
   document.querySelector(".top-actions").setAttribute("aria-label", strings.nav);
@@ -752,6 +786,18 @@ function applyUiStrings() {
   nodes.next.textContent = strings.next;
   updateLibraryModeButtons();
   populateBookLanguageFilter(state.books);
+}
+
+function populateUiLanguageOptions() {
+  const selected = nodes.uiLanguage.value || DEFAULT_UI_LANGUAGE;
+  nodes.uiLanguage.textContent = "";
+  for (const language of SUPPORTED_UI_LANGUAGES) {
+    const option = document.createElement("option");
+    option.value = language;
+    option.textContent = UI_LANGUAGE_LABELS[language] || language;
+    nodes.uiLanguage.append(option);
+  }
+  nodes.uiLanguage.value = SUPPORTED_UI_LANGUAGES.includes(selected) ? selected : DEFAULT_UI_LANGUAGE;
 }
 
 function updateLibraryModeButtons() {

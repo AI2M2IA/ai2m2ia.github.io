@@ -34,9 +34,14 @@ test.describe('PWA reader', () => {
     await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
     await expect(page.getByText('31 of 31 books')).toBeVisible();
     await expect(page.locator('#ui-language')).toHaveValue('en');
+    await expect(page.locator('#ui-language option')).toHaveCount(23);
     await expect(page.locator('#book-language-filter option')).toHaveCount(2);
     await expect(page.locator('.series-summary strong', { hasText: 'The Last Archive' })).toBeVisible();
     await expect(page.getByRole('heading', { name: "Let's Build on AWS Together" })).toBeVisible();
+
+    await page.locator('#ui-language').selectOption('ar');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
+    await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
 
     await page.goto('/pwa/#book=lets-learn-aws-together');
     await expect(page.getByRole('button', { name: 'Chapter 0: Before We Begin' })).toBeVisible();
