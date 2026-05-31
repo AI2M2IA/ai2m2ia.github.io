@@ -24,6 +24,7 @@ jobs:
       - name: Create or reuse promotion PR
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.BOT_GH_TOKEN != '' && secrets.BOT_GH_TOKEN || github.token }}
           script: |
             const branch = context.payload.workflow_run.head_branch;
             const owner = context.repo.owner;
