@@ -59,7 +59,34 @@ button, input, select {
 
 .top-actions {
   display: flex;
+  align-items: center;
   gap: 8px;
+}
+
+.inline-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.inline-select span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.inline-select select {
+  min-height: 32px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-size: 0.86rem;
 }
 
 .icon-button, .install-button, .download-button, .reader-tools button {
@@ -98,6 +125,30 @@ button, input, select {
 .library-shell {
   width: min(1180px, calc(100% - 32px));
   margin: 28px auto 56px;
+}
+
+.library-modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.library-mode {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.library-mode.active {
+  border-color: #111;
+  background: #111;
+  color: #fff;
 }
 
 .library-header {
@@ -184,6 +235,48 @@ input, select {
   gap: 14px;
 }
 
+.series-group {
+  grid-column: 1 / -1;
+}
+
+.series-details {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.series-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  cursor: pointer;
+  list-style: none;
+  background: #faf7f2;
+}
+
+.series-summary::-webkit-details-marker {
+  display: none;
+}
+
+.series-summary strong {
+  font-size: 1rem;
+}
+
+.series-summary span {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.series-book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  padding: 14px;
+}
+
 .book-card {
   display: grid;
   grid-template-columns: 96px minmax(0, 1fr);
@@ -253,6 +346,7 @@ input, select {
 
 .book-actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   margin-top: 12px;
@@ -274,6 +368,25 @@ input, select {
   border-color: #9bd4c6;
   background: #e9fff8;
   color: #00675f;
+}
+
+.wishlist-button,
+.remove-button {
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.remove-button {
+  border-color: #f3b7af;
+  color: #8f2e20;
+  background: #fff7f6;
 }
 
 .reader-shell {

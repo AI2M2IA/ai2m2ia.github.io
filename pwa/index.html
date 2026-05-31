@@ -19,6 +19,13 @@
       </a>
       <nav class="top-actions" aria-label="Navigation">
         <button class="icon-button" id="refresh-button" type="button" title="Refresh catalog" aria-label="Refresh catalog">↻</button>
+        <label class="inline-select">
+          <span id="ui-language-label">UI</span>
+          <select id="ui-language" aria-label="Interface language">
+            <option value="en">English</option>
+            <option value="pt-BR">Portuguese (Brazil)</option>
+          </select>
+        </label>
         <button class="install-button" id="install-button" type="button" hidden>Install</button>
       </nav>
     </header>
@@ -33,9 +40,15 @@
           <div class="status-pill" id="network-status">Syncing</div>
         </div>
 
+        <div class="library-modes" id="library-modes" role="tablist" aria-label="Library view mode">
+          <button type="button" class="library-mode active" data-mode="catalog" role="tab" aria-selected="true">Catalog</button>
+          <button type="button" class="library-mode" data-mode="downloaded" role="tab" aria-selected="false">Downloaded</button>
+          <button type="button" class="library-mode" data-mode="wishlist" role="tab" aria-selected="false">Wishlist</button>
+        </div>
+
         <div class="toolbar" aria-label="Library filters">
           <label class="search-field">
-            <span>Search</span>
+            <span id="search-label">Search</span>
             <input id="search-input" type="search" placeholder="Title, author, or description">
           </label>
           <select id="format-filter" aria-label="Format">
@@ -45,7 +58,7 @@
             <option value="MANGA">Manga</option>
             <option value="MANHWA">Manhwa</option>
           </select>
-          <select id="language-filter" aria-label="Language">
+          <select id="book-language-filter" aria-label="Book language">
             <option value="">All languages</option>
           </select>
         </div>
