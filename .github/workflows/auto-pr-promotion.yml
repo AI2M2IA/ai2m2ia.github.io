@@ -6,6 +6,10 @@ on:
     types:
       - completed
 
+concurrency:
+  group: auto-pr-promotion-${{ github.event.workflow_run.head_branch || github.run_id }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   pull-requests: write
@@ -22,7 +26,9 @@ jobs:
 
     steps:
       - name: Validate bot token
-        if: ${{ secrets.BOT_GH_TOKEN == '' }}
+        env:
+          BOT_GH_TOKEN: ${{ secrets.BOT_GH_TOKEN }}
+        if: ${{ env.BOT_GH_TOKEN == '' }}
         run: |
           echo "Missing BOT_GH_TOKEN secret. Configure a PAT/GitHub App token with pull request write permissions."
           exit 1

@@ -48,6 +48,35 @@ test.describe('PWA reader', () => {
     await expect(page.getByRole('heading', { name: 'Chapter 0: Before We Begin' })).toBeVisible();
   });
 
+  test('keeps English UI clean and supports key locale switches', async ({ page }) => {
+    await page.goto('/pwa/');
+    const html = page.locator('html');
+
+    await page.locator('#ui-language').selectOption('en');
+    await expect(html).toHaveAttribute('lang', 'en');
+    await expect(html).toHaveAttribute('dir', 'ltr');
+    await expect(page.getByRole('button', { name: 'Download' }).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Baixar' })).toHaveCount(0);
+    await expect(page.getByRole('tab', { name: 'Downloaded' })).toBeVisible();
+    await expect(page.getByRole('tab', { name: 'Baixados' })).toHaveCount(0);
+
+    await page.locator('#ui-language').selectOption('pt-BR');
+    await expect(html).toHaveAttribute('lang', 'pt-BR');
+    await expect(html).toHaveAttribute('dir', 'ltr');
+    await expect(page.getByRole('button', { name: 'Baixar' }).first()).toBeVisible();
+    await expect(page.getByRole('tab', { name: 'Baixados' })).toBeVisible();
+
+    await page.locator('#ui-language').selectOption('ja');
+    await expect(html).toHaveAttribute('lang', 'ja');
+    await expect(html).toHaveAttribute('dir', 'ltr');
+    await expect(page.getByRole('button', { name: 'Download' }).first()).toBeVisible();
+
+    await page.locator('#ui-language').selectOption('ar');
+    await expect(html).toHaveAttribute('lang', 'ar');
+    await expect(html).toHaveAttribute('dir', 'rtl');
+    await expect(page.getByRole('button', { name: 'Download' }).first()).toBeVisible();
+  });
+
   test('ignores unsupported API origins from query string', async ({ page }) => {
     const externalRequests = [];
     page.on('request', request => {

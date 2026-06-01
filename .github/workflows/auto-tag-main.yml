@@ -6,6 +6,10 @@ on:
     types:
       - completed
 
+concurrency:
+  group: auto-tag-main
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
