@@ -17,6 +17,11 @@ test.describe('Work pages', () => {
 
       await expect(page).toHaveTitle(/AI\(2\)M\(2\)IA/);
       await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveCount(1);
+      
+      // Verify CSP does not contain unsafe-inline (security requirement)
+      const csp = await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute('content');
+      expect(csp).not.toContain("'unsafe-inline'");
+      
       await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
       await expect(page.getByRole('link', { name: /catalog/i }).first()).toHaveAttribute('href', /index\.html#catalog/);
 
