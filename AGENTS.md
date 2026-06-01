@@ -271,3 +271,35 @@ The CI workflow already runs `npm audit --omit=dev --audit-level=high`. To add m
 - name: Filesystem scan
   run: trivy fs --exit-code 1 .
 ```
+
+## 13) Clickjacking Protection — Accepted Risk
+
+GitHub Pages does not support custom HTTP headers, which means we cannot set `Content-Security-Policy: frame-ancestors` or `X-Frame-Options` via server configuration.
+
+### Why this is acceptable for this project
+
+1. **Read-only site** — No forms, authentication, or state-changing actions that could be exploited via clickjacking
+2. **External links use security attributes** — All outbound links include `target="_blank" rel="noopener noreferrer"`
+3. **CSP `frame-src` directive** — Restricts which origins can embed iframes on our pages (YouTube, TikTok)
+4. **No sensitive operations** — The site is a static catalog with no user accounts or transactions
+
+### Mitigations in place
+
+- **CSP meta tag**: All pages include `<meta http-equiv="Content-Security-Policy">` with strict directives
+- **`frame-src` directive**: Limits iframe embedding to trusted origins only
+- **Link security**: External links use `rel="noopener noreferrer"` to prevent tabnabbing
+
+### When to revisit
+
+If the project adds:
+- User authentication or accounts
+- Forms that submit data
+- State-changing operations (e.g., API calls that modify data)
+
+Then clickjacking protection should be implemented via a CDN or hosting platform that supports custom headers (e.g., Cloudflare, Netlify, Vercel).
+
+### References
+
+- [OWASP Clickjacking Defense Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Clickjacking_Defense_Cheat_Sheet.html)
+- [MDN: frame-ancestors](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors)
+- [GitHub Pages limitations](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#limitations)
