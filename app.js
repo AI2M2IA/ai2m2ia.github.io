@@ -292,23 +292,110 @@ const I18N = {
       option.className = `lang-option${lang.code === this.current ? ' active' : ''}`;
       option.dataset.lang = lang.code;
       option.type = 'button';
+      option.setAttribute('role', 'menuitem');
       option.textContent = lang.label;
       menu.append(option);
     }
 
+    const closeDropdown = () => {
+      menu.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.focus();
+    };
+
+    const openDropdown = () => {
+      menu.classList.remove('hidden');
+      btn.setAttribute('aria-expanded', 'true');
+      /* Focus the active option, or the first one */
+      const activeOpt = menu.querySelector('.lang-option.active') || menu.querySelector('.lang-option');
+      if (activeOpt) activeOpt.focus();
+    };
+
+    const getOptions = () => Array.from(menu.querySelectorAll('.lang-option'));
+
+    const selectOption = (opt) => {
+      this.set(opt.dataset.lang);
+      closeDropdown();
+    };
+
     menu.querySelectorAll('.lang-option').forEach(opt => {
-      opt.addEventListener('click', () => {
-        this.set(opt.dataset.lang);
-        menu.classList.add('hidden');
-        btn.setAttribute('aria-expanded', 'false');
-      });
+      opt.addEventListener('click', () => selectOption(opt));
+    });
+
+    /* Keyboard navigation within the dropdown (focus trap + arrow keys) */
+    menu.addEventListener('keydown', e => {
+      const options = getOptions();
+      const currentIndex = options.indexOf(document.activeElement);
+
+      switch (e.key) {
+        case 'ArrowDown': {
+          e.preventDefault();
+          const next = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
+          options[next].focus();
+          break;
+        }
+        case 'ArrowUp': {
+          e.preventDefault();
+          const prev = currentIndex > 0 ? currentIndex - 1 : options.length - 1;
+          options[prev].focus();
+          break;
+        }
+        case 'Home': {
+          e.preventDefault();
+          options[0].focus();
+          break;
+        }
+        case 'End': {
+          e.preventDefault();
+          options[options.length - 1].focus();
+          break;
+        }
+        case 'Escape': {
+          e.preventDefault();
+          closeDropdown();
+          break;
+        }
+        case 'Tab': {
+          /* Trap focus within the dropdown: prevent Tab from leaving */
+          e.preventDefault();
+          if (e.shiftKey) {
+            const prev = currentIndex > 0 ? currentIndex - 1 : options.length - 1;
+            options[prev].focus();
+          } else {
+            const next = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
+            options[next].focus();
+          }
+          break;
+        }
+        case 'Enter':
+        case ' ': {
+          e.preventDefault();
+          if (document.activeElement && document.activeElement.classList.contains('lang-option')) {
+            selectOption(document.activeElement);
+          }
+          break;
+        }
+      }
     });
 
     btn.addEventListener('click', e => {
       e.stopPropagation();
-      const open = !menu.classList.contains('hidden');
-      menu.classList.toggle('hidden', open);
-      btn.setAttribute('aria-expanded', String(!open));
+      const isOpen = !menu.classList.contains('hidden');
+      if (isOpen) {
+        closeDropdown();
+      } else {
+        openDropdown();
+      }
+    });
+
+    /* Keyboard support on the trigger button */
+    btn.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+        if (menu.classList.contains('hidden')) {
+          e.preventDefault();
+          openDropdown();
+        }
+      }
     });
 
     document.addEventListener('click', () => {
@@ -733,11 +820,25 @@ const HeroCollage = {
     const items = document.querySelectorAll('.collage-item');
     if (!items.length) return;
 
+    /* Ensure proper ARIA attributes for keyboard accessibility */
+    items.forEach(item => {
+      if (!item.getAttribute('role')) item.setAttribute('role', 'button');
+      if (!item.hasAttribute('tabindex')) item.setAttribute('tabindex', '0');
+    });
+
     items.forEach(item => {
       item.addEventListener('mouseenter', () => this._activate(item, items));
       item.addEventListener('focus',      () => this._activate(item, items));
       item.addEventListener('mouseleave', () => this._reset(items));
       item.addEventListener('blur',       () => this._reset(items));
+
+      /* Keyboard activation: Enter and Space trigger the same action as hover */
+      item.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this._activate(item, items);
+        }
+      });
     });
   },
 
@@ -788,6 +889,22 @@ const ScrollBehavior = {
 };
 
 /* --------------------------------------------------------------------------
+   ERROR BOUNDARY HELPERS
+   -------------------------------------------------------------------------- */
+
+/* Show a non-intrusive error message inside a specific section container. */
+function showSectionError(containerId, resourceName) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const notice = document.createElement('div');
+  notice.className = 'data-error-notice';
+  notice.setAttribute('role', 'alert');
+  notice.innerHTML = '<p style="margin:0;padding:1rem;text-align:center;color:var(--text-muted,#999);font-size:0.95rem;">'
+    + 'Unable to load ' + escapeHtml(resourceName) + '. Please check your connection and reload.</p>';
+  container.prepend(notice);
+}
+
+/* --------------------------------------------------------------------------
    ENTRY POINT
    -------------------------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', async () => {
@@ -795,25 +912,67 @@ document.addEventListener('DOMContentLoaded', async () => {
   ThemeManager.init();
 
   // 2. i18n — renders with fallback immediately, fetches remote if needed
-  await I18N.init();
+  try {
+    await I18N.init();
+  } catch (err) {
+    console.error('[AI2M2IA] i18n initialisation failed:', err);
+  }
 
-  // 3. Fetch content data
-  await DataStore.loadAll();
+  // 3. Fetch content data (wrapped in error boundary)
+  try {
+    await DataStore.loadAll();
+  } catch (err) {
+    console.error('[AI2M2IA] DataStore.loadAll() failed:', err);
+  }
 
-  // 4. Render dynamic sections
-  CatalogRenderer.render();
-  CatalogRenderer.initFilters();
-  CharacterRenderer.render();
-  MediaRenderer.render();
-  PhilosophyRenderer.render();
-  AuditPanel.renderSources();
-  AuditPanel.init();
+  // 4. Render dynamic sections — each guarded against missing data
+  try {
+    if (DataStore.works) {
+      CatalogRenderer.render();
+      CatalogRenderer.initFilters();
+      CharacterRenderer.render();
+    } else {
+      showSectionError('books-grid', 'catalog');
+      showSectionError('characters-grid', 'characters');
+    }
+  } catch (err) {
+    console.error('[AI2M2IA] Catalog/Character rendering failed:', err);
+    showSectionError('books-grid', 'catalog');
+    showSectionError('characters-grid', 'characters');
+  }
+
+  try {
+    MediaRenderer.render();
+    if (!DataStore.media?.items?.length) {
+      showSectionError('media-grid', 'media samples');
+    }
+  } catch (err) {
+    console.error('[AI2M2IA] Media rendering failed:', err);
+    showSectionError('media-grid', 'media samples');
+  }
+
+  try {
+    PhilosophyRenderer.render();
+  } catch (err) {
+    console.error('[AI2M2IA] Philosophy rendering failed:', err);
+  }
+
+  try {
+    AuditPanel.renderSources();
+    AuditPanel.init();
+  } catch (err) {
+    console.error('[AI2M2IA] Audit panel rendering failed:', err);
+  }
 
   // 5. Re-apply i18n to dynamically rendered content
   I18N.apply();
 
-  // 6. UI interactions
-  HeroCollage.init();
-  MobileNav.init();
-  ScrollBehavior.init();
+  // 6. UI interactions (DOM-only, unlikely to throw, but guarded)
+  try {
+    HeroCollage.init();
+    MobileNav.init();
+    ScrollBehavior.init();
+  } catch (err) {
+    console.error('[AI2M2IA] UI interaction init failed:', err);
+  }
 });
