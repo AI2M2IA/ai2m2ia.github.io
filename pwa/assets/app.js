@@ -1477,7 +1477,7 @@ function renderLibrary() {
 
   const grouped = groupBooks(books);
   for (const standalone of grouped.standalone) {
-    nodes.bookGrid.append(renderBookCard(standalone, downloaded));
+    nodes.bookGrid.append(renderBookCard(standalone, downloaded, wishlist));
   }
   for (const series of grouped.series) {
     const section = document.createElement("section");
@@ -1495,7 +1495,7 @@ function renderLibrary() {
     const volumeGrid = document.createElement("div");
     volumeGrid.className = "series-book-grid";
     for (const volume of series.books) {
-      volumeGrid.append(renderBookCard(volume, downloaded));
+      volumeGrid.append(renderBookCard(volume, downloaded, wishlist));
     }
     header.append(summary, volumeGrid);
     section.append(header);
@@ -1503,8 +1503,7 @@ function renderLibrary() {
   }
 }
 
-function renderBookCard(book, downloaded) {
-  const wishlist = getWishlist();
+function renderBookCard(book, downloaded, wishlist) {
   const card = nodes.template.content.firstElementChild.cloneNode(true);
   const cover = card.querySelector(".cover-slot");
   const kicker = card.querySelector(".book-kicker");
@@ -1590,10 +1589,22 @@ async function downloadBook(book, button) {
     const content = await fetchJson(manifestUrl, { refresh: true });
     const cache = await caches.open(API_CACHE);
     const urls = collectBookAssetUrls(book, content);
-    await Promise.all(urls.map(url => fetch(url).then(response => {
-      if (response.ok) return cache.put(url, response);
-      return undefined;
-    }).catch(() => undefined)));
+    const results = await Promise.allSettled(urls.map(url => 
+      fetch(url).then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return cache.put(url, response);
+      })
+    ));
+    
+    const failed = results.filter(r => r.status === "rejected");
+    if (failed.length > 0) {
+      console.warn(`Failed to cache ${failed.length}/${urls.length} assets for ${book.title}`);
+      button.textContent = t().download;
+      button.disabled = false;
+      button.classList.remove("cached");
+      return;
+    }
+    
     const downloaded = getDownloaded();
     downloaded.add(book.id);
     saveDownloaded(downloaded);
@@ -1601,8 +1612,11 @@ async function downloadBook(book, button) {
     button.textContent = t().downloaded;
     button.disabled = true;
     renderLibrary();
-  } finally {
-    if (!getDownloaded().has(book.id)) button.disabled = false;
+  } catch (error) {
+    console.error(`Download failed for ${book.title}:`, error);
+    button.textContent = t().download;
+    button.disabled = false;
+    button.classList.remove("cached");
   }
 }
 

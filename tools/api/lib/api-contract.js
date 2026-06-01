@@ -161,11 +161,28 @@ function validateApi(apiDir) {
     ...validateCatalog(catalog, apiDir),
   ];
 
+  // Build map of manifestUrl -> expected bookId for cross-validation
+  const manifestToBookId = new Map();
+  for (const book of (catalog.books || [])) {
+    if (book.manifestUrl) {
+      manifestToBookId.set(book.manifestUrl, book.id);
+    }
+  }
+
   for (const manifestPath of findContentManifests(booksDir)) {
     const content = readJson(manifestPath);
     const label = path.relative(process.cwd(), manifestPath);
     errors.push(...validateJsonAgainstSchema(content, contentSchema, label));
     errors.push(...validateContent(content, manifestPath));
+    
+    // Cross-validate bookId matches catalog entry
+    if (content.bookId && catalog.apiBaseUrl && catalog.apiPrefix) {
+      const expectedManifestUrl = `${catalog.apiBaseUrl}${catalog.apiPrefix}/books/${content.bookId}/content.json`;
+      const expectedBookId = manifestToBookId.get(expectedManifestUrl);
+      if (!expectedBookId) {
+        errors.push(`${label}: bookId "${content.bookId}" does not match any catalog entry (expected manifestUrl: ${expectedManifestUrl})`);
+      }
+    }
   }
 
   return errors;
