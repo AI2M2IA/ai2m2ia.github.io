@@ -69,12 +69,14 @@ test.describe('PWA reader', () => {
     await page.locator('#ui-language').selectOption('ja');
     await expect(html).toHaveAttribute('lang', 'ja');
     await expect(html).toHaveAttribute('dir', 'ltr');
-    await expect(page.getByRole('button', { name: 'Download' }).first()).toBeVisible();
+    await expect(page.locator('.download-button').first()).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Baixar' })).toHaveCount(0);
 
     await page.locator('#ui-language').selectOption('ar');
     await expect(html).toHaveAttribute('lang', 'ar');
     await expect(html).toHaveAttribute('dir', 'rtl');
-    await expect(page.getByRole('button', { name: 'Download' }).first()).toBeVisible();
+    await expect(page.locator('.download-button').first()).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Baixar' })).toHaveCount(0);
   });
 
   test('ignores unsupported API origins from query string', async ({ page }) => {

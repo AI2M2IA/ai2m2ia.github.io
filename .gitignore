@@ -52,3 +52,31 @@ coverage/
 tests/screenshots/
 *.png
 *.webm
+
+# AI Agents
+.qwen/
+.claude/
+.agents/
+.gemini/
+.google/
+.antigravity/
+CLAUDE.md
+GOOGLE.md
+GEMINI.md
+ANTIGRAVITY.md
+
+# Security-sensitive files
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+*.keystore
+*.asc
+*.gpg
+secrets.*
+*.secrets.*
+
+
