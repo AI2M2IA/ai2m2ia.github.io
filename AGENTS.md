@@ -88,6 +88,7 @@ Do not merge with failing checks.
 
 ## 10) Safe Operations
 
+- **Never push to remote without explicit user authorization.** Always ask for confirmation before executing `git push`, even if tests pass and commits are ready.
 - Never run destructive git commands (`reset --hard`, forced history rewrites) unless explicitly requested.
 - Do not revert user-authored changes outside requested scope.
 - If repository settings are required (Actions permissions/secrets), document exact UI path and required value.
