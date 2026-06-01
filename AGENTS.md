@@ -92,3 +92,182 @@ Do not merge with failing checks.
 - Never run destructive git commands (`reset --hard`, forced history rewrites) unless explicitly requested.
 - Do not revert user-authored changes outside requested scope.
 - If repository settings are required (Actions permissions/secrets), document exact UI path and required value.
+
+## 11) innerHTML Discipline
+
+**Mandatory rule:** Any new field from JSON that will be rendered via `innerHTML` must pass through `escapeHtml()` or `safeUrl()`.
+
+### Current Usage
+
+The main site uses `innerHTML` in templates at `app.js` (lines 572, 646, 678, 790). Currently all relevant fields are properly escaped. The PWA uses safer DOM APIs (`createElement`, `textContent`) for book cards, but `innerHTML` for chapter prose — same rules apply.
+
+### Mandatory Checklist
+
+When adding or modifying code that renders JSON data via `innerHTML`:
+
+- [ ] **Audit all strings** — identify every field from JSON that will be interpolated
+- [ ] **Apply `escapeHtml()`** to all text content (titles, descriptions, summaries, names)
+- [ ] **Apply `safeUrl()`** to all URLs/href attributes (links, images, buttons)
+- [ ] **Validate URLs** — ensure `safeUrl()` is called with appropriate `external` parameter
+- [ ] **Test with XSS payloads** — add Playwright test with malicious JSON data
+- [ ] **Review template literals** — verify no unescaped interpolation in backtick strings
+- [ ] **Check markdown rendering** — if using `renderProse()`, verify input is escaped first
+
+### Security Functions Reference
+
+```javascript
+// Escape HTML special characters to prevent XSS
+escapeHtml(str) → string
+// Escapes: & < > " '
+
+// Validate and sanitize URLs
+safeUrl(url, { external = false }) → string
+// Returns empty string if invalid
+// external: true allows any https:// URL
+// external: false (default) only allows same-origin URLs
+
+// Validate media IDs (YouTube, TikTok)
+safeMediaId(id) → string | null
+// Returns null if ID doesn't match expected pattern
+```
+
+### Examples
+
+**✅ CORRECT — Text content escaped:**
+```javascript
+const card = `
+  <div class="book-card">
+    <h3>${escapeHtml(book.title)}</h3>
+    <p>${escapeHtml(book.description)}</p>
+  </div>
+`;
+```
+
+**✅ CORRECT — URLs validated:**
+```javascript
+const link = `<a href="${safeUrl(book.url, { external: true })}">Buy</a>`;
+const img = `<img src="${safeUrl(book.coverImage)}" alt="${escapeHtml(book.title)}">`;
+```
+
+**❌ INCORRECT — Unescaped user content:**
+```javascript
+// DANGER: XSS vulnerability if book.title contains <script>
+const card = `<h3>${book.title}</h3>`;
+
+// DANGER: javascript: URL injection
+const link = `<a href="${book.url}">Buy</a>`;
+```
+
+**❌ INCORRECT — Wrong parameter for external URLs:**
+```javascript
+// DANGER: Allows any URL, should use { external: true } only when intentional
+const link = `<a href="${safeUrl(book.amazonUrl)}">Buy on Amazon</a>`;
+```
+
+### Markdown Rendering (PWA)
+
+The PWA uses `renderProse()` for chapter content. This function:
+1. Splits text into paragraphs
+2. **Escapes HTML first** via `escapeHtml()`
+3. Then applies markdown formatting (bold, italic, code, blockquotes)
+
+**Never pass unescaped content to `renderProse()`.**
+
+### Testing Requirements
+
+Every PR that modifies `innerHTML` usage must include:
+
+1. **Unit test** — verify `escapeHtml()` and `safeUrl()` work correctly
+2. **Integration test** — render actual JSON data and verify output
+3. **XSS test** — inject malicious payloads and verify no script execution
+
+Example Playwright test:
+```javascript
+test('renders malicious book title safely', async ({ page }) => {
+  await page.route('**/api/books/*.json', route => {
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        title: '<script>alert("XSS")</script>',
+        description: '"><img src=x onerror=alert(1)>'
+      })
+    });
+  });
+  
+  await page.goto('/');
+  const title = await page.locator('.book-title').textContent();
+  expect(title).toBe('<script>alert("XSS")</script>'); // Escaped, not executed
+});
+```
+
+### Code Review Checklist
+
+When reviewing PRs, check for:
+
+- [ ] New `innerHTML` assignments use `escapeHtml()` / `safeUrl()`
+- [ ] Template literals don't have unescaped interpolation
+- [ ] External URLs use `safeUrl(url, { external: true })`
+- [ ] Same-origin URLs use `safeUrl(url)` (no external parameter)
+- [ ] Tests include XSS payload scenarios
+- [ ] No direct DOM manipulation with user input (prefer `textContent`)
+
+## 12) Security Scanning
+
+This project follows a layered security approach combining automated tools with LLM-assisted analysis.
+
+### Recommended Tools
+
+| Category | Tool | Usage |
+|----------|------|-------|
+| SAST | Semgrep CE | Scan for insecure code patterns in JS/Python |
+| Secrets | Gitleaks | Detect committed tokens, keys, passwords |
+| Dependencies | npm audit | Check for vulnerable npm packages (runs in CI) |
+| Filesystem/Config | Trivy | Scan for misconfigurations and known CVEs |
+
+### Running Security Scans
+
+```bash
+# Secrets scanning (requires: brew install gitleaks)
+gitleaks detect --source .
+
+# SAST scanning (requires: pip install semgrep)
+semgrep scan --config auto
+
+# Filesystem/misconfig scanning (requires: brew install trivy)
+trivy fs .
+
+# Dependencies (no install required, runs in CI)
+npm audit --omit=dev
+```
+
+### Security Workflow
+
+1. **Run scanners first** — gather raw findings from all tools
+2. **Classify with LLM** — prioritize by real impact and exploitability, map to OWASP Top 10
+3. **Fix minimal and test** — apply targeted fixes with regression tests
+4. **Block regressions in CI** — use tools, not LLM, to enforce security gates
+
+### Example LLM Prompt
+
+```
+Analyze these Semgrep/Gitleaks/Trivy findings.
+Remove likely false positives, prioritize by real risk,
+map to OWASP Top 10, and suggest minimal fixes with tests.
+Do not invent CVEs or vulnerabilities without evidence.
+```
+
+### CI Integration
+
+The CI workflow already runs `npm audit --omit=dev --audit-level=high`. To add more scanners:
+
+```yaml
+- name: Secrets scan
+  run: gitleaks detect --source . --no-git
+
+- name: SAST scan
+  run: semgrep scan --config auto --error
+
+- name: Filesystem scan
+  run: trivy fs --exit-code 1 .
+```

@@ -98,3 +98,43 @@ test('all languages have the same key set as English', () => {
     assert.deepEqual(extra, [], `${lang}: no extra keys vs en.json`);
   }
 });
+
+test('app.js _fallback matches en.json strings', () => {
+  const enJson = readLanguage('en');
+  const appJsPath = path.join(__dirname, '..', 'app.js');
+  const appJsContent = fs.readFileSync(appJsPath, 'utf8');
+
+  // Extract _fallback object from app.js
+  const fallbackMatch = appJsContent.match(/_fallback:\s*\{([^}]+(?:\{[^}]*\}[^}]*)*)\}/s);
+  assert.ok(fallbackMatch, 'app.js contains _fallback object');
+
+  const fallbackText = fallbackMatch[1];
+
+  // Parse key-value pairs from _fallback (handles single/double quotes, multiline strings)
+  const fallbackKeys = new Set();
+  const keyRegex = /^\s*['"]?([a-zA-Z_][\w-]*)['"]?\s*:/gm;
+  let match;
+  while ((match = keyRegex.exec(fallbackText)) !== null) {
+    fallbackKeys.add(match[1]);
+  }
+
+  const enKeys = new Set(Object.keys(enJson));
+
+  // Check for keys in en.json that are missing from fallback
+  const missingInFallback = [...enKeys].filter((key) => !fallbackKeys.has(key));
+
+  // Check for keys in fallback that are not in en.json
+  const extraInFallback = [...fallbackKeys].filter((key) => !enKeys.has(key));
+
+  assert.deepEqual(
+    missingInFallback,
+    [],
+    `app.js _fallback is missing keys from en.json: ${missingInFallback.join(', ')}`
+  );
+
+  assert.deepEqual(
+    extraInFallback,
+    [],
+    `app.js _fallback has keys not in en.json: ${extraInFallback.join(', ')}`
+  );
+});

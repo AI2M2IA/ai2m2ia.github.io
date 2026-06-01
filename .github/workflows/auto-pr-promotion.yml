@@ -33,8 +33,39 @@ jobs:
           echo "Missing BOT_GH_TOKEN secret. Configure a PAT/GitHub App token with pull request write permissions."
           exit 1
 
+      - name: Validate bot token scope
+        env:
+          BOT_GH_TOKEN: ${{ secrets.BOT_GH_TOKEN }}
+        run: |
+          echo "Validating BOT_GH_TOKEN permissions..."
+          
+          # Test token with a simple API call and check response headers
+          RESPONSE=$(curl -s -w "\n%{http_code}" -H "Authorization: token $BOT_GH_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/user)
+          
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "ERROR: BOT_GH_TOKEN is invalid or expired (HTTP $HTTP_CODE)"
+            exit 1
+          fi
+          
+          # For fine-grained PATs, verify repository access
+          REPO_CHECK=$(curl -s -H "Authorization: token $BOT_GH_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}" | jq -r '.permissions.push // false')
+          
+          if [ "$REPO_CHECK" != "true" ]; then
+            echo "ERROR: BOT_GH_TOKEN does not have write access to this repository"
+            echo "Ensure the token has 'pull-requests: write' permission for this repo"
+            exit 1
+          fi
+          
+          echo "BOT_GH_TOKEN validation passed"
+
       - name: Create or reuse promotion PR
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
           github-token: ${{ secrets.BOT_GH_TOKEN }}
           script: |

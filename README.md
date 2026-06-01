@@ -115,3 +115,42 @@ Launches the interactive Playwright UI runner, allowing you to debug, inspect, s
 - **Nav Menu Auto-close**: Tests that clicking nav links closes the drawer menu overlay.
 - **Responsive Controls**: Asserts that theme and language buttons are hidden from the header on viewports `< 600px` to fit mobile widths.
 - **Responsive Grids**: Retrives element bounding-box dimensions (`boundingBox()`) to assert single-column vertical stacks on mobile grids (like `#books-grid`) and two-column matrices on tablet/mobile showcases (like `.character-showcase-grid`).
+
+---
+
+## Security
+
+This project follows a layered security approach combining automated tools with LLM-assisted analysis.
+
+### Security Posture
+
+- **Zero production dependencies** — minimal attack surface
+- **Strict CSP headers** — no `unsafe-inline` or `unsafe-eval`
+- **XSS prevention** — all user/content strings pass through `escapeHtml()` or `safeUrl()`
+- **Path traversal protection** — test server and build scripts validate paths
+- **Secrets scanning** — comprehensive `.gitignore` prevents committing sensitive files
+
+### Running Security Scans
+
+```bash
+# Secrets scanning (install: brew install gitleaks)
+gitleaks detect --source .
+
+# SAST scanning (install: pip install semgrep)
+semgrep scan --config auto
+
+# Filesystem/misconfig scanning (install: brew install trivy)
+trivy fs .
+
+# Dependencies (no install required, runs in CI)
+npm audit --omit=dev
+```
+
+### Security Workflow
+
+1. **Run scanners first** — gather raw findings from all tools
+2. **Classify with LLM** — prioritize by real impact and exploitability, map to OWASP Top 10
+3. **Fix minimal and test** — apply targeted fixes with regression tests
+4. **Block regressions in CI** — use tools, not LLM, to enforce security gates
+
+See `AGENTS.md` section 12 for detailed security scanning guidelines and CI integration examples.
