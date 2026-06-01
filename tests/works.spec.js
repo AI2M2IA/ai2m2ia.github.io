@@ -17,6 +17,15 @@ test.describe('Work pages', () => {
 
       await expect(page).toHaveTitle(/AI\(2\)M\(2\)IA/);
       await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveCount(1);
+      
+      // Security requirement: no unsafe-inline in style-src
+      const csp = await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute('content');
+      expect(csp).not.toContain("'unsafe-inline'");
+      
+      // Security requirement: img-src restricted to known origins
+      expect(csp).toContain("img-src 'self' data: https://ai2m2ia.github.io");
+      expect(csp).not.toMatch(/img-src[^;]*https:(?!\/\/ai2m2ia\.github\.io)/);
+      
       await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
       await expect(page.getByRole('link', { name: /catalog/i }).first()).toHaveAttribute('href', /index\.html#catalog/);
 
