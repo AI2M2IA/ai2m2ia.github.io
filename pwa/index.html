@@ -1,131 +1,132 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#101820">
-    <meta name="description" content="Official PWA for reading AI(2)M(2)IA public books with offline support.">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: https://ai2m2ia.github.io; connect-src 'self' https://ai2m2ia.github.io; worker-src 'self'; manifest-src 'self'; form-action 'self'">
-    <title>AI(2)M(2)IA Books</title>
-    <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="assets/styles.css">
-  </head>
-  <body>
-    <header class="topbar">
-      <a class="brand" href="#library" aria-label="AI(2)M(2)IA Books">
-        <span class="brand-mark">A2</span>
-        <span>AI(2)M(2)IA Books</span>
-      </a>
-      <nav class="top-actions" aria-label="Navigation">
-        <button class="icon-button" id="refresh-button" type="button" title="Refresh catalog" aria-label="Refresh catalog">↻</button>
-        <label class="inline-select">
-          <span id="ui-language-label">UI</span>
-          <select id="ui-language" aria-label="Interface language">
-            <option value="en">English</option>
-            <option value="pt-BR">Portuguese (Brazil)</option>
-            <option value="es-419">Spanish (Latin America)</option>
-            <option value="fr">French</option>
-            <option value="it">Italian</option>
-            <option value="de">German</option>
-            <option value="pl">Polish</option>
-            <option value="tr">Turkish</option>
-            <option value="ru">Russian</option>
-            <option value="id">Indonesian</option>
-            <option value="vi">Vietnamese</option>
-            <option value="fil">Filipino</option>
-            <option value="th">Thai</option>
-            <option value="ja">Japanese</option>
-            <option value="zh-CN">Chinese (Simplified)</option>
-            <option value="zh-TW">Chinese (Traditional)</option>
-            <option value="yue">Cantonese</option>
-            <option value="ko">Korean</option>
-            <option value="hi">Hindi</option>
-            <option value="ur">Urdu</option>
-            <option value="ar">Arabic</option>
-            <option value="fa">Persian</option>
-            <option value="he">Hebrew</option>
-          </select>
-        </label>
-        <button class="install-button" id="install-button" type="button" hidden>Install</button>
-      </nav>
-    </header>
+ <head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="theme-color" content="#101820">
+ <meta name="description" content="Official PWA for reading AI(2)M(2)IA public books with offline support.">
+ <meta name="referrer" content="strict-origin-when-cross-origin">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: https://ai2m2ia.github.io; connect-src 'self' https://ai2m2ia.github.io; worker-src 'self'; manifest-src 'self'; form-action 'self'">
+ <title>AI(2)M(2)IA Books</title>
+ <link rel="manifest" href="manifest.webmanifest">
+ <link rel="stylesheet" href="assets/styles.css">
+ <link rel="stylesheet" href="../assets/fonts/fonts.css">
+ </head>
+ <body>
+ <header class="topbar">
+ <a class="brand" href="#library" aria-label="AI(2)M(2)IA Books">
+ <span class="brand-mark">A2</span>
+ <span>AI(2)M(2)IA Books</span>
+ </a>
+ <nav class="top-actions" aria-label="Navigation">
+ <button class="icon-button" id="refresh-button" type="button" title="Refresh catalog" aria-label="Refresh catalog">↻</button>
+ <label class="inline-select">
+ <span id="ui-language-label">UI</span>
+ <select id="ui-language" aria-label="Interface language">
+ <option value="en">English</option>
+ <option value="pt-BR">Portuguese (Brazil)</option>
+ <option value="es-419">Spanish (Latin America)</option>
+ <option value="fr">French</option>
+ <option value="it">Italian</option>
+ <option value="de">German</option>
+ <option value="pl">Polish</option>
+ <option value="tr">Turkish</option>
+ <option value="ru">Russian</option>
+ <option value="id">Indonesian</option>
+ <option value="vi">Vietnamese</option>
+ <option value="fil">Filipino</option>
+ <option value="th">Thai</option>
+ <option value="ja">Japanese</option>
+ <option value="zh-CN">Chinese (Simplified)</option>
+ <option value="zh-TW">Chinese (Traditional)</option>
+ <option value="yue">Cantonese</option>
+ <option value="ko">Korean</option>
+ <option value="hi">Hindi</option>
+ <option value="ur">Urdu</option>
+ <option value="ar">Arabic</option>
+ <option value="fa">Persian</option>
+ <option value="he">Hebrew</option>
+ </select>
+ </label>
+ <button class="install-button" id="install-button" type="button" hidden>Install</button>
+ </nav>
+ </header>
 
-    <main>
-      <section class="library-shell" id="library-view">
-        <div class="library-header">
-          <div>
-            <p class="eyebrow">Public catalog</p>
-            <h1>Offline reading for the AI(2)M(2)IA library</h1>
-          </div>
-          <div class="status-pill" id="network-status">Syncing</div>
-        </div>
+ <main>
+ <section class="library-shell" id="library-view">
+ <div class="library-header">
+ <div>
+ <p class="eyebrow">Public catalog</p>
+ <h1>Offline reading for the AI(2)M(2)IA library</h1>
+ </div>
+ <div class="status-pill" id="network-status">Syncing</div>
+ </div>
 
-        <div class="library-modes" id="library-modes" role="tablist" aria-label="Library view mode">
-          <button type="button" class="library-mode active" data-mode="catalog" role="tab" aria-selected="true">Catalog</button>
-          <button type="button" class="library-mode" data-mode="downloaded" role="tab" aria-selected="false">Downloaded</button>
-          <button type="button" class="library-mode" data-mode="wishlist" role="tab" aria-selected="false">Wishlist</button>
-        </div>
+ <div class="library-modes" id="library-modes" role="tablist" aria-label="Library view mode">
+ <button type="button" class="library-mode active" data-mode="catalog" role="tab" aria-selected="true">Catalog</button>
+ <button type="button" class="library-mode" data-mode="downloaded" role="tab" aria-selected="false">Downloaded</button>
+ <button type="button" class="library-mode" data-mode="wishlist" role="tab" aria-selected="false">Wishlist</button>
+ </div>
 
-        <div class="toolbar" aria-label="Library filters">
-          <label class="search-field">
-            <span id="search-label">Search</span>
-            <input id="search-input" type="search" placeholder="Title, author, or description">
-          </label>
-          <select id="format-filter" aria-label="Format">
-            <option value="">All formats</option>
-            <option value="PROSE">Prose</option>
-            <option value="LIGHT_NOVEL">Light novel</option>
-            <option value="MANGA">Manga</option>
-            <option value="MANHWA">Manhwa</option>
-          </select>
-          <select id="book-language-filter" aria-label="Book language">
-            <option value="">All languages</option>
-          </select>
-        </div>
+ <div class="toolbar" aria-label="Library filters">
+ <label class="search-field">
+ <span id="search-label">Search</span>
+ <input id="search-input" type="search" placeholder="Title, author, or description">
+ </label>
+ <select id="format-filter" aria-label="Format">
+ <option value="">All formats</option>
+ <option value="PROSE">Prose</option>
+ <option value="LIGHT_NOVEL">Light novel</option>
+ <option value="MANGA">Manga</option>
+ <option value="MANHWA">Manhwa</option>
+ </select>
+ <select id="book-language-filter" aria-label="Book language">
+ <option value="">All languages</option>
+ </select>
+ </div>
 
-        <div class="meta-row">
-          <span id="catalog-count">Loading catalog</span>
-          <span id="catalog-version"></span>
-        </div>
+ <div class="meta-row">
+ <span id="catalog-count">Loading catalog</span>
+ <span id="catalog-version"></span>
+ </div>
 
-        <div class="book-grid" id="book-grid"></div>
-      </section>
+ <div class="book-grid" id="book-grid"></div>
+ </section>
 
-      <section class="reader-shell" id="reader-view" hidden>
-        <aside class="reader-sidebar">
-          <a class="back-link" href="#library">← Library</a>
-          <h2 id="reader-book-title">Book</h2>
-          <p id="reader-book-author"></p>
-          <div class="chapter-list" id="chapter-list"></div>
-        </aside>
-        <article class="reader-panel">
-          <div class="reader-tools">
-            <button id="prev-chapter" type="button">Previous</button>
-            <span id="reader-position"></span>
-            <button id="next-chapter" type="button">Next</button>
-          </div>
-          <h1 id="chapter-title"></h1>
-          <div class="chapter-body" id="chapter-body"></div>
-        </article>
-      </section>
-    </main>
+ <section class="reader-shell" id="reader-view" hidden>
+ <aside class="reader-sidebar">
+ <a class="back-link" href="#library">← Library</a>
+ <h2 id="reader-book-title">Book</h2>
+ <p id="reader-book-author"></p>
+ <div class="chapter-list" id="chapter-list"></div>
+ </aside>
+ <article class="reader-panel">
+ <div class="reader-tools">
+ <button id="prev-chapter" type="button">Previous</button>
+ <span id="reader-position"></span>
+ <button id="next-chapter" type="button">Next</button>
+ </div>
+ <h1 id="chapter-title"></h1>
+ <div class="chapter-body" id="chapter-body"></div>
+ </article>
+ </section>
+ </main>
 
-    <template id="book-card-template">
-      <article class="book-card">
-        <div class="cover-slot"></div>
-        <div class="book-copy">
-          <div class="book-kicker"></div>
-          <h2></h2>
-          <p></p>
-          <div class="book-actions">
-            <a class="read-link">Read</a>
-            <button class="download-button" type="button">Download</button>
-          </div>
-        </div>
-      </article>
-    </template>
+ <template id="book-card-template">
+ <article class="book-card">
+ <div class="cover-slot"></div>
+ <div class="book-copy">
+ <div class="book-kicker"></div>
+ <h2></h2>
+ <p></p>
+ <div class="book-actions">
+ <a class="read-link">Read</a>
+ <button class="download-button" type="button">Download</button>
+ </div>
+ </div>
+ </article>
+ </template>
 
-    <script src="assets/app.js?v=12" type="module"></script>
-  </body>
+ <script src="assets/app.js?v=12" type="module"></script>
+ </body>
 </html>
