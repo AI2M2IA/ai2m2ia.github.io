@@ -7,6 +7,13 @@ import argparse
 import sys
 from datetime import datetime, timezone
 
+try:
+    import yaml
+    HAS_PYYAML = True
+except ImportError:
+    HAS_PYYAML = False
+    print("Warning: PyYAML not installed. Using fallback parser. Install with: pip install --user PyYAML", file=sys.stderr)
+
 DEFAULT_WORKSPACE = os.environ.get("AI2M2IA_WORKSPACE")
 DEFAULT_BASE_URL = os.environ.get("AI2M2IA_API_BASE_URL", "https://ai2m2ia.github.io")
 DEFAULT_API_PREFIX = os.environ.get("AI2M2IA_API_PREFIX", "/api")
@@ -71,20 +78,31 @@ LAST_ARCHIVE_SUBTITLES = {
     30: "Preservation"
 }
 
-def parse_simple_yaml(filepath):
-    """Parses a simple YAML frontmatter from a markdown file or metadata yaml."""
-    metadata = {}
+def parse_yaml_metadata(filepath):
+    """Parses YAML metadata from a file using PyYAML (with fallback to simple parser)."""
     if not os.path.exists(filepath):
-        return metadata
-    
+        return {}
+
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
-    
-    # Try finding yaml block between ---
+
+    if HAS_PYYAML:
+        # Use PyYAML for robust parsing
+        # Try to find YAML frontmatter between --- delimiters
+        match = re.search(r'^---\s*\n(.*?)\n---\s*\n', content, re.DOTALL)
+        yaml_text = match.group(1) if match else content
+
+        try:
+            data = yaml.safe_load(yaml_text)
+            return data if isinstance(data, dict) else {}
+        except yaml.YAMLError as e:
+            print(f"Warning: YAML parse error in {filepath}: {e}. Falling back to simple parser.", file=sys.stderr)
+
+    # Fallback: simple key:value parser
+    metadata = {}
     match = re.search(r'^---\s*\n(.*?)\n---\s*\n', content, re.DOTALL)
     yaml_text = match.group(1) if match else content
-    
-    # Parse key value pairs
+
     for line in yaml_text.split('\n'):
         line = line.strip()
         if not line or line.startswith('#') or ':' not in line:
@@ -96,7 +114,7 @@ def parse_simple_yaml(filepath):
         if (val.startswith('"') and val.endswith('"')) or (val.startswith("'") and val.endswith("'")):
             val = val[1:-1]
         metadata[key] = val
-        
+
     return metadata
 
 def clean_markdown_chapter(text):
@@ -152,7 +170,7 @@ def process_aws_book(aws_book_dir, books_out_dir, base_url, api_prefix, generate
     
     # 1. Parse metadata
     metadata_path = os.path.join(aws_book_dir, "assets", "metadata.yaml")
-    meta = parse_simple_yaml(metadata_path)
+    meta = parse_yaml_metadata(metadata_path)
     
     title = meta.get("title", "Let's Build on AWS Together")
     description = meta.get("description", "AWS That Actually Makes Sense.")
