@@ -50,8 +50,14 @@ coverage/
 
 # Test artifacts & debug captures
 tests/screenshots/
-*.png
 *.webm
+
+# PWA icons (must be committed for installability)
+!pwa/assets/icon-192.png
+!pwa/assets/icon-512.png
+
+# Other PNGs (screenshots, test artifacts)
+*.png
 
 # AI Agents
 .qwen/

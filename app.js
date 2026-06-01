@@ -343,21 +343,65 @@ const DataStore = {
   media:   null,
   sources: null,
 
+  _cacheKey(name) {
+    return `ai2m2ia-data-${name}`;
+  },
+
+  _updatedKey(name) {
+    return `ai2m2ia-data-${name}-updated`;
+  },
+
+  async _loadWithCache(name, url) {
+    const cacheKey = this._cacheKey(name);
+    const updatedKey = this._updatedKey(name);
+
+    try {
+      const response = await fetch(url, { cache: 'no-cache' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+
+      const remoteDate = data.lastUpdated || '';
+      const cachedDate = localStorage.getItem(updatedKey) || '';
+
+      if (remoteDate && remoteDate === cachedDate) {
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          const parsed = safeParseJson(cached);
+          if (parsed) return parsed;
+        }
+      }
+
+      try {
+        localStorage.setItem(cacheKey, JSON.stringify(data));
+        localStorage.setItem(updatedKey, remoteDate);
+      } catch (_) {
+        /* localStorage quota exceeded — ignore, use in-memory data */
+      }
+
+      return data;
+    } catch (err) {
+      console.warn(`[AI2M2IA] Could not fetch ${url}:`, err.message);
+      const cached = localStorage.getItem(cacheKey);
+      return safeParseJson(cached);
+    }
+  },
+
   async loadAll() {
-    const bust = `?v=${Date.now()}`;
     const entries = [
-      ['works', 'data/works.json' + bust],
-      ['author', 'data/author.json' + bust],
-      ['media', 'data/media.json' + bust],
-      ['sources', 'data/sources.json' + bust]
+      ['works', 'data/works.json'],
+      ['author', 'data/author.json'],
+      ['media', 'data/media.json'],
+      ['sources', 'data/sources.json']
     ];
-    const results = await Promise.allSettled(entries.map(([, url]) => fetchJson(url)));
+    const results = await Promise.allSettled(
+      entries.map(([name, url]) => this._loadWithCache(name, url))
+    );
     results.forEach((result, index) => {
-      const [key, url] = entries[index];
+      const [key] = entries[index];
       if (result.status === 'fulfilled') {
         this[key] = result.value;
       } else {
-        console.warn(`[AI2M2IA] Could not fetch ${url}:`, result.reason.message);
+        console.warn(`[AI2M2IA] Could not load ${key}:`, result.reason?.message);
       }
     });
   }
