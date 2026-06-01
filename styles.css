@@ -1513,18 +1513,17 @@ p + p { margin-top: 0.9em; }
 }
 [dir="rtl"] .site-nav ul      { flex-direction: row-reverse; }
 [dir="rtl"] .header-container { flex-direction: row-reverse; }
-[dir="rtl"] .hero-layout      { flex-direction: row-reverse; }
-[dir="rtl"] .hero-content     { text-align: right; }
+[dir="rtl"] .hero-copy        { text-align: right; }
 [dir="rtl"] .hero-actions     { flex-direction: row-reverse; }
 [dir="rtl"] .hero-note        { border-left: none; border-right: 3px solid var(--gold); padding-left: 0; padding-right: 1rem; }
 [dir="rtl"] .catalog-filters  { justify-content: flex-end; }
-[dir="rtl"] .card-meta        { text-align: right; }
-[dir="rtl"] .card-actions     { flex-direction: row-reverse; }
-[dir="rtl"] .char-card        { text-align: right; }
-[dir="rtl"] .phil-section     { text-align: right; }
+[dir="rtl"] .book-body        { text-align: right; }
+[dir="rtl"] .book-actions     { flex-direction: row-reverse; }
+[dir="rtl"] .character-card   { text-align: right; }
+[dir="rtl"] .philosophy-section { text-align: right; }
 [dir="rtl"] .footer-inner     { flex-direction: row-reverse; }
 [dir="rtl"] .footer-links     { flex-direction: row-reverse; }
-[dir="rtl"] .lang-dropdown    { right: auto; left: 0; }
+[dir="rtl"] .lang-dropdown-menu { right: auto; left: 0; }
 /* Ensure Latin titles (book names) stay LTR inside RTL context */
 [dir="rtl"] .work-title,
-[dir="rtl"] .card-title       { unicode-bidi: plaintext; }
+[dir="rtl"] .book-title       { unicode-bidi: plaintext; }
