@@ -60,10 +60,12 @@ tests/screenshots/
 .gemini/
 .google/
 .antigravity/
+.deepseek/
 CLAUDE.md
 GOOGLE.md
 GEMINI.md
 ANTIGRAVITY.md
+DEEPSEEK.md
 
 # Security-sensitive files
 *.pem
