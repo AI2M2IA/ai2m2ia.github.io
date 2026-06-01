@@ -93,7 +93,10 @@ async function staleWhileRevalidate(request) {
   const cached = await cache.match(request);
   const network = fetch(request)
     .then(response => {
-      if (response.ok) cache.put(request, response.clone());
+      // Validate response before caching
+      if (response.ok && response.status === 200 && response.type === "basic") {
+        cache.put(request, response.clone());
+      }
       return response;
     })
     .catch(() => cached || offlineResponse(request));
