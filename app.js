@@ -36,6 +36,24 @@ const ThemeManager = {
 };
 
 /* --------------------------------------------------------------------------
+   SKIP LINK ACCESSIBILITY
+   Move focus to main content when skip link is activated.
+   -------------------------------------------------------------------------- */
+const SkipLink = {
+  init() {
+    const skipLink = document.querySelector('.skip-link');
+    const mainContent = document.getElementById('main-content');
+    
+    if (skipLink && mainContent) {
+      skipLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        mainContent.focus();
+      });
+    }
+  }
+};
+
+/* --------------------------------------------------------------------------
    INTERNATIONALISATION (i18n)
 
    Strategy:
@@ -969,6 +987,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 6. UI interactions (DOM-only, unlikely to throw, but guarded)
   try {
+    SkipLink.init();
     HeroCollage.init();
     MobileNav.init();
     ScrollBehavior.init();
