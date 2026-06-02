@@ -86,7 +86,7 @@
   --ink-4:         #dcd7cc;
   --ink-5:         #cfc9bb;
 
-  --gold:          #8a5e08;
+  --gold:          #7c5200;
   --gold-bright:   #b07f20;
   --gold-dim:      rgba(154, 110, 24, 0.10);
   --gold-border:   rgba(154, 110, 24, 0.22);
@@ -761,7 +761,7 @@ p + p { margin-top: 0.9em; }
 [data-theme="light"] .tag-dark-fantasy { color: var(--rose-tag); }
 [data-theme="light"] .tag-war { color: var(--amber-tag); }
 [data-theme="light"] .tag-start { color: var(--gold); }
-[data-theme="light"] .tag-fantasy { color: #4a78c0; }
+[data-theme="light"] .tag-fantasy { color: #365f95; }
 
 /* ── Authorship badges + WIP indicator ─────────────────────────────────── */
 .book-authorship {
@@ -784,6 +784,8 @@ p + p { margin-top: 0.9em; }
 .authorship-badge.human      { background: rgba(77,150,136,0.10); color: var(--teal-bright); border: 1px solid var(--teal-border); }
 .authorship-badge.human-ai   { background: rgba(201,164,96,0.10); color: var(--gold-bright); border: 1px solid var(--gold-border); }
 .authorship-badge svg        { width: 9px; height: 9px; flex-shrink: 0; }
+[data-theme="light"] .authorship-badge.human    { color: var(--teal); }
+[data-theme="light"] .authorship-badge.human-ai { color: var(--gold); }
 
 .book-wip-badge {
   display: inline-flex;
@@ -994,7 +996,6 @@ p + p { margin-top: 0.9em; }
 }
 .media-card--coming-soon .media-embed-wrapper {
   background: var(--ink-2);
-  opacity: 0.6;
 }
 .media-card--coming-soon .media-title {
   color: var(--text-muted);

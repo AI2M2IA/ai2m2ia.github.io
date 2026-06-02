@@ -29,16 +29,16 @@ test.describe('Accessibility Tests (WCAG 2.1 AA)', () => {
     const workPages = [
       '/works/level-zero/',
       '/works/analyze/',
-      '/works/the-crater-gospel/',
-      '/works/the-bell-that-remembers/',
-      '/works/the-venomous-garden/',
+      '/works/crater-gospel/',
+      '/works/bell-that-remembers/',
+      '/works/venomous-garden/',
       '/works/ashen-bloom/',
       '/works/the-princess-and-the-turtle/'
     ];
 
     for (const workPage of workPages) {
-      await page.goto(workPage);
-      await page.waitForLoadState('networkidle');
+      await page.goto(workPage, { waitUntil: 'domcontentloaded' });
+      await page.locator('main').waitFor();
       
       const accessibilityScanResults = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
