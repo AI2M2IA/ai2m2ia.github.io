@@ -1,0 +1,50 @@
+name: Claude On-Demand Review
+
+# Lets a maintainer invoke Claude on any PR (including feature → develop) by
+# writing `@claude` in a PR comment or review comment. The release-gate trio
+# is in release-gate-review.yml; this workflow does NOT participate in the
+# at-least-one-passes merge gate.
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+
+permissions:
+  pull-requests: write
+  contents: read
+  issues: write
+  id-token: write
+
+concurrency:
+  group: claude-mention-${{ github.event.issue.number || github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  claude:
+    name: Claude on-demand review
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: >
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request != null && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude'))
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Run Claude review
+        uses: anthropics/claude-code-action@7f37f2e37370b88fc5bd16496c0512c6e8aa2e45
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_AUTH_TOKEN }}
+          prompt: |
+            A maintainer asked for an on-demand review by mentioning @claude.
+            Review this pull request, be concise, only flag concrete issues you
+            can point at file:line. Do not restate the diff.
+          claude_args: |
+            --model claude-sonnet-4-6
+            --max-turns 4
+            --append-system-prompt "You are an AppSec, accessibility, and test-quality reviewer for the AI(2)M(2)IA static site (GitHub Pages + PWA reader). Treat OWASP Top 10 2021, WCAG 2.1 AA, and missing/weak tests as priorities, in that order. The site is read-only with no auth or PII — do not flag findings that require auth/forms to exploit. Respect accepted-risk decisions documented in AGENTS.md and CODE_REVIEW.md (e.g. X-Content-Type-Options header, clickjacking on GitHub Pages). Always reference file paths and line numbers from the diff. If you find nothing actionable, say so in one line."
