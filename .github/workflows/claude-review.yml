@@ -40,7 +40,15 @@ jobs:
       - name: Run Claude review
         uses: anthropics/claude-code-action@7f37f2e37370b88fc5bd16496c0512c6e8aa2e45
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Auth via Claude Max subscription (not API tokens). Generate locally
+          # with `claude setup-token`, store as CLAUDE_CODE_AUTH_TOKEN secret.
+          # Note: the secret name diverges from Anthropic's convention
+          # (CLAUDE_CODE_OAUTH_TOKEN) for cross-repo consistency in this org.
+          # The action's input name (claude_code_oauth_token) is unchanged.
+          # Token lifetime: ~1 year. Quota shares with local Claude Code usage.
+          # If you ever set ANTHROPIC_API_KEY as well, the API key takes
+          # precedence — leave it unset to keep using the subscription.
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_AUTH_TOKEN }}
           prompt: |
             Review this pull request. Be concise and only flag concrete issues
             you can point at file:line. Do not restate the diff.
