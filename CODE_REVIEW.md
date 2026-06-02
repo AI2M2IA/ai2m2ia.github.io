@@ -46,20 +46,20 @@ uv pip install --python ~/mlx-env/bin/python mlx-lm
 ./scripts/local-review.sh origin/main HEAD  # arbitrary range
 ```
 
-### Measured performance on M4 Pro 24 GB
+### Measured performance (Apple Silicon, 24 GB unified-memory tier)
 
 | Diff size | Prefill | Generation | Peak RAM |
 |---|---|---|---|
 | ~250 lines (~3,250 tokens) | ~17 s @ 184 tok/s | ~30 tok/s | ~9.7 GB |
 | ~1,000 lines (~13k tokens) | ~70 s @ 184 tok/s | ~30 tok/s | ~10 GB |
 
-### Recommended sizes by machine
+### Recommended model by hardware tier
 
-| Machine | RAM | Recommended model |
-|---|---|---|
-| Mac Mini M4 Pro | 24 GB | `Qwen2.5-Coder-14B-Instruct-4bit` (default) |
-| MacBook Air M5 | 16 GB | `Qwen2.5-Coder-7B-Instruct-4bit` |
-| Lenovo Loq + RTX 2050 | 16 GB + 4 GB VRAM | `Llama 3.2 3B` via Ollama (CPU + RAM hybrid) |
+| Hardware tier | Recommended model |
+|---|---|
+| Mac-compatible, ≥ 24 GB unified memory | `Qwen2.5-Coder-14B-Instruct-4bit` (default) |
+| Mac-compatible, ~16 GB unified memory | `Qwen2.5-Coder-7B-Instruct-4bit` |
+| Linux-compatible with a small/mid NVIDIA GPU | `Llama 3.2 3B` via Ollama (CPU + RAM hybrid) |
 
 Override the default with `MLX_REVIEW_MODEL`.
 

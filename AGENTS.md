@@ -336,7 +336,7 @@ Before opening a PR, run:
 ./scripts/local-review.sh develop  # current branch vs develop
 ```
 
-This invokes Qwen2.5-Coder-14B via MLX on Apple Silicon (~20 s per ~1,000-line diff on M4 Pro 24 GB). No marginal cost. Catches the obvious findings before the diff reaches CI.
+This invokes Qwen2.5-Coder-14B via MLX on Apple Silicon (~20 s per ~1,000-line diff on a Mac with sufficient unified memory). No marginal cost. Catches the obvious findings before the diff reaches CI.
 
 ### Layer 2 — CI release-gate review
 
