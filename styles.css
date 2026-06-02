@@ -42,8 +42,8 @@
 
   /* Text */
   --text:          #ddd4c8;
-  --text-muted:    #7a6f63;
-  --text-faint:    #9a9088;
+  --text-muted:    #a89d91;
+  --text-faint:    #c4b9ad;
 
   /* Borders */
   --border:        rgba(210, 195, 170, 0.07);
@@ -989,10 +989,18 @@ p + p { margin-top: 0.9em; }
 
 /* Coming-soon card */
 .media-card--coming-soon {
-  opacity: 0.55;
+  /* Removed opacity: 0.55 to fix WCAG contrast issues */
+  /* Instead, use muted colors directly */
 }
 .media-card--coming-soon .media-embed-wrapper {
   background: var(--ink-2);
+  opacity: 0.6;
+}
+.media-card--coming-soon .media-title {
+  color: var(--text-muted);
+}
+.media-card--coming-soon .media-desc {
+  color: var(--text-muted);
 }
 .media-coming-soon-placeholder {
   position: absolute;
