@@ -322,3 +322,35 @@ Then `X-Content-Type-Options: nosniff` should be implemented via a CDN or hostin
 - [OWASP Secure Headers Project](https://owasp.org/www-project-secure-headers/)
 - [MDN: X-Content-Type-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options)
 - [GitHub Pages limitations](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#limitations)
+
+## 14) AI-Assisted Code Review
+
+We use a two-layer review architecture. See [CODE_REVIEW.md](./CODE_REVIEW.md) for full details, setup, costs, and troubleshooting.
+
+### Layer 1 — Local pre-review (free)
+
+Before opening a PR, run:
+
+```bash
+./scripts/local-review.sh          # working tree vs HEAD
+./scripts/local-review.sh develop  # current branch vs develop
+```
+
+This invokes Qwen2.5-Coder-14B via MLX on Apple Silicon (~20 s per ~1 000-line diff on M4 Pro 24 GB). Zero marginal cost. Catches the obvious findings before the diff reaches CI.
+
+### Layer 2 — CI release-gate review (paid, low cost)
+
+Three independent AI reviewers auto-run on PRs targeting `main`:
+
+- **Claude** — `claude-sonnet-4-6` via Claude Max subscription (OAuth, no API charge). Also responds to `@claude` mentions on any PR.
+- **Codex** — `gpt-5-codex` via OpenAI API.
+- **Qwen-Coder** — `qwen3-coder-plus` via DashScope API.
+
+All three are non-blocking: missing secrets cause the workflow to fail loudly but do not block merge. Estimated cost at 4–8 release-gate PRs/month: **6–25 BRL** (Claude is free under OAuth, Codex and Qwen on token billing).
+
+### Rules for AI agents
+
+- Always run Layer 1 locally before pushing if you have access to a Mac with the MLX environment configured.
+- Do not flag accepted-risk findings (X-Content-Type-Options absence, clickjacking on GitHub Pages) — they are documented in this file and in CODE_REVIEW.md.
+- Reviewer findings are advisory, not gating. Resolve or defend each comment in the PR thread.
+- If a reviewer is wrong, leave a reply explaining why and update CODE_REVIEW.md if it represents a new accepted risk.

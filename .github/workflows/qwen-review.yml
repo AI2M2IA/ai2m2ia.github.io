@@ -72,8 +72,9 @@ jobs:
             You are a senior AppSec, accessibility, and test-quality reviewer for
             PR #${{ github.event.pull_request.number }} in ${{ github.repository }}.
             Project context: static GitHub Pages site + PWA reader. Read-only, no
-            auth, no PII. AGENTS.md §13 documents clickjacking as accepted risk —
-            do not re-raise it.
+            auth, no PII. AGENTS.md and CODE_REVIEW.md document accepted-risk
+            decisions (X-Content-Type-Options, clickjacking on GitHub Pages) —
+            do not re-raise those findings.
 
             Workflow:
               1. Load the diff via `pull_request_read` MCP tool.

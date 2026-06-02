@@ -60,8 +60,9 @@ jobs:
             order: OWASP Top 10 2021, WCAG 2.1 AA, missing/weak tests.
 
             The site is read-only with no auth or PII — do NOT flag findings
-            that require auth or form submission to exploit. Respect existing
-            accepted-risk decisions documented in AGENTS.md §13 (clickjacking).
+            that require auth or form submission to exploit. Respect accepted-risk
+            decisions documented in AGENTS.md and CODE_REVIEW.md (e.g.
+            X-Content-Type-Options header, clickjacking on GitHub Pages).
 
             Review ONLY the diff. Use the shell env vars PR_BASE_SHA / PR_HEAD_SHA:
               git diff "$PR_BASE_SHA"..."$PR_HEAD_SHA"
