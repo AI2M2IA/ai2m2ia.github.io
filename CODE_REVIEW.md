@@ -3,14 +3,14 @@
 This document describes the two-layer code review system used in this repository.
 
 - **Layer 1 — Local pre-review** (free, runs on Apple Silicon via MLX).
-- **Layer 2 — CI release-gate review** (three AI reviewers in this repo, at least one must pass).
+- **Layer 2 — CI release-gate review** (two AI reviewers in this repo, at least one must pass; Codex Cloud runs separately through the integrated Codex account).
 
 The goal is to catch the cheapest findings cheapest: stylistic and obvious correctness issues locally on your Mac before pushing, then a paid trio of independent AI reviewers at the release boundary (`develop → main`).
 
 ## Table of contents
 
 1. [Layer 1 — Local pre-review (MLX + Qwen2.5-Coder-14B)](#layer-1--local-pre-review)
-2. [Layer 2 — CI release-gate review (Claude + Codex + Qwen)](#layer-2--ci-release-gate-review)
+2. [Layer 2 — CI release-gate review (Claude + Qwen, with Codex Cloud)](#layer-2--ci-release-gate-review)
 3. [The at-least-one-passes gate](#the-at-least-one-passes-gate)
 4. [Authentication and secrets](#authentication-and-secrets)
 5. [Cost reference](#cost-reference)
@@ -21,7 +21,7 @@ The goal is to catch the cheapest findings cheapest: stylistic and obvious corre
 
 ## Layer 1 — Local pre-review
 
-Run a Qwen2.5-Coder-14B model locally via [MLX](https://github.com/ml-explore/mlx) on Apple Silicon. No marginal cost. About 20 seconds per ~1,000-line diff on an M4 Pro 24 GB.
+Run a Qwen2.5-Coder-14B model locally via [MLX](https://github.com/ml-explore/mlx) on Apple Silicon. No marginal cost. About 20 seconds per ~1,000-line diff on a Mac with sufficient unified memory.
 
 ### One-time setup
 
@@ -73,21 +73,20 @@ Override the default with `MLX_REVIEW_MODEL`.
 
 ## Layer 2 — CI release-gate review
 
-Three reviewers run automatically in parallel on PRs targeting `main`. An aggregator job at the end is the required status check; it passes as long as at least one reviewer succeeded (see [the gate](#the-at-least-one-passes-gate)).
+Two reviewers run automatically in parallel on PRs targeting `main`. An aggregator job at the end is the required status check; it passes as long as at least one reviewer succeeded (see [the gate](#the-at-least-one-passes-gate)).
 
 Workflow file: `.github/workflows/release-gate-review.yml`.
 
 | Reviewer | Action (SHA-pinned) | Model | Auth |
 |---|---|---|---|
 | Claude | `anthropics/claude-code-action@7f37f2e` | `claude-sonnet-4-6` | Claude Max OAuth (`CLAUDE_CODE_AUTH_TOKEN`) |
-| Codex | `openai/codex-action@e0fdf01` | `gpt-5-codex` | OpenAI API key (`OPENAI_API_KEY`) |
 | Qwen | `QwenLM/qwen-code-action@a08dc88` | `qwen3-coder-plus` (DashScope endpoint) | DashScope API key (`QWEN_API_KEY`) |
 
 A separate workflow `claude-mention.yml` lets a maintainer invoke a one-off Claude review on any PR — including `feature → develop` PRs — by writing `@claude` in a comment or review comment. That workflow does **not** participate in the merge gate.
 
-### Codex — GitHub Action path
+### Codex — configured outside this repo
 
-Codex reviews run through `openai/codex-action` in this repository. The review job is read-only (`contents: read`, `sandbox: read-only`, `safety-strategy: drop-sudo`) and exposes only the final message as an output. A separate `post_codex_feedback` job holds `pull-requests: write` / `issues: write` and posts that message back to the PR. This keeps repository write permissions out of the model execution job.
+Codex reviews are not in this workflow. The user's account is already integrated with Codex, so OpenAI's native Codex Cloud GitHub integration can post an independent third review comment without an `OPENAI_API_KEY` secret in this repository. This avoids duplicate Codex reviews and keeps the release-gate workflow limited to Claude + Qwen.
 
 ### Triggers
 
@@ -95,10 +94,10 @@ Codex reviews run through `openai/codex-action` in this repository. The review j
 - **On-demand (Claude only)**: write `@claude` in any PR comment. Handled by `claude-mention.yml`.
 - **On-demand (Codex / Qwen)**: re-run the workflow from the Actions UI against the relevant PR.
 
-### Hardening applied across all three
+### Hardening applied to the in-repo workflows
 
 - Every action pinned by full commit SHA. No floating `@v1` refs.
-- `permissions:` minimal at workflow level, refined per job. Codex uses a two-job privilege separation: a read-only review job with `contents: read`, `sandbox: read-only`, `safety-strategy: drop-sudo`, and a separate `post_codex_feedback` job that holds the `pull-requests: write` token.
+- `permissions:` minimal at workflow level, refined per job.
 - `concurrency:` per-PR with `cancel-in-progress`.
 - `timeout-minutes: 10`. Drafts skipped.
 - `actions/checkout` with `persist-credentials: false`.
@@ -118,20 +117,19 @@ Each prompt acknowledges that the site is read-only, has no auth, and stores no 
 
 ## The at-least-one-passes gate
 
-The merge rule for `develop → main` is **at least one of the three AI reviewer paths in this workflow must complete successfully**. Failure of one reviewer does not block the merge; failure of all three does.
+The merge rule for `develop → main` is **at least one of the two AI reviewers in this workflow must complete its job successfully**. Failure of one reviewer does not block the merge; failure of both does.
+
+(Codex Cloud comments do not participate in the gate. They are an independent review channel that posts comments for human consideration.)
 
 The aggregator job `AI review gate` is the only required status check on `main`. Implementation:
 
 ```yaml
 ai-review-gate:
-  needs: [claude, qwen, codex, post_codex_feedback]
+  needs: [claude, qwen]
   if: always() && ... # release-gate condition
   steps:
     - run: |
         if [ "$CLAUDE_RESULT" = success ] || [ "$QWEN_RESULT" = success ]; then
-          exit 0
-        fi
-        if [ "$CODEX_RESULT" = success ] && [ "$CODEX_POST_RESULT" = success ]; then
           exit 0
         fi
         exit 1
@@ -143,7 +141,6 @@ This rule gives the project resilience:
 
 - If DashScope is rate-limiting → Qwen fails → Claude carries the gate.
 - If Anthropic has an outage → Claude fails → Qwen carries the gate.
-- If OpenAI API quota is exhausted → Codex fails → Claude or Qwen carries the gate.
 - If a secret has not yet been created in a forked repo → the corresponding reviewer fails → the other carries the gate.
 
 ---
@@ -155,7 +152,6 @@ This rule gives the project resilience:
 | Secret | Used by | How to generate |
 |---|---|---|
 | `CLAUDE_CODE_AUTH_TOKEN` | Claude reviewer | Run `claude setup-token` locally; copy stdout into the secret. **The name diverges from Anthropic's default `CLAUDE_CODE_OAUTH_TOKEN` for cross-repo consistency in this organization.** |
-| `OPENAI_API_KEY` | Codex reviewer | Generate in the OpenAI platform dashboard. |
 | `QWEN_API_KEY` | Qwen reviewer | Generate at https://dashscope.console.aliyun.com/apiKey. |
 
 Until each secret exists, the corresponding reviewer fails. The other reviewer still runs, and the aggregator passes as long as it succeeds.
@@ -177,11 +173,11 @@ Estimates assume 4–8 release-gate PRs per month and ~1,000-line diffs. Rounded
 | Reviewer | Per PR | Monthly (4–8 PRs) |
 |---|---|---|
 | Claude | $0 (OAuth, Claude Max subscription) | $0 |
-| Codex | up to about $0.60 | up to about $5 |
+| Codex | $0 (integrated Codex account) | $0 |
 | Qwen | up to $0.10 | up to $1 |
-| **Total CI APIs in this repo** | | **up to about $6 / month** |
+| **Total CI APIs in this repo** | | **up to $1 / month** |
 
-Local Layer 1 reviews are free. The user's stated stance is to lean on existing subscriptions where practical while keeping the release gate resilient; Codex and Qwen use API keys in this workflow.
+Local Layer 1 reviews are free. The user's stated stance is to lean on existing subscriptions and integrations rather than optimize for the small recurring API spend; Qwen is kept on its API only because there is no equivalent subscription path.
 
 ---
 
@@ -229,7 +225,7 @@ Check the workflow run logs in the Actions tab. Common causes:
 - Rate-limit or quota exhausted — uncommon at release-gate volume.
 - The model returned "no actionable findings" — the prompt instructs the reviewer to say so explicitly in that case.
 
-If one reviewer chronically fails and the others carry the gate, decide whether to keep paying for the failing one — see [the gate logic](#the-at-least-one-passes-gate).
+If one reviewer chronically fails and the other carries the gate, decide whether to keep paying for the failing one — see [the gate logic](#the-at-least-one-passes-gate).
 
 ### A reviewer flags something marked as accepted risk
 
