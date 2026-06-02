@@ -340,22 +340,21 @@ This invokes Qwen2.5-Coder-14B via MLX on Apple Silicon (~20 s per ~1,000-line d
 
 ### Layer 2 — CI release-gate review
 
-Two reviewers auto-run in parallel on PRs targeting `main`. They live in `.github/workflows/release-gate-review.yml`:
+Three reviewers auto-run in parallel on PRs targeting `main`. They live in `.github/workflows/release-gate-review.yml`:
 
 - **Claude** — `claude-sonnet-4-6` via Claude Max subscription (OAuth, no API charge).
+- **Codex** — `gpt-5-codex` via `openai/codex-action` and `OPENAI_API_KEY`.
 - **Qwen-Coder** — `qwen3-coder-plus` via DashScope API.
 
 A separate workflow, `.github/workflows/claude-mention.yml`, lets a maintainer invoke Claude on any PR (including `feature → develop`) by writing `@claude` in a comment.
 
-**Codex is not in this workflow.** Codex review is configured outside this repository in OpenAI's Codex Cloud dashboard ("Code Reviews → Automatic reviews") and uses the ChatGPT subscription quota. Codex Cloud posts an independent third comment on PRs but does not participate in the merge gate.
-
 ### The merge gate: at least one reviewer must pass
 
-The aggregator job `AI review gate` is the only required status check on `main`. It passes if **at least one** of the two reviewer jobs in this workflow completed successfully. Failure of one reviewer does not block the merge — that resilience is the point: a missing secret, a provider outage, or a rate limit on one provider does not stop the release.
+The aggregator job `AI review gate` is the only required status check on `main`. It passes if **at least one** of the three reviewer paths in this workflow completed successfully. Failure of one reviewer does not block the merge — that resilience is the point: a missing secret, a provider outage, or a rate limit on one provider does not stop the release.
 
 "Pass" means the workflow job ran successfully and the model produced output. It does **not** mean the AI approved the diff — comments are advisory.
 
-Estimated cost at 4–8 release-gate PRs per month: **up to $1 USD/month** (Claude and Codex are covered by subscriptions; only Qwen runs on token billing).
+Estimated cost at 4–8 release-gate PRs per month: **up to about $6 USD/month** (Claude is covered by subscription; Codex and Qwen run on token billing).
 
 ### Rules for AI agents
 

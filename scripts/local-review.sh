@@ -37,6 +37,8 @@ esac
 
 if [[ -n "$HEAD" ]]; then
   DIFF="$(git diff --unified=3 "$BASE...$HEAD")"
+elif [[ "$BASE" != "HEAD" ]]; then
+  DIFF="$(git diff --unified=3 "$BASE...HEAD")"
 else
   DIFF="$(git diff --unified=3 "$BASE")"
 fi
