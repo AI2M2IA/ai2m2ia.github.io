@@ -44,6 +44,11 @@ module.exports = defineConfig({
       use: { ...devices['Desktop Chrome'] },
       testMatch: '**/works.spec.js',
     },
+    {
+      name: 'accessibility',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: '**/accessibility.spec.js',
+    },
   ],
   webServer: {
     command: 'node tests/server.js',

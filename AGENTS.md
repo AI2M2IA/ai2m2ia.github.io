@@ -2,6 +2,20 @@
 
 Guidelines for AI agents working on `AI2M2IA/ai2m2ia.github.io`.
 
+## 0) Security First
+
+**⚠️ MANDATORY: Read [SECURITY.md](./SECURITY.md) before making any changes.**
+
+This project implements strict security controls. Key requirements:
+
+- **XSS Prevention:** Always use `escapeHtml()` for dynamic content, `safeUrl()` for URLs
+- **Critical Function:** `renderProse()` in PWA uses "sanitize first, then format" - never modify the order of operations
+- **CSP Compliance:** No `unsafe-inline` or `unsafe-eval` allowed
+- **Data Validation:** All JSON data files validated against schemas in `data/schemas/`
+- **Testing:** Run `npm run test:security` and `npm run test:data` before committing
+
+For detailed security guidelines, code examples, and vulnerability reporting procedures, see **[SECURITY.md](./SECURITY.md)**.
+
 ## 1) Project Basics
 
 - Main site: static app at repository root (`index.html`, `app.js`, `styles.css`).
