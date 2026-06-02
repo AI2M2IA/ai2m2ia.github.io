@@ -3,17 +3,17 @@
 This document describes the two-layer code review system used in this repository.
 
 - **Layer 1 — Local pre-review** (free, runs on Apple Silicon via MLX).
-- **Layer 2 — CI release-gate review** (paid, three independent AI reviewers).
+- **Layer 2 — CI release-gate review** (two AI reviewers in this repo, at least one must pass; Codex Cloud runs separately, posts a third independent comment).
 
-The goal is to catch the cheapest findings cheapest: stylistic and obvious correctness issues locally on your Mac before pushing, then use a paid trio of independent AI reviewers only at the release boundary (`develop → main`).
+The goal is to catch the cheapest findings cheapest: stylistic and obvious correctness issues locally on your Mac before pushing, then a paid trio of independent AI reviewers at the release boundary (`develop → main`).
 
 ## Table of contents
 
 1. [Layer 1 — Local pre-review (MLX + Qwen2.5-Coder-14B)](#layer-1--local-pre-review)
-2. [Layer 2 — CI release-gate review (Claude + Codex + Qwen)](#layer-2--ci-release-gate-review)
-3. [Authentication and secrets](#authentication-and-secrets)
-4. [Cost model](#cost-model)
-5. [Escape valves if costs spike](#escape-valves-if-costs-spike)
+2. [Layer 2 — CI release-gate review (Claude + Qwen, with Codex Cloud)](#layer-2--ci-release-gate-review)
+3. [The at-least-one-passes gate](#the-at-least-one-passes-gate)
+4. [Authentication and secrets](#authentication-and-secrets)
+5. [Cost reference](#cost-reference)
 6. [Accepted-risk findings (do not re-raise)](#accepted-risk-findings-do-not-re-raise)
 7. [Troubleshooting](#troubleshooting)
 
@@ -21,18 +21,18 @@ The goal is to catch the cheapest findings cheapest: stylistic and obvious corre
 
 ## Layer 1 — Local pre-review
 
-Run a Qwen2.5-Coder-14B model locally via [MLX](https://github.com/ml-explore/mlx) and Apple Silicon. Zero marginal cost, ~20 seconds per ~1 000-line diff on an M4 Pro 24 GB.
+Run a Qwen2.5-Coder-14B model locally via [MLX](https://github.com/ml-explore/mlx) on Apple Silicon. No marginal cost. About 20 seconds per ~1,000-line diff on an M4 Pro 24 GB.
 
 ### One-time setup
 
 ```bash
-# Create an isolated Python 3.13 venv for MLX
+# Create an isolated Python 3.13 venv for MLX.
 uv venv ~/mlx-env --python 3.13
 
-# Install mlx-lm into it
+# Install mlx-lm into it.
 uv pip install --python ~/mlx-env/bin/python mlx-lm
 
-# Pre-fetch the model (~7.7 GB, takes a few minutes)
+# Pre-fetch the model (~7.7 GB, takes a few minutes).
 ~/mlx-env/bin/mlx_lm.generate \
   --model mlx-community/Qwen2.5-Coder-14B-Instruct-4bit \
   --prompt "hello" --max-tokens 4
@@ -41,82 +41,112 @@ uv pip install --python ~/mlx-env/bin/python mlx-lm
 ### Daily use
 
 ```bash
-# Working tree vs HEAD
-./scripts/local-review.sh
-
-# Current branch vs develop
-./scripts/local-review.sh develop
-
-# Arbitrary range
-./scripts/local-review.sh origin/main HEAD
+./scripts/local-review.sh                   # working tree vs HEAD
+./scripts/local-review.sh develop           # current branch vs develop
+./scripts/local-review.sh origin/main HEAD  # arbitrary range
 ```
 
-### Performance on M4 Pro 24 GB (measured)
+### Measured performance on M4 Pro 24 GB
 
 | Diff size | Prefill | Generation | Peak RAM |
 |---|---|---|---|
-| ~250 lines (3 250 tokens) | ~17 s @ 184 t/s | ~30 t/s | ~9.7 GB |
-| ~1 000 lines (~13 k tokens) | ~70 s @ 184 t/s | ~30 t/s | ~10 GB |
+| ~250 lines (~3,250 tokens) | ~17 s @ 184 tok/s | ~30 tok/s | ~9.7 GB |
+| ~1,000 lines (~13k tokens) | ~70 s @ 184 tok/s | ~30 tok/s | ~10 GB |
+
+### Recommended sizes by machine
+
+| Machine | RAM | Recommended model |
+|---|---|---|
+| Mac Mini M4 Pro | 24 GB | `Qwen2.5-Coder-14B-Instruct-4bit` (default) |
+| MacBook Air M5 | 16 GB | `Qwen2.5-Coder-7B-Instruct-4bit` |
+| Lenovo Loq + RTX 2050 | 16 GB + 4 GB VRAM | `Llama 3.2 3B` via Ollama (CPU + RAM hybrid) |
+
+Override the default with `MLX_REVIEW_MODEL`.
 
 ### When to run
 
 - Before opening a PR against `develop`.
 - After resolving merge conflicts.
-- Before requesting an explicit trio review via PR labels.
-
-### Substituting models
-
-Set `MLX_REVIEW_MODEL` to override:
-
-```bash
-MLX_REVIEW_MODEL=mlx-community/Qwen2.5-Coder-7B-Instruct-4bit ./scripts/local-review.sh
-MLX_REVIEW_MODEL=mlx-community/Qwen2.5-Coder-32B-Instruct-4bit ./scripts/local-review.sh  # 24 GB Mac only, tight
-```
-
-Recommended sizes by machine:
-
-| Machine | RAM | Recommended model |
-|---|---|---|
-| Mac Mini M4 Pro | 24 GB | Qwen2.5-Coder-14B-Instruct-4bit (default) |
-| MacBook Air M5 | 16 GB | Qwen2.5-Coder-7B-Instruct-4bit |
-| Lenovo Loq + RTX 2050 | 16 GB + 4 GB VRAM | Llama 3.2 3B via Ollama (CPU+RAM hybrid) |
+- Before requesting an explicit trio review by labeling the PR.
 
 ---
 
 ## Layer 2 — CI release-gate review
 
-Three independent reviewers run automatically only on PRs targeting `main`. They post separate comments so findings stay attributable. None are required status checks — they inform, they don't gate merge.
+Two reviewers run automatically in parallel on PRs targeting `main`. An aggregator job at the end is the required status check; it passes as long as at least one reviewer succeeded (see [the gate](#the-at-least-one-passes-gate)).
 
-| Reviewer | Workflow | Action | Model | Auth |
-|---|---|---|---|---|
-| Claude | `.github/workflows/claude-review.yml` | `anthropics/claude-code-action@7f37f2e` | `claude-sonnet-4-6` | Claude Max OAuth |
-| Codex | `.github/workflows/codex-review.yml` | `openai/codex-action@e0fdf01` (v1.8) | `gpt-5-codex` `effort: medium` | OpenAI API key |
-| Qwen | `.github/workflows/qwen-review.yml` | `QwenLM/qwen-code-action@a08dc88` | `qwen3-coder-plus` | DashScope API key |
+Workflow file: `.github/workflows/release-gate-review.yml`.
+
+| Reviewer | Action (SHA-pinned) | Model | Auth |
+|---|---|---|---|
+| Claude | `anthropics/claude-code-action@7f37f2e` | `claude-sonnet-4-6` | Claude Max OAuth (`CLAUDE_CODE_AUTH_TOKEN`) |
+| Qwen | `QwenLM/qwen-code-action@a08dc88` | `qwen3-coder-plus` (DashScope endpoint) | DashScope API key (`QWEN_API_KEY`) |
+
+A separate workflow `claude-mention.yml` lets a maintainer invoke a one-off Claude review on any PR — including `feature → develop` PRs — by writing `@claude` in a comment or review comment. That workflow does **not** participate in the merge gate.
+
+### Codex — configured outside this repo
+
+Codex reviews are not in this workflow. Instead, the user enables OpenAI's native **Codex Cloud → Code Reviews → Automatic reviews** in the Codex dashboard for this repository, which posts an independent third comment on every PR using the ChatGPT subscription quota. This avoids paying for an `OPENAI_API_KEY` and avoids duplicate Codex comments that would occur if the Action and the Cloud product ran in parallel.
+
+If Codex Cloud auto-review becomes unavailable (for example, after a downgrade to a tier that does not include it), the user has two paths:
+
+1. Re-introduce a `codex` job in `release-gate-review.yml` using `openai/codex-action` with an `OPENAI_API_KEY` secret. Estimated cost: up to about $5 USD/month at release-gate volume.
+2. Accept that the gate runs with two reviewers instead of three. Resilience is unchanged — the rule is still "at least one must pass."
 
 ### Triggers
 
-- **Auto**: `pull_request` events (`opened`, `synchronize`, `reopened`, `ready_for_review`) where `base.ref == 'main'`.
-- **On-demand for Claude**: comment `@claude` on any PR — even feature → develop — to get a one-off Claude review.
-- **On-demand for Codex/Qwen**: re-run the workflow from the Actions UI against the relevant PR.
+- **Auto**: `pull_request` events (`opened`, `synchronize`, `reopened`, `ready_for_review`) where `base.ref == 'main'` and the PR is not a draft.
+- **On-demand (Claude only)**: write `@claude` in any PR comment. Handled by `claude-mention.yml`.
+- **On-demand (Codex / Qwen)**: re-run the workflow from the Actions UI against the relevant PR.
 
 ### Hardening applied across all three
 
-- All actions pinned by full commit SHA (no floating `@v1` refs).
-- `permissions:` minimal at workflow level, refined per job. Codex uses a two-job privilege separation: read-only review job, separate write-token comment poster.
+- Every action pinned by full commit SHA. No floating `@v1` refs.
+- `permissions:` minimal at workflow level, refined per job. Codex uses a two-job privilege separation: a read-only review job with `contents: read`, `sandbox: read-only`, `safety-strategy: drop-sudo`, and a separate `post_feedback` job that holds the `pull-requests: write` token.
 - `concurrency:` per-PR with `cancel-in-progress`.
 - `timeout-minutes: 10`. Drafts skipped.
 - `actions/checkout` with `persist-credentials: false`.
-- **No prompt injection via PR metadata**: `pull_request.title` / `pull_request.body` are NOT interpolated into prompts. Codex prompt instructs the model to treat diff contents as untrusted input.
+- **No prompt injection from PR metadata**: `pull_request.title` and `pull_request.body` are NOT interpolated into prompts. The Codex prompt also instructs the model to treat diff contents as untrusted input.
 
 ### Per-prompt focus (identical across reviewers)
 
 Priorities, in strict order:
 
 1. **OWASP Top 10 2021** — XSS, SSRF, injection, broken access control, secrets exposure, vulnerable components, supply chain.
-2. **WCAG 2.1 AA** — semantic HTML, ARIA correctness, keyboard nav, focus management, colour contrast ≥ 4.5:1, alt text.
-3. **Missing or weak test coverage** — unit and e2e gaps for changed logic.
+2. **WCAG 2.1 AA** — semantic HTML, ARIA correctness, keyboard navigation, focus management, color contrast ≥ 4.5:1, alt text.
+3. **Missing or weak test coverage** — unit and end-to-end gaps for changed logic.
 
-Each prompt acknowledges the site is read-only, no auth, no PII so reviewers don't waste cycles flagging exploits that need a form or session to land. Each prompt respects [accepted-risk decisions](#accepted-risk-findings-do-not-re-raise).
+Each prompt acknowledges that the site is read-only, has no auth, and stores no PII, so reviewers don't waste cycles flagging exploits that need a form or session to land. Each prompt respects the [accepted-risk decisions](#accepted-risk-findings-do-not-re-raise).
+
+---
+
+## The at-least-one-passes gate
+
+The merge rule for `develop → main` is **at least one of the two AI reviewers in this workflow must complete its job successfully**. Failure of one reviewer does not block the merge; failure of both does.
+
+(Codex Cloud comments do not participate in the gate. They are an independent review channel that posts comments for human consideration.)
+
+The aggregator job `AI review gate` is the only required status check on `main`. Implementation:
+
+```yaml
+ai-review-gate:
+  needs: [claude, qwen]
+  if: always() && ... # release-gate condition
+  steps:
+    - run: |
+        if [ "$CLAUDE_RESULT" = success ] || [ "$QWEN_RESULT" = success ]; then
+          exit 0
+        fi
+        exit 1
+```
+
+**"Pass" means the workflow job ran successfully** — that is, the action invoked the model and produced a result. It does NOT mean the AI approved the diff. AI comments are advisory; humans still resolve them in the PR thread.
+
+This rule gives the project resilience:
+
+- If DashScope is rate-limiting → Qwen fails → Claude carries the gate.
+- If Anthropic has an outage → Claude fails → Qwen carries the gate.
+- If a secret has not yet been created in a forked repo → the corresponding reviewer fails → the other carries the gate.
 
 ---
 
@@ -126,53 +156,35 @@ Each prompt acknowledges the site is read-only, no auth, no PII so reviewers don
 
 | Secret | Used by | How to generate |
 |---|---|---|
-| `CLAUDE_CODE_AUTH_TOKEN` | `claude-review.yml` | Run `claude setup-token` locally; copy stdout into the secret. **Note: org-wide naming differs from Anthropic's default `CLAUDE_CODE_OAUTH_TOKEN`.** |
-| `OPENAI_API_KEY` | `codex-review.yml` | Generate at https://platform.openai.com/api-keys (separate billing from ChatGPT subscription). |
-| `QWEN_API_KEY` | `qwen-review.yml` | Generate at https://dashscope.console.aliyun.com/apiKey. |
+| `CLAUDE_CODE_AUTH_TOKEN` | Claude reviewer | Run `claude setup-token` locally; copy stdout into the secret. **The name diverges from Anthropic's default `CLAUDE_CODE_OAUTH_TOKEN` for cross-repo consistency in this organization.** |
+| `QWEN_API_KEY` | Qwen reviewer | Generate at https://dashscope.console.aliyun.com/apiKey. |
 
-Until each secret exists, the corresponding workflow will fail loudly but will not block merges (none are required status checks). Secrets can be added incrementally.
+Until each secret exists, the corresponding reviewer fails. The other reviewer still runs, and the aggregator passes as long as it succeeds.
 
-### Why Claude uses OAuth, not an API key
+No `OPENAI_API_KEY` is configured in this repository because Codex review is delivered through OpenAI's Codex Cloud product (configured in the Codex dashboard), not through the Action.
 
-The user has an active Claude Max 5X subscription. The Action supports a long-lived OAuth token (`claude_code_oauth_token` input) that draws from the subscription quota instead of generating a separate API bill.
+### Why Claude uses an OAuth token, not an API key
 
-- Token lifetime: ~1 year — regenerate annually with `claude setup-token`.
-- Quota is shared with local Claude Code usage. Max 5X allows ~150–200 messages/day; release-gate runs (~4–8 PRs/month) won't approach that ceiling.
-- If both `ANTHROPIC_API_KEY` and `CLAUDE_CODE_AUTH_TOKEN` secrets exist, the API key takes precedence. Leave `ANTHROPIC_API_KEY` unset to use the subscription.
+The user has an active Claude Max subscription. The Action supports a long-lived OAuth token (`claude_code_oauth_token` input) that draws from the subscription quota.
+
+- Token lifetime: ~1 year. Regenerate annually with `claude setup-token`.
+- Quota is shared with local Claude Code usage. The Max plan allows ~150–200 messages/day; release-gate runs do not approach that ceiling.
+- If both `ANTHROPIC_API_KEY` and `CLAUDE_CODE_AUTH_TOKEN` are set, the API key takes precedence. Leave `ANTHROPIC_API_KEY` unset to use the subscription.
 
 ---
 
-## Cost model
+## Cost reference
 
-Assumes 4–8 release-gate PRs per month, ~1 000-line diffs.
+Estimates assume 4–8 release-gate PRs per month and ~1,000-line diffs. Rounded up.
 
 | Reviewer | Per PR | Monthly (4–8 PRs) |
 |---|---|---|
-| Claude | $0 (OAuth, subscription) | **$0** |
-| Codex | $0.10–0.50 | $1–4 (~5–22 BRL) |
-| Qwen | $0.03–0.07 | $0.10–0.50 (~1–3 BRL) |
-| **Total CI APIs** | | **~6–25 BRL/month** |
+| Claude | $0 (OAuth, Claude Max subscription) | $0 |
+| Codex | $0 (Codex Cloud, ChatGPT subscription) | $0 |
+| Qwen | up to $0.10 | up to $1 |
+| **Total CI APIs in this repo** | | **up to $1 / month** |
 
-Local Layer 1 reviews are free.
-
-### Why these numbers are low
-
-- Release-gate only (not every feature PR) reduces volume by ~25×.
-- Claude OAuth eliminates Claude API charges entirely.
-- Local pre-review catches obvious issues before the diff reaches CI.
-
----
-
-## Escape valves if costs spike
-
-In order of preference:
-
-1. **Codex `effort: medium → low`** — ~50% reduction on Codex.
-2. **Codex `gpt-5-codex → gpt-5-mini`** — ~80% reduction.
-3. **Drop Codex entirely**, keep Claude + Qwen — saves ~5–22 BRL/month.
-4. **Replace Codex with DeepSeek** — comparable cost to Qwen, different perspective.
-
-Local Layer 1 has no API cost; it scales only with disk space and inference time.
+Local Layer 1 reviews are free. The user's stated stance is to lean on existing subscriptions rather than optimize for the small recurring API spend; Qwen is kept on its API only because there is no equivalent subscription path.
 
 ---
 
@@ -202,7 +214,7 @@ uv pip install --python ~/mlx-env/bin/python mlx-lm
 
 ### Local review is slow on first run
 
-First inference loads ~7.7 GB into unified memory. Subsequent inferences in the same process are faster but each `mlx_lm.generate` invocation is a fresh process. To keep the model resident, use the server mode:
+First inference loads ~7.7 GB into unified memory. Subsequent inferences in the same process are faster, but each `mlx_lm.generate` invocation is a fresh process. To keep the model resident, use the server mode:
 
 ```bash
 ~/mlx-env/bin/mlx_lm.server \
@@ -212,13 +224,15 @@ First inference loads ~7.7 GB into unified memory. Subsequent inferences in the 
 
 Then send requests via OpenAI-compatible HTTP to `http://localhost:8080/v1/chat/completions`.
 
-### A CI reviewer comments nothing
+### One CI reviewer never comments
 
 Check the workflow run logs in the Actions tab. Common causes:
 
-- Missing secret (workflow fails before model invocation).
-- Rate-limit / quota exhausted (only realistic for Claude OAuth at extreme volume).
-- Model returned "no actionable findings" — the prompt instructs the reviewer to say so explicitly in that case.
+- Missing or wrong secret name — the workflow fails before the model is invoked.
+- Rate-limit or quota exhausted — uncommon at release-gate volume.
+- The model returned "no actionable findings" — the prompt instructs the reviewer to say so explicitly in that case.
+
+If one reviewer chronically fails and the other two carry the gate, decide whether to keep paying for the failing one — see [the gate logic](#the-at-least-one-passes-gate).
 
 ### A reviewer flags something marked as accepted risk
 
@@ -226,7 +240,7 @@ Open a PR comment quoting this document. The reviewer prompts will be updated to
 
 ### MLX install fails on Python 3.14
 
-`mlx-lm` may not have wheels for Python 3.14 yet. Use Python 3.13 via `uv venv ~/mlx-env --python 3.13` — uv will download Python 3.13 automatically.
+`mlx-lm` may not have wheels for Python 3.14 yet. Use Python 3.13 via `uv venv ~/mlx-env --python 3.13` — `uv` will download Python 3.13 automatically.
 
 ---
 
