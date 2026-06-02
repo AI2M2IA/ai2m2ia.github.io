@@ -92,6 +92,32 @@ test.describe('PWA reader', () => {
     expect(externalRequests).toEqual([]);
   });
 
+  test('rejects typosquatting and unauthorized origins', async ({ page }) => {
+    const externalRequests = [];
+    page.on('request', request => {
+      const url = request.url();
+      if (url.startsWith('https://ai2mla.github.io/') || 
+          url.startsWith('http://ai2m2ia.github.io/') ||
+          url.startsWith('https://ai2m2ia.github.io.evil.com/')) {
+        externalRequests.push(url);
+      }
+    });
+
+    // Test typosquatting (L instead of I)
+    await page.goto('/pwa/?api=https://ai2mla.github.io#library');
+    await expect(page.getByText('31 of 31 books')).toBeVisible();
+    
+    // Test wrong protocol
+    await page.goto('/pwa/?api=http://ai2m2ia.github.io#library');
+    await expect(page.getByText('31 of 31 books')).toBeVisible();
+    
+    // Test subdomain attack
+    await page.goto('/pwa/?api=https://ai2m2ia.github.io.evil.com#library');
+    await expect(page.getByText('31 of 31 books')).toBeVisible();
+    
+    expect(externalRequests).toEqual([]);
+  });
+
   test('renders malicious prose as text instead of executable HTML', async ({ page }) => {
     const catalog = {
       schemaVersion: 1,

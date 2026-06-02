@@ -22,6 +22,9 @@ test.describe('Work pages', () => {
       const csp = await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute('content');
       expect(csp).not.toContain("'unsafe-inline'");
       
+      // Verify img-src is restricted to known origins
+      expect(csp).toContain("img-src 'self' data: https://ai2m2ia.github.io");
+      
       await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
       await expect(page.getByRole('link', { name: /catalog/i }).first()).toHaveAttribute('href', /index\.html#catalog/);
 

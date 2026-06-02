@@ -271,3 +271,40 @@ The CI workflow already runs `npm audit --omit=dev --audit-level=high`. To add m
 - name: Filesystem scan
   run: trivy fs --exit-code 1 .
 ```
+
+## 13) X-Content-Type-Options Header — Accepted Risk
+
+GitHub Pages does not support custom HTTP headers, which means we cannot set `X-Content-Type-Options: nosniff` via server configuration.
+
+### What is X-Content-Type-Options?
+
+The `X-Content-Type-Options: nosniff` header prevents browsers from MIME-type sniffing a response away from the declared content-type. This helps prevent attacks where a browser interprets a non-executable MIME type as executable (e.g., treating a text file as JavaScript).
+
+### Why this is acceptable for this project
+
+1. **Strict CSP already in place** — Our `Content-Security-Policy` meta tag restricts script execution to `'self'` only, which is a stronger protection than MIME sniffing prevention
+2. **No user-uploaded content** — All files are committed to the repository and served with correct content types
+3. **Static site architecture** — No dynamic content generation that could produce mismatched content types
+4. **GitHub Pages serves correct types** — GitHub's CDN correctly identifies and serves common file types (HTML, CSS, JS, JSON, images)
+
+### Mitigations in place
+
+- **CSP meta tag**: All pages include `<meta http-equiv="Content-Security-Policy">` with `script-src 'self'`
+- **File extensions**: All files use correct extensions that browsers recognize
+- **Content-Type in responses**: GitHub Pages serves files with appropriate Content-Type headers based on file extension
+
+### When to revisit
+
+If the project adds:
+- User-uploaded files or dynamic content
+- Files with ambiguous extensions
+- Custom MIME types
+- Server-side rendering that could produce mismatched types
+
+Then `X-Content-Type-Options: nosniff` should be implemented via a CDN or hosting platform that supports custom headers.
+
+### References
+
+- [OWASP Secure Headers Project](https://owasp.org/www-project-secure-headers/)
+- [MDN: X-Content-Type-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options)
+- [GitHub Pages limitations](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#limitations)

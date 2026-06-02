@@ -1693,6 +1693,19 @@ function setChapter(index) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+/**
+ * Converts plain text to HTML with basic markdown formatting.
+ * 
+ * SECURITY: This function uses a "sanitize first, then format" approach.
+ * The input text is escaped via escapeHtml() BEFORE any markdown processing.
+ * This prevents XSS attacks by ensuring all user content is neutralized before
+ * HTML tags are added.
+ * 
+ * IMPORTANT: Do NOT modify the order of operations. The escapeHtml() call MUST
+ * happen before inlineMarkdown() to prevent injection attacks. If you need to
+ * support additional markdown features, ensure they don't introduce raw HTML
+ * that could bypass the sanitization.
+ */
 function renderProse(text) {
   if (!text.trim()) return t().chapterBlank;
   return text.split(/\n\s*\n+/).map(block => {
