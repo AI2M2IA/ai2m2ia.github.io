@@ -1548,8 +1548,21 @@ function renderBookCard(book, downloaded, wishlist) {
 function renderCover(container, book) {
   container.textContent = "";
   if (book.coverUrl) {
+    const url = resolveApiUrl(book.coverUrl);
+    if (!url) {
+      renderFallbackCover(container, book);
+      return;
+    }
+    // Defense-in-depth: validate origin for non-API URLs
+    try {
+      const parsed = new URL(url, window.location.href);
+      if (parsed.origin !== window.location.origin) {
+        renderFallbackCover(container, book);
+        return;
+      }
+    } catch (_) { /* relative URL — safe, resolved by browser */ }
     const img = document.createElement("img");
-    img.src = resolveApiUrl(book.coverUrl);
+    img.src = url;
     img.alt = t().coverOf(book.title);
     img.loading = "lazy";
     img.addEventListener("error", () => renderFallbackCover(container, book));
@@ -1586,6 +1599,7 @@ async function downloadBook(book, button) {
   button.textContent = t().downloading;
   try {
     const manifestUrl = resolveApiUrl(book.manifestUrl);
+    if (!manifestUrl) throw new Error("Untrusted manifest URL");
     const content = await fetchJson(manifestUrl, { refresh: true });
     const cache = await caches.open(API_CACHE);
     const urls = collectBookAssetUrls(book, content);
@@ -1652,8 +1666,14 @@ async function openBook(bookId) {
     window.location.hash = "#library";
     return;
   }
+  const manifestUrl = resolveApiUrl(book.manifestUrl);
+  if (!manifestUrl) {
+    console.warn("[AI2M2IA] Refusing to load untrusted manifestUrl for", bookId);
+    window.location.hash = "#library";
+    return;
+  }
   state.currentBook = book;
-  state.content = await fetchJson(resolveApiUrl(book.manifestUrl));
+  state.content = await fetchJson(manifestUrl);
   state.currentChapter = readProgress(book.id);
 
   nodes.libraryView.hidden = true;
@@ -1733,18 +1753,18 @@ function extractImageUrls(content) {
 
 function resolveApiUrl(url) {
   if (!url) return url;
+  let parsed;
   try {
-    const parsed = new URL(url);
-    if (
-      parsed.pathname.startsWith(`${API_PREFIX}/`) &&
-      (USES_CONFIGURED_API || parsed.origin === CANONICAL_API_BASE_URL)
-    ) {
-      return `${API_BASE_URL}${parsed.pathname}`;
-    }
+    parsed = new URL(url);
   } catch {
+    // Relative URL — browser resolves against same origin, safe.
     return url;
   }
-  return url;
+  if (!parsed.pathname.startsWith(`${API_PREFIX}/`)) return null;
+  if (USES_CONFIGURED_API || parsed.origin === CANONICAL_API_BASE_URL) {
+    return `${API_BASE_URL}${parsed.pathname}`;
+  }
+  return null;
 }
 
 function resolveConfiguredApiBaseUrl(value) {
@@ -2024,7 +2044,7 @@ function formatDate(value) {
 }
 
 function escapeHtml(value) {
-  return String(value)
+  return String(value ?? '')
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
