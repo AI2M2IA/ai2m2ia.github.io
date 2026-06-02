@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Author Data Schema",
+  "description": "Schema for data/author.json - author profile and metadata",
+  "type": "object",
+  "required": ["lastUpdated", "id", "displayName", "bio", "aiDisclosure", "responsibilityFrame", "toolAnalogies", "externalLinks"],
+  "properties": {
+    "lastUpdated": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "taglines": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "signatureLines": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "bio": {
+      "type": "string",
+      "minLength": 1
+    },
+    "aiDisclosure": {
+      "type": "string",
+      "minLength": 1
+    },
+    "responsibilityFrame": {
+      "type": "string",
+      "minLength": 1
+    },
+    "toolAnalogies": {
+      "type": "object",
+      "required": ["calculatorComputer", "typewriterHandwriting"],
+      "properties": {
+        "calculatorComputer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "typewriterHandwriting": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "externalLinks": {
+      "type": "object",
+      "required": ["amazon", "youtube", "tiktok"],
+      "properties": {
+        "amazon": {
+          "type": "string",
+          "pattern": "^https://www\\.amazon\\.com/"
+        },
+        "youtube": {
+          "type": "string",
+          "pattern": "^https://www\\.youtube\\.com/"
+        },
+        "tiktok": {
+          "type": "string",
+          "pattern": "^https://www\\.tiktok\\.com/"
+        }
+      }
+    }
+  }
+}

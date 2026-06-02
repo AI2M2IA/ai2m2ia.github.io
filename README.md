@@ -86,6 +86,15 @@ Runs validation checks across all 23 language files inside `data/i18n/` to ensur
 - No key translations are missing or contain empty strings.
 - Direction keys (`dir="rtl"` vs `"ltr"`) are correctly set.
 
+### `npm run test:data`
+Validates JSON data files in `data/` against their schemas to ensure:
+- `works.json` matches the catalog and character schema
+- `author.json` matches the author profile schema
+- `media.json` matches the media content schema
+- `sources.json` matches the external references schema
+
+Schemas are located in `data/schemas/` and use JSON Schema 2020-12. This validation runs automatically in CI and prevents structural regressions in data files.
+
 ### `npm run test:e2e`
 Runs the complete browser-based end-to-end (E2E) testing suite across all configured device viewports (Desktop Chrome, Mobile Chrome, and Mobile Safari).
 
