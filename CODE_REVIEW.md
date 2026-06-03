@@ -158,11 +158,30 @@ Until each secret exists, the corresponding reviewer fails. The other reviewer s
 
 ### Why Claude uses an OAuth token, not an API key
 
-The user has an active Claude Max subscription. The Action supports a long-lived OAuth token (`claude_code_oauth_token` input) that draws from the subscription quota.
+The maintainer has an active Claude Max subscription. The Action supports a long-lived OAuth token (`claude_code_oauth_token` input) that draws from the subscription quota.
 
 - Token lifetime: ~1 year. Regenerate annually with `claude setup-token`.
-- Quota is shared with local Claude Code usage. The Max plan allows ~150–200 messages/day; release-gate runs do not approach that ceiling.
+- Quota is shared with local Claude Code usage. The Max plan provides enough headroom that release-gate runs do not approach the ceiling.
 - If both `ANTHROPIC_API_KEY` and `CLAUDE_CODE_AUTH_TOKEN` are set, the API key takes precedence. Leave `ANTHROPIC_API_KEY` unset to use the subscription.
+
+### Required GitHub App for the OAuth path
+
+In addition to the secret, the **Claude Code GitHub App** must be installed on the repository (or on the whole org, scoped to this repo). Without it, the action obtains an OIDC token from GitHub Actions but cannot exchange it for an Anthropic app token, and the run fails with:
+
+```
+App token exchange failed: 401 Unauthorized — Claude Code is not installed on this repository.
+Please install the Claude Code GitHub App at https://github.com/apps/claude
+```
+
+One-time install:
+
+1. Open https://github.com/apps/claude
+2. Click **Install** (or **Configure** if it is already installed somewhere).
+3. Pick the organization that owns this repository.
+4. Choose **Only select repositories** and select this repository (or every repo that runs the action).
+5. Save.
+
+The app requests read on code, metadata, pull requests, and issues, and write on pull requests and issues so it can post comments. It does not need write on code or actions.
 
 ---
 
@@ -222,6 +241,7 @@ Then send requests via OpenAI-compatible HTTP to `http://localhost:8080/v1/chat/
 Check the workflow run logs in the Actions tab. Common causes:
 
 - Missing or wrong secret name — the workflow fails before the model is invoked.
+- For Claude specifically, `401 Unauthorized — Claude Code is not installed on this repository` means the [Claude Code GitHub App](#required-github-app-for-the-oauth-path) is not installed on this repo. Install it and re-run the failed job.
 - Rate-limit or quota exhausted — uncommon at release-gate volume.
 - The model returned "no actionable findings" — the prompt instructs the reviewer to say so explicitly in that case.
 

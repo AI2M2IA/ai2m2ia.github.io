@@ -357,6 +357,10 @@ The aggregator job `AI review gate` is the only required status check on `main`.
 
 Estimated cost at 4–8 release-gate PRs per month: **up to $1 USD/month** (Claude and Codex are covered by subscriptions/integration; only Qwen runs on token billing).
 
+### Required GitHub App for the Claude reviewer
+
+The Claude reviewer uses an OAuth token (`CLAUDE_CODE_AUTH_TOKEN`) tied to the Claude Max subscription. In addition to the secret, the **Claude Code GitHub App** (https://github.com/apps/claude) must be installed on this repository or on the org with scope on this repository. Without it the run fails at the OIDC token exchange with `401 Unauthorized — Claude Code is not installed on this repository`. See [CODE_REVIEW.md](./CODE_REVIEW.md#required-github-app-for-the-oauth-path) for the install steps.
+
 ### Rules for AI agents
 
 - Always run Layer 1 locally before pushing if you have access to a Mac with the MLX environment configured.
