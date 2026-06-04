@@ -3,75 +3,86 @@
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url(co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jDOjw.ttf) format('truetype');
+  src: url(co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jDOjw.woff2) format('woff2'),
+       url(co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jDOjw.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Cormorant Garamond';
   font-style: italic;
   font-weight: 600;
   font-display: swap;
-  src: url(co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd5LDfOjw.ttf) format('truetype');
+  src: url(co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd5LDfOjw.woff2) format('woff2'),
+       url(co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd5LDfOjw.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Cormorant Garamond';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86GnM.ttf) format('truetype');
+  src: url(co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86GnM.woff2) format('woff2'),
+       url(co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86GnM.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Cormorant Garamond';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_s06GnM.ttf) format('truetype');
+  src: url(co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_s06GnM.woff2) format('woff2'),
+       url(co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_s06GnM.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Cormorant Garamond';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_iE9GnM.ttf) format('truetype');
+  src: url(co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_iE9GnM.woff2) format('woff2'),
+       url(co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_iE9GnM.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Cormorant Garamond';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_hg9GnM.ttf) format('truetype');
+  src: url(co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_hg9GnM.woff2) format('woff2'),
+       url(co3umX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_hg9GnM.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfMZg.ttf) format('truetype');
+  src: url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfMZg.woff2) format('woff2'),
+       url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfMZg.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf) format('truetype');
+  src: url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.woff2) format('woff2'),
+       url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf) format('truetype');
+  src: url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.woff2) format('woff2'),
+       url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf) format('truetype');
+  src: url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.woff2) format('woff2'),
+       url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf) format('truetype');
+  src: url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.woff2) format('woff2'),
+       url(UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf) format('truetype');
 }

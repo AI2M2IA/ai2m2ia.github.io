@@ -36,6 +36,24 @@ const ThemeManager = {
 };
 
 /* --------------------------------------------------------------------------
+   SKIP LINK ACCESSIBILITY
+   Move focus to main content when skip link is activated.
+   -------------------------------------------------------------------------- */
+const SkipLink = {
+  init() {
+    const skipLink = document.querySelector('.skip-link');
+    const mainContent = document.getElementById('main-content');
+    
+    if (skipLink && mainContent) {
+      skipLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        mainContent.focus();
+      });
+    }
+  }
+};
+
+/* --------------------------------------------------------------------------
    INTERNATIONALISATION (i18n)
 
    Strategy:
@@ -581,7 +599,7 @@ const CatalogRenderer = {
 
     /* WIP badge */
     const wipEl = work.wip
-      ? `<span class="book-wip-badge">${I18N.t('wipBadge') || 'In Progress'}</span>`
+      ? `<span class="book-wip-badge">${escapeHtml(I18N.t('wipBadge') || 'In Progress')}</span>`
       : '';
 
     /* Dual-authorship badges */
@@ -746,6 +764,7 @@ const MediaRenderer = {
     const wrapper = placeholder.parentElement;
     placeholder.remove();
     const iframe = document.createElement('iframe');
+    iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation');
     if (ytId) {
       iframe.src = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&rel=0`;
       iframe.title = 'YouTube video player';
@@ -800,12 +819,17 @@ const AuditPanel = {
     const btn   = document.getElementById('audit-toggle-btn');
     const panel = document.getElementById('audit-panel');
     if (!btn || !panel) return;
-
-    btn.addEventListener('click', () => {
-      this.open = !this.open;
+    const syncPanelState = () => {
       panel.classList.toggle('open', this.open);
       btn.setAttribute('aria-expanded', String(this.open));
       panel.setAttribute('aria-hidden', String(!this.open));
+      panel.inert = !this.open;
+    };
+    syncPanelState();
+
+    btn.addEventListener('click', () => {
+      this.open = !this.open;
+      syncPanelState();
       const labelEl = btn.querySelector('[data-audit-label]');
       if (labelEl) labelEl.textContent = I18N.t(this.open ? 'hideAudit' : 'showAudit');
     });
@@ -969,6 +993,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 6. UI interactions (DOM-only, unlikely to throw, but guarded)
   try {
+    SkipLink.init();
     HeroCollage.init();
     MobileNav.init();
     ScrollBehavior.init();

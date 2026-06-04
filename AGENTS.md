@@ -2,6 +2,20 @@
 
 Guidelines for AI agents working on `AI2M2IA/ai2m2ia.github.io`.
 
+## 0) Security First
+
+**⚠️ MANDATORY: Read [SECURITY.md](./SECURITY.md) before making any changes.**
+
+This project implements strict security controls. Key requirements:
+
+- **XSS Prevention:** Always use `escapeHtml()` for dynamic content, `safeUrl()` for URLs
+- **Critical Function:** `renderProse()` in PWA uses "sanitize first, then format" - never modify the order of operations
+- **CSP Compliance:** No `unsafe-inline` or `unsafe-eval` allowed
+- **Data Validation:** All JSON data files validated against schemas in `data/schemas/`
+- **Testing:** Run `npm run test:security` and `npm run test:data` before committing
+
+For detailed security guidelines, code examples, and vulnerability reporting procedures, see **[SECURITY.md](./SECURITY.md)**.
+
 ## 1) Project Basics
 
 - Main site: static app at repository root (`index.html`, `app.js`, `styles.css`).
@@ -308,3 +322,49 @@ Then `X-Content-Type-Options: nosniff` should be implemented via a CDN or hostin
 - [OWASP Secure Headers Project](https://owasp.org/www-project-secure-headers/)
 - [MDN: X-Content-Type-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options)
 - [GitHub Pages limitations](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#limitations)
+
+## 14) AI-Assisted Code Review
+
+We use a two-layer review architecture. See [CODE_REVIEW.md](./CODE_REVIEW.md) for full details, setup, costs, and troubleshooting.
+
+### Layer 1 — Local pre-review (free)
+
+Before opening a PR, run:
+
+```bash
+./scripts/local-review.sh          # working tree vs HEAD
+./scripts/local-review.sh develop  # current branch vs develop
+```
+
+This invokes Qwen2.5-Coder-14B via MLX on Apple Silicon (~20 s per ~1,000-line diff on a Mac with sufficient unified memory). No marginal cost. Catches the obvious findings before the diff reaches CI.
+
+### Layer 2 — CI release-gate review
+
+Two reviewers auto-run in parallel on PRs targeting `main`. They live in `.github/workflows/release-gate-review.yml`:
+
+- **Claude** — `claude-sonnet-4-6` via Claude Max subscription (OAuth, no API charge).
+- **Qwen-Coder** — `qwen3-coder-plus` via DashScope API.
+
+A separate workflow, `.github/workflows/claude-mention.yml`, lets a maintainer invoke Claude on any PR (including `feature → develop`) by writing `@claude` in a comment.
+
+**Codex is not in this workflow.** Codex review is handled by the user's integrated Codex account through OpenAI's Codex Cloud GitHub integration. Codex Cloud posts an independent third comment on PRs but does not participate in the merge gate.
+
+### The merge gate: at least one reviewer must pass
+
+The aggregator job `AI review gate` is the only required status check on `main`. It passes if **at least one** of the two reviewer jobs in this workflow completed successfully. Failure of one reviewer does not block the merge — that resilience is the point: a missing secret, a provider outage, or a rate limit on one provider does not stop the release.
+
+"Pass" means the workflow job ran successfully and the model produced output. It does **not** mean the AI approved the diff — comments are advisory.
+
+Estimated cost at 4–8 release-gate PRs per month: **up to $1 USD/month** (Claude and Codex are covered by subscriptions/integration; only Qwen runs on token billing).
+
+### Required GitHub App for the Claude reviewer
+
+The Claude reviewer uses an OAuth token (`CLAUDE_CODE_AUTH_TOKEN`) tied to the Claude Max subscription. In addition to the secret, the **Claude Code GitHub App** (https://github.com/apps/claude) must be installed on this repository or on the org with scope on this repository. Without it the run fails at the OIDC token exchange with `401 Unauthorized — Claude Code is not installed on this repository`. See [CODE_REVIEW.md](./CODE_REVIEW.md#required-github-app-for-the-oauth-path) for the install steps.
+
+### Rules for AI agents
+
+- Always run Layer 1 locally before pushing if you have access to a Mac with the MLX environment configured.
+- Do not flag accepted-risk findings (X-Content-Type-Options absence, clickjacking on GitHub Pages) — they are documented in this file and in CODE_REVIEW.md.
+- Reviewer findings are advisory, not gating. Resolve or defend each comment in the PR thread.
+- If a reviewer is wrong, leave a reply explaining why and update CODE_REVIEW.md if it represents a new accepted risk.
+- Do not change the gate from "at least one" to "all" without explicit user confirmation — the resilience is intentional.

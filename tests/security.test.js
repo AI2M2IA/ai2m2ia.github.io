@@ -126,3 +126,26 @@ test('isSafeTikTokId handles null and undefined', () => {
   assert.equal(isSafeTikTokId(null), false);
   assert.equal(isSafeTikTokId(undefined), false);
 });
+
+// theme-init.js localStorage lang regex — must accept every SUPPORTED_UI_LANGUAGES code
+// to avoid setting <html lang> to the wrong value during first paint.
+const themeInitLangRegex = /^[a-z]{2,3}(?:-[A-Z0-9]{2,3})?$/;
+
+test('theme-init lang regex accepts every supported BCP-47 code', () => {
+  const supported = [
+    'en', 'pt-BR', 'es-419', 'fr', 'it', 'de', 'pl', 'tr', 'ru',
+    'id', 'vi', 'fil', 'th', 'ja', 'zh-CN', 'zh-TW', 'yue',
+    'ko', 'hi', 'ur', 'ar', 'fa', 'he',
+  ];
+  for (const code of supported) {
+    assert.equal(themeInitLangRegex.test(code), true, `should accept ${code}`);
+  }
+});
+
+test('theme-init lang regex rejects injection / overly long input', () => {
+  assert.equal(themeInitLangRegex.test('"><script>'), false);
+  assert.equal(themeInitLangRegex.test('en" onload="alert(1)'), false);
+  assert.equal(themeInitLangRegex.test('a'.repeat(50)), false);
+  assert.equal(themeInitLangRegex.test('en-US-extra-tag'), false);
+  assert.equal(themeInitLangRegex.test(''), false);
+});

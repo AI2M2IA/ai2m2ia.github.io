@@ -1,13 +1,13 @@
-const STATIC_CACHE = "ai2m2ia-pwa-static-v13";
+const STATIC_CACHE = "ai2m2ia-pwa-static-v15";
 const API_CACHE = "ai2m2ia-api-v1";
-const ASSETS_CACHE = "ai2m2ia-pwa-assets-v13";
+const ASSETS_CACHE = "ai2m2ia-pwa-assets-v15";
 const STATIC_ASSETS = [
   "./",
   "./index.html",
   "./offline.html",
   "./manifest.webmanifest",
   "./assets/styles.css",
-  "./assets/app.js?v=12",
+  "./assets/app.js?v=14",
   "./assets/icon.svg"
 ];
 

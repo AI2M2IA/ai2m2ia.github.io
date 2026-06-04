@@ -42,8 +42,8 @@
 
   /* Text */
   --text:          #ddd4c8;
-  --text-muted:    #8a7e72;
-  --text-faint:    #554e46;
+  --text-muted:    #a89d91;
+  --text-faint:    #c4b9ad;
 
   /* Borders */
   --border:        rgba(210, 195, 170, 0.07);
@@ -86,7 +86,7 @@
   --ink-4:         #dcd7cc;
   --ink-5:         #cfc9bb;
 
-  --gold:          #9a6e18;
+  --gold:          #7c5200;
   --gold-bright:   #b07f20;
   --gold-dim:      rgba(154, 110, 24, 0.10);
   --gold-border:   rgba(154, 110, 24, 0.22);
@@ -111,7 +111,13 @@
 
   --text:          #1c1914;
   --text-muted:    #5a5248;
-  --text-faint:    #9a9088;
+  --text-faint:    #6a6058;
+
+  /* Tag colors for light mode */
+  --teal-tag:      #1d5a52;
+  --rose-tag:      #6a2f46;
+  --amber-tag:     #6c4820;
+  --purple-tag:    #403080;
 
   --border:        rgba(30, 25, 18, 0.08);
   --border-mid:    rgba(30, 25, 18, 0.14);
@@ -751,6 +757,12 @@ p + p { margin-top: 0.9em; }
 .tag-start        { background: var(--gold-dim); color: var(--gold-bright); border: 1px solid var(--gold-border); }
 .tag-fantasy      { background: rgba(96, 130, 201, 0.12); color: #7ea8e0; border: 1px solid rgba(96, 130, 201, 0.28); }
 
+[data-theme="light"] .tag-progression { color: var(--teal-tag); }
+[data-theme="light"] .tag-dark-fantasy { color: var(--rose-tag); }
+[data-theme="light"] .tag-war { color: var(--amber-tag); }
+[data-theme="light"] .tag-start { color: var(--gold); }
+[data-theme="light"] .tag-fantasy { color: #365f95; }
+
 /* ── Authorship badges + WIP indicator ─────────────────────────────────── */
 .book-authorship {
   display: flex;
@@ -772,6 +784,8 @@ p + p { margin-top: 0.9em; }
 .authorship-badge.human      { background: rgba(77,150,136,0.10); color: var(--teal-bright); border: 1px solid var(--teal-border); }
 .authorship-badge.human-ai   { background: rgba(201,164,96,0.10); color: var(--gold-bright); border: 1px solid var(--gold-border); }
 .authorship-badge svg        { width: 9px; height: 9px; flex-shrink: 0; }
+[data-theme="light"] .authorship-badge.human    { color: var(--teal); }
+[data-theme="light"] .authorship-badge.human-ai { color: var(--gold); }
 
 .book-wip-badge {
   display: inline-flex;
@@ -977,10 +991,17 @@ p + p { margin-top: 0.9em; }
 
 /* Coming-soon card */
 .media-card--coming-soon {
-  opacity: 0.55;
+  /* Removed opacity: 0.55 to fix WCAG contrast issues */
+  /* Instead, use muted colors directly */
 }
 .media-card--coming-soon .media-embed-wrapper {
   background: var(--ink-2);
+}
+.media-card--coming-soon .media-title {
+  color: var(--text-muted);
+}
+.media-card--coming-soon .media-desc {
+  color: var(--text-muted);
 }
 .media-coming-soon-placeholder {
   position: absolute;
@@ -1014,13 +1035,20 @@ p + p { margin-top: 0.9em; }
 }
 .media-platform-badge.youtube {
   background: rgba(255,0,0,0.18);
-  color: #ff6b6b;
+  color: #c05050;
   border: 1px solid rgba(255,0,0,0.25);
 }
 .media-platform-badge.tiktok {
   background: rgba(105,201,208,0.15);
-  color: #69c9d0;
+  color: #3a8a90;
   border: 1px solid rgba(105,201,208,0.28);
+}
+
+[data-theme="light"] .media-platform-badge.youtube {
+  color: #903030;
+}
+[data-theme="light"] .media-platform-badge.tiktok {
+  color: #1a6a70;
 }
 
 .media-embed-placeholder {

@@ -7,7 +7,7 @@
   document.documentElement.setAttribute('data-theme', theme);
 
   var savedLang = localStorage.getItem('ai2m2ia-lang');
-  if (savedLang && /^[a-z]{2}(?:-[A-Z]{2})?$/.test(savedLang)) {
+  if (savedLang && /^[a-z]{2,3}(?:-[A-Z0-9]{2,3})?$/.test(savedLang)) {
     document.documentElement.setAttribute('lang', savedLang);
   }
 }());
