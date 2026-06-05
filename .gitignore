@@ -87,3 +87,9 @@ DEEPSEEK.md
 secrets.*
 *.secrets.*
 
+
+# Internal working documents — never commit (Language/Identity Policy)
+VITRINE_EXECUTION.md
+recreate-hub-from-zero.sh
+thorough-revision-*
+*.stale*
