@@ -113,28 +113,9 @@ test.describe('AI(2)M(2)IA Website Mobile E2E Tests', () => {
     expect(box2.y).toBeGreaterThan(box1.y);
   });
 
-  test('should render character showcase in a two-column grid layout on mobile', async ({ page }) => {
-    const charGrid = page.locator('.character-showcase-grid');
-    const charCards = charGrid.locator('.character-card');
-
-    const count = await charCards.count();
-    expect(count).toBeGreaterThan(2);
-
-    const box1 = await charCards.nth(0).boundingBox();
-    const box2 = await charCards.nth(1).boundingBox();
-    const box3 = await charCards.nth(2).boundingBox();
-
-    expect(box1).not.toBeNull();
-    expect(box2).not.toBeNull();
-    expect(box3).not.toBeNull();
-
-    // In a two-column layout, first and second cards are side-by-side
-    expect(Math.abs(box1.y - box2.y)).toBeLessThan(2);
-    expect(box2.x).toBeGreaterThan(box1.x);
-
-    // Third card is in the next row, aligned in the first column directly below the first card
-    expect(Math.abs(box1.x - box3.x)).toBeLessThan(2);
-    expect(box3.y).toBeGreaterThan(box1.y);
+  test('should show AI responsibility section on mobile', async ({ page }) => {
+    const responsibilitySection = page.locator('#philosophy');
+    await expect(responsibilitySection).toBeVisible();
   });
 
 });

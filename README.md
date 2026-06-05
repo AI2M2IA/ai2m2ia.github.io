@@ -57,6 +57,20 @@ Runs the API contract validation, API unit tests, translation coverage suite, an
 ### `npm run test:ci`
 Runs the same gate used by GitHub Actions.
 
+## Local PR Smoke
+
+Before opening or updating a PR, run the focused smoke checks below:
+
+```bash
+npm run test:unit
+npm run test:data
+npm run test:security
+```
+
+Then add the area-specific check for the change, such as `npm run test:pwa`
+for PWA behavior, `npm run test:api` for API or schema changes, or
+`npm run test:e2e` for layout and interaction changes.
+
 ### `npm run test:coverage`
 Runs the Node.js API/i18n tests with the built-in coverage checker. The minimum
 threshold is 80% for lines, branches, and functions.

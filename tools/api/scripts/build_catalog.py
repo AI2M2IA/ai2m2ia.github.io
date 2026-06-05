@@ -161,6 +161,20 @@ def copy_schemas(api_out_dir):
         if filename.endswith(".json"):
             shutil.copy2(os.path.join(SCHEMAS_DIR, filename), os.path.join(target_dir, filename))
 
+
+def cleanup_orphan_books(books_out_dir, allowed_book_ids):
+    """Remove generated book directories that are no longer present in the catalog."""
+    if not os.path.isdir(books_out_dir):
+        return
+
+    allowed = set(allowed_book_ids)
+    for entry in os.listdir(books_out_dir):
+        book_dir = os.path.join(books_out_dir, entry)
+        if os.path.isdir(book_dir) and entry not in allowed:
+            shutil.rmtree(book_dir)
+            print(f"Removed orphan book directory: {book_dir}")
+
+
 def process_aws_book(aws_book_dir, books_out_dir, base_url, api_prefix, generated_at):
     """Processes 'Let's Build on AWS Together' book."""
     print("Processing AWS Book...")
@@ -388,6 +402,8 @@ def main():
     catalog_path = os.path.join(api_out_dir, "catalog.json")
     with open(catalog_path, 'w', encoding='utf-8') as f:
         json.dump(catalog, f, indent=2, ensure_ascii=False)
+
+    cleanup_orphan_books(books_out_dir, [entry["id"] for entry in catalog["books"]])
         
     print(f"Catalog saved with {len(catalog['books'])} books to: {catalog_path}")
 

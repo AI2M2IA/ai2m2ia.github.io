@@ -1,18 +1,12 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
-// Extract pure functions from app.js for testing
-function escapeHtml(value) {
-  return String(value ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
+const { escapeHtml, safeMediaId, safeUrl } = require('../lib/sanitize.js');
 
-function safeMediaId(value) {
-  return /^[A-Za-z0-9_-]+$/.test(String(value || '')) ? String(value) : '';
+const TEST_PAGE_URL = 'https://ai2m2ia.test/';
+
+function testSafeUrl(value, options) {
+  return safeUrl(value, { ...(options || {}), baseUrl: TEST_PAGE_URL });
 }
 
 function isSafeYouTubeId(value) {
@@ -21,6 +15,27 @@ function isSafeYouTubeId(value) {
 
 function isSafeTikTokId(value) {
   return /^\d{15,20}$/.test(String(value || ''));
+}
+
+function renderProse(text) {
+  if (!text.trim()) return '';
+  return text.split(/\n\s*\n+/).map(block => {
+    const clean = escapeHtml(block.trim());
+    if (!clean) return '';
+    if (clean.startsWith('&gt;')) return `<blockquote>${inlineMarkdown(clean.replace(/^&gt;\s*/, ''))}</blockquote>`;
+    if (clean.startsWith('### ')) return `<h3>${inlineMarkdown(clean.slice(4))}</h3>`;
+    if (clean.startsWith('## ')) return `<h2>${inlineMarkdown(clean.slice(3))}</h2>`;
+    return `<p>${inlineMarkdown(clean).replace(/\n/g, '<br>')}</p>`;
+  }).join('');
+}
+
+function inlineMarkdown(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/__(.*?)__/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/_(.*?)_/g, '<em>$1</em>')
+    .replace(/`(.*?)`/g, '<code>$1</code>');
 }
 
 test('escapeHtml escapes all dangerous characters', () => {
@@ -76,6 +91,45 @@ test('safeMediaId handles empty and null', () => {
   assert.equal(safeMediaId(''), '');
   assert.equal(safeMediaId(null), '');
   assert.equal(safeMediaId(undefined), '');
+});
+
+test('safeUrl allows same-origin URLs', () => {
+    assert.equal(testSafeUrl('/works/level-zero/'), '/works/level-zero/');
+    assert.equal(testSafeUrl('https://ai2m2ia.test/pwa/'), 'https://ai2m2ia.test/pwa/');
+});
+
+test('safeUrl rejects external URLs unless explicitly allowed', () => {
+    assert.equal(testSafeUrl('https://example.com/book'), '#');
+    assert.equal(testSafeUrl('https://example.com/book', { external: true }), 'https://example.com/book');
+});
+
+test('safeUrl rejects unsafe protocols', () => {
+    assert.equal(testSafeUrl('javascript:alert(1)'), '#');
+    assert.equal(testSafeUrl('data:text/html,<script>alert(1)</script>'), '#');
+    assert.equal(testSafeUrl('ftp://example.com/file'), '#');
+});
+
+test('safeUrl handles empty and null', () => {
+  assert.equal(safeUrl(''), '');
+  assert.equal(safeUrl(null), '');
+  assert.equal(safeUrl(undefined), '');
+});
+
+test('renderProse escapes malicious HTML before markdown formatting', () => {
+  const html = renderProse('**<script>alert("XSS")</script>**\n\n<img src=x onerror=alert(1)>');
+
+  assert.match(html, /<strong>&lt;script&gt;alert\(&quot;XSS&quot;\)&lt;\/script&gt;<\/strong>/);
+  assert.match(html, /&lt;img src=x onerror=alert\(1\)&gt;/);
+  assert.doesNotMatch(html, /<script/i);
+  assert.doesNotMatch(html, /<img/i);
+});
+
+test('renderProse keeps escaped headings and blockquotes safe', () => {
+  const html = renderProse('## <svg onload=alert(1)>\n\n> `javascript:alert(1)`');
+
+  assert.match(html, /<h2>&lt;svg onload=alert\(1\)&gt;<\/h2>/);
+  assert.match(html, /<blockquote><code>javascript:alert\(1\)<\/code><\/blockquote>/);
+  assert.doesNotMatch(html, /<svg/i);
 });
 
 test('isSafeYouTubeId validates 11-character IDs', () => {

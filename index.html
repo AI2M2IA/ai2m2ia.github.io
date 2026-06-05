@@ -23,15 +23,16 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="alternate icon" href="favicon.svg">
 
-  <!-- Typography -->
-      
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=20260601a">
-  <link rel="stylesheet" href="assets/fonts/fonts.css">
+	  <!-- Typography -->
+	      
+	  <!-- Stylesheet -->
+	  <link rel="stylesheet" href="styles.css?v=20260601a">
+	  <link rel="stylesheet" href="assets/fonts/fonts.css">
+  <script src="lib/sanitize.js"></script>
 
-  <!-- Application logic (deferred) -->
-  <script src="app.js?v=20260601a" defer></script>
-</head>
+	  <!-- Application logic (deferred) -->
+	  <script src="app.js?v=20260601a" defer></script>
+	</head>
 
 <body>
 
@@ -55,8 +56,6 @@
       <nav class="site-nav" aria-label="Primary navigation">
         <ul>
           <li><a href="#catalog"    data-i18n="navCatalog">Catalog</a></li>
-          <li><a href="#characters" data-i18n="navCharacters">Characters</a></li>
-          <li><a href="#media"      data-i18n="navMedia">Media Samples</a></li>
           <li><a href="#philosophy" data-i18n="navPhilosophy">AI &amp; Responsibility</a></li>
           <li><a href="pwa/" aria-label="Open the AI(2)M(2)IA reading app">Read Online</a></li>
         </ul>
@@ -115,7 +114,7 @@
 
         <div class="hero-actions">
           <a class="btn btn-primary" href="#catalog" data-i18n="heroPrimaryCTA">Explore Catalog</a>
-          <a class="btn btn-secondary" href="#media" data-i18n="heroSecondaryCTA">Watch Samples</a>
+          <a class="btn btn-secondary" href="#philosophy" data-i18n="heroSecondaryCTA">Read About Our Method</a>
           <a class="btn btn-secondary" href="pwa/">Read Online</a>
         </div>
 
@@ -124,28 +123,28 @@
 
       <!-- Character portrait collage -->
       <div class="hero-collage animate-scale-up delay-2" aria-label="Character portraits from the books">
-        <div class="collage-item item-active" data-character="rowan" role="button" tabindex="0" aria-label="Rowan Vale — Level Zero and Analyze">
+        <div class="collage-item item-active" data-character="rowan" aria-label="Rowan Vale — Level Zero and Analyze">
           <img src="assets/characters/analyze/CHAR-ROWAN.webp" alt="Rowan Vale — spoiler-light character portrait" loading="eager">
           <div class="item-overlay" aria-hidden="true">
             <span class="char-name">Rowan Vale</span>
             <span class="char-series" data-i18n="charSeriesLevelZero">Level Zero / Analyze</span>
           </div>
         </div>
-        <div class="collage-item" data-character="mara" role="button" tabindex="0" aria-label="Mara Ansel — The Crater Gospel and The Bell That Remembers">
+        <div class="collage-item" data-character="mara" aria-label="Mara Ansel — The Crater Gospel and The Bell That Remembers">
           <img src="assets/characters/bell-that-remembers/CHAR-MARA.webp" alt="Mara Ansel — spoiler-light character portrait" loading="eager">
           <div class="item-overlay" aria-hidden="true">
             <span class="char-name">Mara Ansel</span>
             <span class="char-series" data-i18n="charSeriesCrater">The Crater Gospel / Bell</span>
           </div>
         </div>
-        <div class="collage-item" data-character="sera" role="button" tabindex="0" aria-label="Sera Quill — Analyze">
+        <div class="collage-item" data-character="sera" aria-label="Sera Quill — Analyze">
           <img src="assets/characters/analyze/CHAR-SERA.webp" alt="Sera Quill — spoiler-light character portrait" loading="lazy">
           <div class="item-overlay" aria-hidden="true">
             <span class="char-name">Sera Quill</span>
             <span class="char-series" data-i18n="charSeriesAnalyze">Analyze</span>
           </div>
         </div>
-        <div class="collage-item" data-character="tomas" role="button" tabindex="0" aria-label="Tomas — The Bell That Remembers">
+        <div class="collage-item" data-character="tomas" aria-label="Tomas — The Bell That Remembers">
           <img src="assets/characters/bell-that-remembers/CHAR-TOMAS.webp" alt="Tomas — spoiler-light character portrait" loading="lazy">
           <div class="item-overlay" aria-hidden="true">
             <span class="char-name">Tomas</span>
@@ -174,56 +173,16 @@
         </div>
 
         <!-- Genre filters -->
-        <div class="catalog-filters" role="tablist" aria-label="Filter books by genre">
-          <button class="filter-tab active" role="tab" aria-selected="true"  data-filter="all"         data-i18n="filterAll">All Works</button>
-          <button class="filter-tab"        role="tab" aria-selected="false" data-filter="progression" data-i18n="filterProgression">Progression Fantasy</button>
-          <button class="filter-tab"        role="tab" aria-selected="false" data-filter="dark-fantasy" data-i18n="filterDark">Gothic &amp; Dark Fantasy</button>
-          <button class="filter-tab"        role="tab" aria-selected="false" data-filter="war"         data-i18n="filterWar">Speculative War</button>
-          <button class="filter-tab"        role="tab" aria-selected="false" data-filter="fantasy"     data-i18n="filterFantasy">Epic Fantasy</button>
+        <div class="catalog-filters" aria-label="Filter books by genre">
+          <button class="filter-tab active" aria-pressed="true"  data-filter="all"         data-i18n="filterAll">All Works</button>
+          <button class="filter-tab"        aria-pressed="false" data-filter="progression" data-i18n="filterProgression">Progression Fantasy</button>
+          <button class="filter-tab"        aria-pressed="false" data-filter="dark-fantasy" data-i18n="filterDark">Gothic &amp; Dark Fantasy</button>
+          <button class="filter-tab"        aria-pressed="false" data-filter="war"         data-i18n="filterWar">Speculative War</button>
+          <button class="filter-tab"        aria-pressed="false" data-filter="fantasy"     data-i18n="filterFantasy">Epic Fantasy</button>
         </div>
 
         <!-- Books grid — populated by app.js -->
         <div id="books-grid" class="books-grid" aria-label="Book catalog">
-          <p class="grid-loading" data-i18n="loading">Loading content…</p>
-        </div>
-      </div>
-    </section>
-
-    <hr class="rule">
-
-    <!-- ======================================================
-         CHARACTERS
-         ====================================================== -->
-    <section id="characters" class="section characters-section" aria-labelledby="characters-heading">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-eyebrow" data-i18n="charactersEyebrow">Character Dossiers</span>
-          <h2 id="characters-heading" class="section-title" data-i18n="charactersTitle">Meet the protagonists</h2>
-          <p class="section-lead" data-i18n="charactersLead">Spoiler-light portraits and identities from the main series.</p>
-        </div>
-
-        <!-- Character grid — populated by app.js -->
-        <div id="characters-grid" class="character-showcase-grid">
-          <p class="grid-loading" data-i18n="loading">Loading content…</p>
-        </div>
-      </div>
-    </section>
-
-    <hr class="rule">
-
-    <!-- ======================================================
-         MEDIA
-         ====================================================== -->
-    <section id="media" class="section media-section" aria-labelledby="media-heading">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-eyebrow" data-i18n="mediaEyebrow">Audio &amp; Video Samples</span>
-          <h2 id="media-heading" class="section-title" data-i18n="mediaTitle">Audiobook previews &amp; trailers</h2>
-          <p class="section-lead" data-i18n="mediaLead">Third-party players load only on request, respecting your bandwidth and privacy. YouTube embeds do not autoplay.</p>
-        </div>
-
-        <!-- Media grid — populated by app.js -->
-        <div id="media-grid" class="media-grid">
           <p class="grid-loading" data-i18n="loading">Loading content…</p>
         </div>
       </div>
@@ -243,65 +202,19 @@
         </div>
 
         <div class="philosophy-grid">
-
           <!-- Disclosure copy -->
           <div class="philosophy-copy">
             <h3 data-i18n="philDisclosureTitle">Full Disclosure Statement</h3>
             <p id="author-disclosure" class="disclosure-text">Loading…</p>
-            <p id="author-responsibility" class="responsibility-text">Loading…</p>
 
             <div class="philosophy-actions">
-              <button id="audit-toggle-btn" class="btn btn-outline audit-toggle-btn"
-                      aria-expanded="false" aria-controls="audit-panel">
-                <span data-audit-label data-i18n="showAudit">Show Sources &amp; Audit</span>
-                <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="m6 9 6 6 6-6"/>
-                </svg>
-              </button>
-
+              <a id="full-disclosure-link" class="btn btn-outline"
+                 href="sources.html"
+                 data-i18n="showAudit">Show Sources &amp; Audit</a>
               <a class="btn btn-secondary"
                  href="https://www.amazon.com/stores/AI%282%29M%282%29IA-AI%282%29M%282%29IA/author/B0GYDYRL75"
                  target="_blank" rel="noopener noreferrer">Amazon Author Page</a>
             </div>
-          </div>
-
-          <!-- Analogy cards -->
-          <div class="analogy-cards">
-            <div class="analogy-card">
-              <div class="analogy-icon" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect width="16" height="20" x="4" y="2" rx="2"/>
-                  <line x1="8" x2="16" y1="6" y2="6"/>
-                  <path d="M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>
-                </svg>
-              </div>
-              <h4 data-i18n="analogyCalcTitle">The Calculator Analogy</h4>
-              <p id="analogy-calc">Loading…</p>
-            </div>
-
-            <div class="analogy-card">
-              <div class="analogy-icon" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
-                  <polyline points="14 2 14 8 20 8"/>
-                  <line x1="16" x2="8" y1="13" y2="13"/>
-                  <line x1="16" x2="8" y1="17" y2="17"/>
-                  <line x1="10" x2="8" y1="9" y2="9"/>
-                </svg>
-              </div>
-              <h4 data-i18n="analogyTypeTitle">The Typewriter Analogy</h4>
-              <p id="analogy-type">Loading…</p>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Collapsible audit panel -->
-        <div id="audit-panel" class="audit-panel" aria-hidden="true" role="region" aria-label="Source audit">
-          <h3 data-i18n="auditTitle">Site Traceability Audit</h3>
-          <p data-i18n="auditDesc">Verified source references linking catalog metadata directly to public storefronts.</p>
-          <div id="sources-container" class="sources-grid">
-            <p class="grid-loading" data-i18n="loading">Loading content…</p>
           </div>
         </div>
 

@@ -1,6 +1,24 @@
 {
-  "lastUpdated": "2026-06-01",
+  "lastUpdated": "2026-06-05",
   "workFamilies": [
+    {
+      "id": "lets-build-on-aws-together",
+      "name": "Let's Build on AWS Together",
+      "type": "standalone",
+      "genre": "progression",
+      "tag": "Cloud guidebook",
+      "summary": "A hands-on journey from first AWS launch to production-grade architecture through a startup story — built to cover the full AWS SAA-C03 path in practical, story-driven steps.",
+      "description": "A practical systems-building story about a startup learning AWS from zero, including design tradeoffs and operational habits needed to ship real services.",
+      "route": "works/lets-build-on-aws-together/",
+      "coverImage": "assets/covers/lets-build-on-aws-together.svg",
+      "coverAlt": "Cover art for Let's Build on AWS Together",
+      "amazonUrl": "https://www.amazon.com/dp/B0D5WSMD8D",
+      "studyUrl": "https://ai2m2ia.github.io/book-lets-build-on-aws-together/",
+      "studyLabel": "Study app",
+      "kindleLabel": "Kindle",
+      "workIds": [],
+      "mediaIds": []
+    },
     {
       "id": "level-zero",
       "name": "Level Zero",

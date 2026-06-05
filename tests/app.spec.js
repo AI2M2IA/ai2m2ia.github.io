@@ -142,32 +142,53 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
     expect(resetVisibleCount).toBe(totalCount);
   });
 
-  test('should collapse and expand the source audit panel', async ({ page }) => {
-    const auditPanel = page.locator('#audit-panel');
-    const toggleBtn = page.locator('#audit-toggle-btn');
+  test('should render catalog cards with valid external destinations', async ({ page }) => {
+    const booksGrid = page.locator('#books-grid');
+    const cards = booksGrid.locator('.book-card');
+    const totalCards = await cards.count();
+    expect(totalCards).toBeGreaterThan(0);
 
-    // Initially, it should be collapsed (aria-expanded="false" or not have class 'open')
-    await expect(toggleBtn).toHaveAttribute('aria-expanded', 'false');
-    await expect(auditPanel).toHaveAttribute('aria-hidden', 'true');
-    await expect(auditPanel).not.toHaveClass(/open/);
+    for (let i = 0; i < totalCards; i++) {
+      const card = cards.nth(i);
+      const title = await card.locator('.book-title').innerText();
+      const links = card.locator('a.book-link');
+      const linkCount = await links.count();
+      const hasComingSoon = await card.locator('.book-link--disabled').count() > 0;
+      const hasDestination = linkCount > 0 || hasComingSoon;
 
-    // Click to expand
-    await toggleBtn.click();
+      expect(hasDestination, `Card "${title}" should have at least one destination`).toBe(true);
 
-    // Now it should be open
-    await expect(toggleBtn).toHaveAttribute('aria-expanded', 'true');
-    await expect(auditPanel).toHaveAttribute('aria-hidden', 'false');
-    await expect(auditPanel).toHaveClass(/open/);
-    
-    // Verify that audit items are rendered
-    const sourceItems = auditPanel.locator('.source-item');
+      // AWS card must expose both study app and Kindle links
+      if (title === "Let's Build on AWS Together") {
+        expect(linkCount, 'AWS card should expose two external links').toBe(2);
+      }
+
+      for (let j = 0; j < linkCount; j++) {
+        const link = links.nth(j);
+        const href = await link.getAttribute('href');
+        const target = await link.getAttribute('target');
+        const rel = await link.getAttribute('rel');
+
+        expect(href, `Card "${title}" link #${j} must have href`).toBeTruthy();
+        expect(href, `Card "${title}" link #${j} must be external`).toMatch(/^https?:\/\//);
+        expect(target, `Card "${title}" link #${j} should open in new tab`).toBe('_blank');
+        expect((rel || '').toLowerCase(), `Card "${title}" link #${j} should include rel=noopener`).toMatch(/\bnoopener\b/);
+      }
+    }
+  });
+
+  test('should expose source/audit disclosure on a secondary page', async ({ page }) => {
+    const disclosureLink = page.locator('#full-disclosure-link');
+
+    await expect(disclosureLink).toBeVisible();
+    await expect(disclosureLink).toHaveAttribute('href', /sources\.html/);
+
+    await disclosureLink.click();
+    await page.waitForURL('**/sources.html');
+    await expect(page.locator('h1')).toContainText('Full Disclosure');
+    const sourceItems = page.locator('.source-item');
+    await expect(sourceItems.first()).toBeVisible({ timeout: 2000 });
     expect(await sourceItems.count()).toBeGreaterThan(0);
-
-    // Click again to collapse
-    await toggleBtn.click();
-    await expect(toggleBtn).toHaveAttribute('aria-expanded', 'false');
-    await expect(auditPanel).toHaveAttribute('aria-hidden', 'true');
-    await expect(auditPanel).not.toHaveClass(/open/);
   });
 
 });
