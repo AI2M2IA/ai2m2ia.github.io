@@ -59,6 +59,7 @@ Do not merge with failing checks.
 - Avoid language leakage:
   - No Brazilian Portuguese strings in English UI state.
   - Preserve RTL behavior for `ar`, `fa`, `he`, `ur`.
+- For agent-to-human communication, use **American English** for instructions, status updates, and decisions, unless the user explicitly requests another language.
 
 ## 5) PWA-Specific Rules
 
