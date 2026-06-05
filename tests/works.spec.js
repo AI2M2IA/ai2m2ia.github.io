@@ -1,42 +1,48 @@
 const { test, expect } = require('@playwright/test');
 
+const BASE_URL = 'http://localhost:3000';
+
 const WORKS = [
-  'level-zero',
-  'analyze',
-  'bell-that-remembers',
-  'crater-gospel',
-  'venomous-garden',
-  'ashen-bloom',
-  'the-princess-and-the-turtle',
+  { slug: 'lets-build-on-aws-together', destination: 'https://ai2m2ia.github.io/book-lets-build-on-aws-together/' },
+  { slug: 'level-zero', destination: '/index.html#catalog' },
+  { slug: 'analyze', destination: '/index.html#catalog' },
+  { slug: 'bell-that-remembers', destination: '/index.html#catalog' },
+  { slug: 'crater-gospel', destination: '/index.html#catalog' },
+  { slug: 'venomous-garden', destination: '/index.html#catalog' },
+  { slug: 'ashen-bloom', destination: '/index.html#catalog' },
+  { slug: 'the-princess-and-the-turtle', destination: '/index.html#catalog' },
 ];
 
 test.describe('Work pages', () => {
-  for (const slug of WORKS) {
-    test(`${slug} renders securely and toggles theme`, async ({ page }) => {
+  const isExternalDestination = destination => /^https?:\/\/./.test(destination);
+
+  const expectedDestination = destination =>
+    isExternalDestination(destination) ? destination : `${BASE_URL}${destination}`;
+
+  for (const { slug, destination } of WORKS) {
+    test(`${slug} redirects to canonical destination`, async ({ page }) => {
       await page.goto(`/works/${slug}/`);
 
-      await expect(page).toHaveTitle(/AI\(2\)M\(2\)IA/);
-      await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveCount(1);
-      
-      // Verify CSP does not contain unsafe-inline (security requirement)
-      const csp = await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute('content');
-      expect(csp).not.toContain("'unsafe-inline'");
-      
-      // Verify img-src is restricted to known origins
-      expect(csp).toContain("img-src 'self' data: https://ai2m2ia.github.io");
-      
-      await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
-      await expect(page.getByRole('link', { name: /catalog/i }).first()).toHaveAttribute('href', /index\.html#catalog/);
+      await expect(page).toHaveURL(expectedDestination(destination));
 
-      const html = page.locator('html');
-      const initialTheme = await html.getAttribute('data-theme');
-      expect(initialTheme).toMatch(/^(dark|light)$/);
-
-      await page.locator('#theme-toggle').click();
-      const toggledTheme = await html.getAttribute('data-theme');
-      expect(toggledTheme).toBe(initialTheme === 'dark' ? 'light' : 'dark');
+      if (!isExternalDestination(destination)) {
+        await expect(page).toHaveTitle(/AI\(2\)M\(2\)IA/);
+        await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveCount(1);
+        await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
+        await expect(page.getByRole('link', { name: /catalog/i }).first()).toHaveAttribute('href', '#catalog');
+      }
     });
   }
+
+  test('home has no links to removed /works routes', async ({ page }) => {
+    await page.goto('/');
+    const staleWorkLinks = await page.$$eval('a[href]', links =>
+      links
+        .map(link => link.getAttribute('href'))
+        .filter(href => href && href.startsWith('/works/'))
+    );
+    expect(staleWorkLinks).toEqual([]);
+  });
 
   test('applies saved language on work pages', async ({ page }) => {
     await page.goto('/');
@@ -45,4 +51,5 @@ test.describe('Work pages', () => {
     await page.goto('/works/level-zero/');
     await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR');
   });
+
 });
