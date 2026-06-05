@@ -381,3 +381,11 @@ These rules apply to EVERY agent and tool (Claude, Codex, ChatGPT, Gemini/Antigr
    - BEFORE any commit: run `git config user.name && git config user.email` and confirm the pseudonymous identity above.
    - AFTER committing: run `git log -1 --format='%an <%ae> | %cn <%ce>'` and confirm both fields match it.
 4. **On violation: stop.** If a wrong identity is detected, halt immediately and fix it (amend/rewrite) before any further work — and never push it.
+
+## Language Policy (MANDATORY)
+
+ALL repository artifacts MUST be written in American English: commit messages, documentation, review reports, code comments, file names, and specs.
+
+Exceptions:
+- Book content in its intended target language (e.g., cafe-com-leite is a Portuguese-language book; translation directories such as `chapters/<lang>/` or `translations/` keep their respective languages).
+- Internal working documents in any other language must NOT be committed — keep them outside the repository or .gitignored.
