@@ -43,7 +43,7 @@ jobs:
           persist-credentials: false
 
       - name: Run Claude review
-        uses: anthropics/claude-code-action@7f37f2e37370b88fc5bd16496c0512c6e8aa2e45
+        uses: anthropics/claude-code-action@41ea7642c1436fa0ee57aae58347904b71a5af27
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_AUTH_TOKEN }}
           prompt: |
