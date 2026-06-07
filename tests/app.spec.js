@@ -183,7 +183,7 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
         expect(awsTag.toLowerCase(), 'AWS card tag should be real text, not an i18n key').toContain('cloud guidebook');
         await expect(awsSummary.toLowerCase(), 'AWS card summary should be real text, not an i18n key').not.toContain('worksummary_lets-build-on-aws-together');
         await expect(awsSummary.toLowerCase(), 'AWS card summary should mention AWS').toContain('aws');
-        await expect(awsLinks.nth(0), 'AWS first link should remain labeled for study destination').toHaveText(/Read on KDP/i);
+        await expect(awsLinks.nth(0), 'AWS first link should remain labeled as buy destination').toHaveText(/Buy on Amazon/i);
         await expect(awsLinks.nth(1), 'AWS second link should remain labeled for Kindle').toHaveText(/Kindle/i);
       }
     }

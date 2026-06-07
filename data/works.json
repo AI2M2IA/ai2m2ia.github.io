@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-05",
+  "lastUpdated": "2026-06-07T00:00:00Z",
   "workFamilies": [
     {
       "id": "lets-build-on-aws-together",
@@ -14,7 +14,7 @@
       "coverAlt": "Cover art for Let's Build on AWS Together",
       "amazonUrl": "https://www.amazon.com/dp/B0H3Q4JL7V",
       "studyUrl": "https://www.amazon.com/dp/B0D5WSMD8D",
-      "studyLabel": "Read on KDP",
+      "studyLabel": "Buy on Amazon",
       "kindleLabel": "Kindle",
       "workIds": [],
       "mediaIds": []
