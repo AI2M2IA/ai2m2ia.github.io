@@ -174,6 +174,18 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
         expect(target, `Card "${title}" link #${j} should open in new tab`).toBe('_blank');
         expect((rel || '').toLowerCase(), `Card "${title}" link #${j} should include rel=noopener`).toMatch(/\bnoopener\b/);
       }
+
+      if (title === "Let's Build on AWS Together") {
+        const awsTag = await card.locator('.book-tag').innerText();
+        const awsSummary = await card.locator('.book-summary').innerText();
+        const awsLinks = card.locator('a.book-link span');
+
+        expect(awsTag.toLowerCase(), 'AWS card tag should be real text, not an i18n key').toContain('cloud guidebook');
+        await expect(awsSummary.toLowerCase(), 'AWS card summary should be real text, not an i18n key').not.toContain('worksummary_lets-build-on-aws-together');
+        await expect(awsSummary.toLowerCase(), 'AWS card summary should mention AWS').toContain('aws');
+        await expect(awsLinks.nth(0), 'AWS first link should remain labeled for study destination').toHaveText(/Read on KDP/i);
+        await expect(awsLinks.nth(1), 'AWS second link should remain labeled for Kindle').toHaveText(/Kindle/i);
+      }
     }
   });
 
