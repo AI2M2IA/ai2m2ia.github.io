@@ -1310,6 +1310,18 @@ const UI_STRINGS = {
   }
 };
 
+const sanitizer = globalThis.sanitize || {};
+const escapeHtml = typeof sanitizer.escapeHtml === "function"
+  ? sanitizer.escapeHtml
+  : function (value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    };
+
 const state = {
   catalog: null,
   books: [],
@@ -1715,12 +1727,12 @@ function setChapter(index) {
 
 /**
  * Converts plain text to HTML with basic markdown formatting.
- * 
+ *
  * SECURITY: This function uses a "sanitize first, then format" approach.
  * The input text is escaped via escapeHtml() BEFORE any markdown processing.
  * This prevents XSS attacks by ensuring all user content is neutralized before
  * HTML tags are added.
- * 
+ *
  * IMPORTANT: Do NOT modify the order of operations. The escapeHtml() call MUST
  * happen before inlineMarkdown() to prevent injection attacks. If you need to
  * support additional markdown features, ensure they don't introduce raw HTML
@@ -2041,13 +2053,4 @@ function formatDate(value) {
   } catch {
     return value;
   }
-}
-
-function escapeHtml(value) {
-  return String(value ?? '')
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
 }

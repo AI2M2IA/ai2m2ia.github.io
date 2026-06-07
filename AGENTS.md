@@ -59,6 +59,7 @@ Do not merge with failing checks.
 - Avoid language leakage:
   - No Brazilian Portuguese strings in English UI state.
   - Preserve RTL behavior for `ar`, `fa`, `he`, `ur`.
+- For agent-to-human communication, use **American English** for instructions, status updates, and decisions, unless the user explicitly requests another language.
 
 ## 5) PWA-Specific Rules
 
@@ -368,3 +369,23 @@ The Claude reviewer uses an OAuth token (`CLAUDE_CODE_AUTH_TOKEN`) tied to the C
 - Reviewer findings are advisory, not gating. Resolve or defend each comment in the PR thread.
 - If a reviewer is wrong, leave a reply explaining why and update CODE_REVIEW.md if it represents a new accepted risk.
 - Do not change the gate from "at least one" to "all" without explicit user confirmation — the resilience is intentional.
+
+## Identity Policy (MANDATORY)
+
+These rules apply to EVERY agent and tool (Claude, Codex, ChatGPT, Gemini/Antigravity, scripts, CI) contributing to this repository.
+
+1. **Single identity.** Every commit and tag MUST use exactly
+   `AI(2)M(2)IA <AI2M2IA@users.noreply.github.com>` as BOTH author and committer (and tagger).
+2. **Forbidden — no exceptions.** The author's real name and any personal e-mail address must NEVER appear in commits, tags, commit messages, file contents, or metadata (manifests, license files, EXIF, build artifacts). Under no circumstances.
+3. **Mandatory double check.**
+   - BEFORE any commit: run `git config user.name && git config user.email` and confirm the pseudonymous identity above.
+   - AFTER committing: run `git log -1 --format='%an <%ae> | %cn <%ce>'` and confirm both fields match it.
+4. **On violation: stop.** If a wrong identity is detected, halt immediately and fix it (amend/rewrite) before any further work — and never push it.
+
+## Language Policy (MANDATORY)
+
+ALL repository artifacts MUST be written in American English: commit messages, documentation, review reports, code comments, file names, and specs.
+
+Exceptions:
+- Book content in its intended target language (e.g., cafe-com-leite is a Portuguese-language book; translation directories such as `chapters/<lang>/` or `translations/` keep their respective languages).
+- Internal working documents in any other language must NOT be committed — keep them outside the repository or .gitignored.

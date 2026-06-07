@@ -120,7 +120,7 @@ const I18N = {
     heroEyebrow:         'Narratives Shaped by Hybrid Minds',
     heroLead:            'One impossible book at a time. Read progression fantasy, gothic dark fantasy, and speculative war fiction built around complex systems and characters who do not resolve cleanly.',
     heroPrimaryCTA:      'Explore Catalog',
-    heroSecondaryCTA:    'Watch Samples',
+    heroSecondaryCTA:    'Read About Our Method',
     heroNote:            'AI accelerates production. Human direction, structure, revision, taste, and ethics remain completely non-delegable.',
     charSeriesLevelZero: 'Level Zero / Analyze',
     charSeriesCrater:    'The Crater Gospel / Bell',
@@ -151,8 +151,8 @@ const I18N = {
     'workTag_the-princess-and-the-turtle':    'Epic Fantasy',
     'workSummary_the-princess-and-the-turtle': 'A fisherman saves a wounded sea turtle and is taken to an underwater kingdom where time moves differently, war looms between sea peoples, and love grows stronger through adversity.',
     /* Philosophy section */
-    philDisclosureText:    'The books and media are human-directed and AI-assisted. AI can generate text, propose revisions, prepare assets, and accelerate production, but it does not decide what should be published, what claims are true, what a character means, or whether a book deserves to exist.',
-    philResponsibilityText: 'The project treats AI like a calculator, a computer, or a typewriter: a tool that changes what humans spend effort on. Calculators did not remove responsibility for calculation. Typewriters did not remove authorship. AI assistance shifts work toward selection, structure, taste, ethics, verification, and revision.',
+    philDisclosureText:    'These works are human-led with AI support. AI speeds drafting and revision; humans keep the final creative, editorial, and publication control.',
+    philResponsibilityText: 'Tools can speed writing; they never replace responsibility. Humans keep control of truth, taste, and publication judgment.',
     analogyCalcText:       'Computers and calculators reduce mechanical burden, but a human remains responsible for the problem, the interpretation, and the consequences of the result.',
     analogyTypeText:       'A typewriter changes the physical act of writing without making the machine the author. AI changes drafting mechanics, but the human remains responsible for judgment and publication.',
     /* WIP & authorship badges */
@@ -180,8 +180,8 @@ const I18N = {
     mediaLead:           'Third-party players load only on request, respecting your bandwidth and privacy. YouTube embeds do not autoplay.',
     clickToLoad:         'Click to load player',
     philEyebrow:         'The Trust Frame',
-    philTitle:           'AI Assistance & Human Responsibility',
-    philLead:            'A transparent account of the cooperative writing methodology behind these books.',
+    philTitle:           'AI + Human Responsibility',
+    philLead:            'Humans set direction; AI handles speed and execution support.',
     philDisclosureTitle: 'Full Disclosure Statement',
     analogyCalcTitle:    'The Calculator Analogy',
     analogyTypeTitle:    'The Typewriter Analogy',
@@ -209,7 +209,7 @@ const I18N = {
     const url        = `data/i18n/${lang}.json`;
 
     try {
-      const res  = await fetch(url, { cache: 'no-cache' });
+      const res  = await fetch(url);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
 
@@ -461,7 +461,7 @@ const DataStore = {
     const updatedKey = this._updatedKey(name);
 
     try {
-      const response = await fetch(url, { cache: 'no-cache' });
+      const response = await fetch(url);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
 
@@ -491,18 +491,23 @@ const DataStore = {
     }
   },
 
-  async loadAll() {
-    const entries = [
-      ['works', 'data/works.json'],
-      ['author', 'data/author.json'],
-      ['media', 'data/media.json'],
-      ['sources', 'data/sources.json']
-    ];
+  async loadAll(entries = ['works', 'author', 'media', 'sources']) {
+    const filesByName = {
+      works: ['works', 'data/works.json'],
+      author: ['author', 'data/author.json'],
+      media: ['media', 'data/media.json'],
+      sources: ['sources', 'data/sources.json'],
+    };
+
+    const selected = entries
+      .map((entry) => filesByName[entry])
+      .filter(Boolean);
+
     const results = await Promise.allSettled(
-      entries.map(([name, url]) => this._loadWithCache(name, url))
+      selected.map(([name, url]) => this._loadWithCache(name, url))
     );
     results.forEach((result, index) => {
-      const [key] = entries[index];
+      const [key] = selected[index];
       if (result.status === 'fulfilled') {
         this[key] = result.value;
       } else {
@@ -538,30 +543,37 @@ function languageButtonLabel(lang) {
   })[lang] || String(lang || 'en').split('-')[0].toUpperCase();
 }
 
-function escapeHtml(value) {
-  return String(value ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
+const sanitizer = globalThis.sanitize || {};
+const escapeHtml = typeof sanitizer.escapeHtml === 'function'
+  ? sanitizer.escapeHtml
+  : function (value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    };
 
-function safeUrl(value, { external = false } = {}) {
-  if (!value) return '';
-  try {
-    const url = new URL(value, window.location.href);
-    if (!['http:', 'https:'].includes(url.protocol)) return '#';
-    if (!external && url.origin !== window.location.origin) return '#';
-    return value;
-  } catch (_) {
-    return '#';
-  }
-}
+const safeUrl = typeof sanitizer.safeUrl === 'function'
+  ? sanitizer.safeUrl
+  : function (value, { external = false } = {}) {
+      if (!value) return '';
+      try {
+        const url = new URL(value, window.location.href);
+        if (!['http:', 'https:'].includes(url.protocol)) return '#';
+        if (!external && url.origin !== window.location.origin) return '#';
+        return value;
+      } catch (_) {
+        return '#';
+      }
+    };
 
-function safeMediaId(value) {
-  return /^[A-Za-z0-9_-]+$/.test(String(value || '')) ? String(value) : '';
-}
+const safeMediaId = typeof sanitizer.safeMediaId === 'function'
+  ? sanitizer.safeMediaId
+  : function (value) {
+      return /^[A-Za-z0-9_-]+$/.test(String(value || '')) ? String(value) : '';
+    };
 
 function isSafeYouTubeId(value) {
   return /^[A-Za-z0-9_-]{11}$/.test(String(value || ''));
@@ -611,6 +623,40 @@ const CatalogRenderer = {
         ).join('')}</div>`
       : '';
 
+    const studyUrl = safeUrl(work.studyUrl, { external: true });
+    const studyLabel = String(work.studyLabel || I18N.t('learnMore') || 'Study app');
+    const kindleUrl = safeUrl(work.amazonUrl, { external: true });
+    const kindleLabel = String(work.kindleLabel || I18N.t('buyOnAmazon') || 'Kindle');
+
+    const primaryLinks = [];
+    if (studyUrl && studyUrl !== '#') {
+      primaryLinks.push(`
+            <a class="book-link" href="${escapeHtml(studyUrl)}" target="_blank" rel="noopener">
+              <span>${escapeHtml(studyLabel)}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>`);
+    }
+
+    if (kindleUrl && kindleUrl !== '#') {
+      primaryLinks.push(`
+            <a class="book-link" href="${escapeHtml(kindleUrl)}" target="_blank" rel="noopener">
+              <span>${escapeHtml(kindleLabel)}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+            </a>`);
+    } else if (work.kindleLabel) {
+      primaryLinks.push(`
+            <span class="book-link book-link--disabled" aria-disabled="true">${escapeHtml(kindleLabel)}</span>`);
+    }
+
+    if (!primaryLinks.length) {
+      primaryLinks.push(`
+            <span class="book-link book-link--disabled" aria-disabled="true">Coming Soon</span>`);
+    }
+
     return `
       <article class="book-card" data-genre="${escapeHtml(work.genre)}" data-id="${escapeHtml(work.id)}">
         ${coverEl}
@@ -621,16 +667,7 @@ const CatalogRenderer = {
           <h3 class="book-title">${escapeHtml(work.name)}</h3>
           <p class="book-summary">${escapeHtml(I18N.t('workSummary_' + work.id) || work.summary)}</p>
           <div class="book-actions">
-            <a class="book-link" href="${escapeHtml(safeUrl(work.route))}">
-              <span data-i18n="learnMore">${escapeHtml(I18N.t('learnMore'))}</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-            ${work.amazonUrl
-              ? `<a class="book-link" href="${escapeHtml(safeUrl(work.amazonUrl, { external: true }))}" target="_blank" rel="noopener noreferrer">
-                  <span data-i18n="buyOnAmazon">${escapeHtml(I18N.t('buyOnAmazon'))}</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                </a>`
-              : ''}
+            ${primaryLinks.join('')}
           </div>
         </div>
       </article>`;
@@ -643,7 +680,7 @@ const CatalogRenderer = {
     });
     document.querySelectorAll('.filter-tab').forEach(tab => {
       tab.classList.toggle('active', tab.dataset.filter === filter);
-      tab.setAttribute('aria-selected', String(tab.dataset.filter === filter));
+      tab.setAttribute('aria-pressed', String(tab.dataset.filter === filter));
     });
   },
 
@@ -791,48 +828,6 @@ const PhilosophyRenderer = {
     const a = DataStore.author;
     const set = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
     set('author-disclosure',   I18N.t('philDisclosureText') || a.aiDisclosure);
-    set('author-responsibility', I18N.t('philResponsibilityText') || a.responsibilityFrame);
-    set('analogy-calc',  I18N.t('analogyCalcText') || a.toolAnalogies.calculatorComputer);
-    set('analogy-type',  I18N.t('analogyTypeText') || a.toolAnalogies.typewriterHandwriting);
-  }
-};
-
-/* --------------------------------------------------------------------------
-   AUDIT PANEL
-   -------------------------------------------------------------------------- */
-const AuditPanel = {
-  open: false,
-
-  renderSources() {
-    const container = document.getElementById('sources-container');
-    if (!container || !DataStore.sources?.sources) return;
-    container.innerHTML = DataStore.sources.sources.map(s => `
-      <div class="source-item">
-        <p class="source-label">${escapeHtml(s.label)}</p>
-        <p class="source-type">${escapeHtml(s.type)}</p>
-        <p class="source-note">${escapeHtml(s.note)}</p>
-        ${s.url ? `<a class="source-link" href="${escapeHtml(safeUrl(s.url, { external: true }))}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.url)}</a>` : ''}
-      </div>`).join('');
-  },
-
-  init() {
-    const btn   = document.getElementById('audit-toggle-btn');
-    const panel = document.getElementById('audit-panel');
-    if (!btn || !panel) return;
-    const syncPanelState = () => {
-      panel.classList.toggle('open', this.open);
-      btn.setAttribute('aria-expanded', String(this.open));
-      panel.setAttribute('aria-hidden', String(!this.open));
-      panel.inert = !this.open;
-    };
-    syncPanelState();
-
-    btn.addEventListener('click', () => {
-      this.open = !this.open;
-      syncPanelState();
-      const labelEl = btn.querySelector('[data-audit-label]');
-      if (labelEl) labelEl.textContent = I18N.t(this.open ? 'hideAudit' : 'showAudit');
-    });
   }
 };
 
@@ -844,25 +839,9 @@ const HeroCollage = {
     const items = document.querySelectorAll('.collage-item');
     if (!items.length) return;
 
-    /* Ensure proper ARIA attributes for keyboard accessibility */
-    items.forEach(item => {
-      if (!item.getAttribute('role')) item.setAttribute('role', 'button');
-      if (!item.hasAttribute('tabindex')) item.setAttribute('tabindex', '0');
-    });
-
     items.forEach(item => {
       item.addEventListener('mouseenter', () => this._activate(item, items));
-      item.addEventListener('focus',      () => this._activate(item, items));
       item.addEventListener('mouseleave', () => this._reset(items));
-      item.addEventListener('blur',       () => this._reset(items));
-
-      /* Keyboard activation: Enter and Space trigger the same action as hover */
-      item.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          this._activate(item, items);
-        }
-      });
     });
   },
 
@@ -885,15 +864,63 @@ const MobileNav = {
     const nav = document.querySelector('.site-nav');
     if (!btn || !nav) return;
 
+    const getFocusableElements = () =>
+      [...nav.querySelectorAll('a[href], button, [tabindex]:not([tabindex="-1"])')].filter(el =>
+        el.offsetParent !== null || el.tagName === 'A' || el.tagName === 'BUTTON'
+      );
+    let previousActiveElement = null;
+    let onKeyDown;
+
     btn.addEventListener('click', () => {
       const open = nav.classList.toggle('mobile-open');
       btn.setAttribute('aria-expanded', String(open));
+      if (open) {
+        previousActiveElement = document.activeElement;
+        const focusables = getFocusableElements();
+        if (focusables[0]) {
+          focusables[0].focus();
+        }
+        onKeyDown = event => {
+          if (event.key === 'Escape') {
+            nav.classList.remove('mobile-open');
+            btn.setAttribute('aria-expanded', 'false');
+            if (previousActiveElement) previousActiveElement.focus();
+            document.removeEventListener('keydown', onKeyDown);
+            return;
+          }
+
+          if (event.key !== 'Tab') return;
+
+          const focusablesNow = getFocusableElements();
+          if (!focusablesNow.length) return;
+          const first = focusablesNow[0];
+          const last = focusablesNow[focusablesNow.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+            return;
+          }
+          if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        };
+        document.addEventListener('keydown', onKeyDown);
+      } else if (onKeyDown) {
+        document.removeEventListener('keydown', onKeyDown);
+      }
     });
 
     nav.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         nav.classList.remove('mobile-open');
         btn.setAttribute('aria-expanded', 'false');
+        if (onKeyDown) {
+          document.removeEventListener('keydown', onKeyDown);
+        }
+        if (previousActiveElement) {
+          previousActiveElement.focus();
+        }
       });
     });
   }
@@ -944,7 +971,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 3. Fetch content data (wrapped in error boundary)
   try {
-    await DataStore.loadAll();
+    await DataStore.loadAll(['works', 'author']);
   } catch (err) {
     console.error('[AI2M2IA] DataStore.loadAll() failed:', err);
   }
@@ -954,38 +981,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (DataStore.works) {
       CatalogRenderer.render();
       CatalogRenderer.initFilters();
-      CharacterRenderer.render();
     } else {
       showSectionError('books-grid', 'catalog');
-      showSectionError('characters-grid', 'characters');
+      throw new Error('Missing catalog payload');
     }
   } catch (err) {
-    console.error('[AI2M2IA] Catalog/Character rendering failed:', err);
+    console.error('[AI2M2IA] Catalog rendering failed:', err);
     showSectionError('books-grid', 'catalog');
-    showSectionError('characters-grid', 'characters');
-  }
-
-  try {
-    MediaRenderer.render();
-    if (!DataStore.media?.items?.length) {
-      showSectionError('media-grid', 'media samples');
-    }
-  } catch (err) {
-    console.error('[AI2M2IA] Media rendering failed:', err);
-    showSectionError('media-grid', 'media samples');
   }
 
   try {
     PhilosophyRenderer.render();
   } catch (err) {
     console.error('[AI2M2IA] Philosophy rendering failed:', err);
-  }
-
-  try {
-    AuditPanel.renderSources();
-    AuditPanel.init();
-  } catch (err) {
-    console.error('[AI2M2IA] Audit panel rendering failed:', err);
   }
 
   // 5. Re-apply i18n to dynamically rendered content

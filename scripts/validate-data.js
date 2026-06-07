@@ -13,6 +13,7 @@ const addFormats = require('ajv-formats');
 
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const SCHEMAS_DIR = path.join(DATA_DIR, 'schemas');
+const REPO_DIR = path.resolve(__dirname, '..');
 
 const VALIDATIONS = [
   { data: 'works.json', schema: 'works.schema.json' },
@@ -75,6 +76,33 @@ function validate(schemaFile, dataFile) {
   }
 }
 
+function validateCrossReferences(worksData, mediaData) {
+  const errors = [];
+  const mediaIds = new Set((mediaData.items || []).map((media) => media.id));
+  const familyIds = new Set((worksData.workFamilies || []).map((family) => family.id));
+
+  for (const family of worksData.workFamilies || []) {
+    const routePath = path.join(REPO_DIR, family.route || '', 'index.html');
+    if (!fs.existsSync(routePath)) {
+      errors.push(`  ✗ Missing work route file for "${family.id}": ${family.route}`);
+    }
+
+    for (const mediaId of family.mediaIds || []) {
+      if (!mediaIds.has(mediaId)) {
+        errors.push(`  ✗ Missing mediaId in media.json for "${family.id}": ${mediaId}`);
+      }
+    }
+  }
+
+  for (const character of worksData.characters || []) {
+    if (!familyIds.has(character.workFamilyId)) {
+      errors.push(`  ✗ Character "${character.id}" references unknown workFamilyId: ${character.workFamilyId}`);
+    }
+  }
+
+  return errors;
+}
+
 console.log('='.repeat(60));
 console.log('Data Schema Validation');
 console.log('='.repeat(60));
@@ -90,7 +118,25 @@ for (const { data, schema } of VALIDATIONS) {
 
 console.log('\n' + '='.repeat(60));
 if (allValid) {
-  console.log('✓ All data files are valid');
+  try {
+    const worksData = loadJson(path.join(DATA_DIR, 'works.json'));
+    const mediaData = loadJson(path.join(DATA_DIR, 'media.json'));
+    const crossRefErrors = validateCrossReferences(worksData, mediaData);
+
+    if (crossRefErrors.length > 0) {
+      console.error('\nCross-reference validation failed:');
+      crossRefErrors.forEach((error) => console.error(error));
+      console.error('✗ Referential integrity check failed');
+      process.exit(1);
+    }
+
+    console.log('✓ All data files are valid');
+    console.log('✓ Referential integrity checks passed');
+  } catch (error) {
+    console.error('✗ Failed to run referential validation:', error.message);
+    process.exit(1);
+  }
+
   process.exit(0);
 } else {
   console.error('✗ Validation failed');
