@@ -627,6 +627,12 @@ const CatalogRenderer = {
     const studyLabel = String(work.studyLabel || I18N.t('learnMore') || 'Study app');
     const kindleUrl = safeUrl(work.amazonUrl, { external: true });
     const kindleLabel = String(work.kindleLabel || I18N.t('buyOnAmazon') || 'Kindle');
+    const tagKey = `workTag_${work.id}`;
+    const summaryKey = `workSummary_${work.id}`;
+    const tagFromI18n = I18N.t(tagKey);
+    const summaryFromI18n = I18N.t(summaryKey);
+    const workTag = tagFromI18n === tagKey ? (work.tag || '') : tagFromI18n;
+    const workSummary = summaryFromI18n === summaryKey ? (work.summary || '') : summaryFromI18n;
 
     const primaryLinks = [];
     if (studyUrl && studyUrl !== '#') {
@@ -662,10 +668,10 @@ const CatalogRenderer = {
         ${coverEl}
         <div class="book-body">
           ${wipEl}
-          <span class="book-tag ${tagClass}">${escapeHtml(I18N.t('workTag_' + work.id) || work.tag || '')}</span>
+          <span class="book-tag ${tagClass}">${escapeHtml(workTag)}</span>
           ${authorshipEl}
           <h3 class="book-title">${escapeHtml(work.name)}</h3>
-          <p class="book-summary">${escapeHtml(I18N.t('workSummary_' + work.id) || work.summary)}</p>
+          <p class="book-summary">${escapeHtml(workSummary)}</p>
           <div class="book-actions">
             ${primaryLinks.join('')}
           </div>
