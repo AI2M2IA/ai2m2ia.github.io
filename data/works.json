@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-08",
+  "lastUpdated": "2026-06-09",
   "workFamilies": [
     {
       "id": "lets-build-on-aws-together",
@@ -13,9 +13,9 @@
       "coverImage": "assets/covers/lets-build-on-aws-together.svg",
       "coverAlt": "Cover art for Let's Build on AWS Together",
       "amazonUrl": "https://www.amazon.com/dp/B0H3Q4JL7V",
-      "studyUrl": "https://www.amazon.com/dp/B0D5WSMD8D",
-      "studyLabel": "Buy on Amazon",
-      "kindleLabel": "Kindle",
+      "studyUrl": "https://ai2m2ia.github.io/book-lets-build-on-aws-together/",
+      "studyLabel": "Practice materials",
+      "kindleLabel": "Buy on Amazon",
       "workIds": [],
       "mediaIds": []
     },
