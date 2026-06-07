@@ -183,8 +183,8 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
         expect(awsTag.toLowerCase(), 'AWS card tag should be real text, not an i18n key').toContain('cloud guidebook');
         await expect(awsSummary.toLowerCase(), 'AWS card summary should be real text, not an i18n key').not.toContain('worksummary_lets-build-on-aws-together');
         await expect(awsSummary.toLowerCase(), 'AWS card summary should mention AWS').toContain('aws');
-        await expect(awsLinks.nth(0), 'AWS first link should remain labeled as buy destination').toHaveText(/Buy on Amazon/i);
-        await expect(awsLinks.nth(1), 'AWS second link should remain labeled for Kindle').toHaveText(/Kindle/i);
+        await expect(awsLinks.nth(0), 'AWS first link should now point to practice materials').toHaveText(/Practice materials/i);
+        await expect(awsLinks.nth(1), 'AWS second link should now be the Amazon purchase link').toHaveText(/Buy on Amazon/i);
       }
     }
   });
@@ -199,16 +199,16 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
     remoteWorks.lastUpdated = '2030-01-01';
     const remoteAws = remoteWorks.workFamilies.find(w => w.id === 'lets-build-on-aws-together');
     if (remoteAws) {
-      remoteAws.studyUrl = 'https://www.amazon.com/dp/B0D5WSMD8D';
-      remoteAws.studyLabel = 'Buy on Amazon';
+      remoteAws.studyUrl = 'https://ai2m2ia.github.io/book-lets-build-on-aws-together/';
+      remoteAws.studyLabel = 'Practice materials';
     }
 
     const staleWorks = JSON.parse(JSON.stringify(baseWorks));
     staleWorks.lastUpdated = '2025-12-31';
     const staleAws = staleWorks.workFamilies.find(w => w.id === 'lets-build-on-aws-together');
     if (staleAws) {
-      staleAws.studyUrl = 'https://ai2m2ia.github.io/book-lets-build-on-aws-together/';
-      staleAws.studyLabel = 'Read on KDP';
+      staleAws.studyUrl = 'https://www.amazon.com/dp/B0D5WSMD8D';
+      staleAws.studyLabel = 'Buy on Amazon';
     }
 
     await page.route('**/data/works.json', route =>
@@ -229,8 +229,8 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
 
     const awsCard = page.locator('.book-card[data-id="lets-build-on-aws-together"]');
     const awsStudyLink = awsCard.locator('a.book-link').first();
-    await expect(awsStudyLink.locator('span')).toHaveText(/Buy on Amazon/i);
-    await expect(awsStudyLink).toHaveAttribute('href', 'https://www.amazon.com/dp/B0D5WSMD8D');
+    await expect(awsStudyLink.locator('span')).toHaveText(/Practice materials/i);
+    await expect(awsStudyLink).toHaveAttribute('href', 'https://ai2m2ia.github.io/book-lets-build-on-aws-together/');
     const updatedMarker = await page.evaluate(() => localStorage.getItem('ai2m2ia-data-works-updated'));
     expect(updatedMarker).toBe(remoteWorks.lastUpdated);
   });
