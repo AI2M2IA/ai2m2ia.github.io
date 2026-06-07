@@ -841,17 +841,42 @@ const HeroCollage = {
 
     items.forEach(item => {
       item.addEventListener('mouseenter', () => this._activate(item, items));
+      item.addEventListener('focus', () => this._activate(item, items));
       item.addEventListener('mouseleave', () => this._reset(items));
+      item.addEventListener('blur', () => this._reset(items));
+      item.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        this._activate(item, items);
+      });
     });
   },
 
   _activate(active, all) {
-    all.forEach(item => item.classList.toggle('item-active', item === active));
+    all.forEach(item => {
+      const isActive = item === active;
+      item.classList.toggle('item-active', isActive);
+      if (item.hasAttribute('aria-pressed')) {
+        item.setAttribute('aria-pressed', String(isActive));
+      }
+    });
   },
 
   _reset(all) {
     all.forEach(item => item.classList.remove('item-active'));
-    if (all[0]) all[0].classList.add('item-active');
+    if (all[0]) {
+      all[0].classList.add('item-active');
+      if (all[0].hasAttribute('aria-pressed')) {
+        all[0].setAttribute('aria-pressed', 'true');
+      }
+    }
+
+    all.forEach((item, index) => {
+      if (index === 0) return;
+      if (item.hasAttribute('aria-pressed')) {
+        item.setAttribute('aria-pressed', 'false');
+      }
+    });
   }
 };
 
