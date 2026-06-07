@@ -38,6 +38,9 @@ test.describe('Accessibility Tests (WCAG 2.1 AA)', () => {
 
     for (const workPage of workPages) {
       await page.goto(workPage, { waitUntil: 'domcontentloaded' });
+      // Work pages are redirect shims; wait for the refresh target before scanning.
+      await page.waitForURL('**/index.html#catalog');
+      await page.waitForLoadState('networkidle');
       await page.locator('main').waitFor();
       
       const accessibilityScanResults = await new AxeBuilder({ page })
