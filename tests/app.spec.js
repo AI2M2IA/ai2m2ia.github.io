@@ -158,9 +158,10 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
 
       expect(hasDestination, `Card "${title}" should have at least one destination`).toBe(true);
 
-      // AWS card must expose both study app and Kindle links
+      // AWS card must expose the study app plus an honest Kindle availability state.
       if (title === "Let's Build on AWS Together") {
-        expect(linkCount, 'AWS card should expose two external links').toBe(2);
+        expect(linkCount, 'AWS card should expose one valid external link').toBe(1);
+        await expect(card.locator('.book-link--disabled')).toHaveText(/Kindle coming soon/i);
       }
 
       for (let j = 0; j < linkCount; j++) {

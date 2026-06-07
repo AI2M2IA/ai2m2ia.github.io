@@ -629,7 +629,7 @@ const CatalogRenderer = {
     const kindleLabel = String(work.kindleLabel || I18N.t('buyOnAmazon') || 'Kindle');
 
     const primaryLinks = [];
-    if (studyUrl !== '#') {
+    if (studyUrl && studyUrl !== '#') {
       primaryLinks.push(`
             <a class="book-link" href="${escapeHtml(studyUrl)}" target="_blank" rel="noopener">
               <span>${escapeHtml(studyLabel)}</span>
@@ -637,7 +637,7 @@ const CatalogRenderer = {
             </a>`);
     }
 
-    if (kindleUrl !== '#') {
+    if (kindleUrl && kindleUrl !== '#') {
       primaryLinks.push(`
             <a class="book-link" href="${escapeHtml(kindleUrl)}" target="_blank" rel="noopener">
               <span>${escapeHtml(kindleLabel)}</span>
@@ -647,6 +647,9 @@ const CatalogRenderer = {
                 <line x1="10" y1="14" x2="21" y2="3"/>
               </svg>
             </a>`);
+    } else if (work.kindleLabel) {
+      primaryLinks.push(`
+            <span class="book-link book-link--disabled" aria-disabled="true">${escapeHtml(kindleLabel)}</span>`);
     }
 
     if (!primaryLinks.length) {
