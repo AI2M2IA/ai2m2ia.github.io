@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
 const BASE_URL = 'http://localhost:3000';
 
 const WORKS = [
-  { slug: 'lets-build-on-aws-together', destination: 'https://www.amazon.com/dp/B0D5WSMD8D' },
+  { slug: 'lets-build-on-aws-together', destination: 'https://ai2m2ia.github.io/book-lets-build-on-aws-together/' },
   { slug: 'level-zero', destination: '/index.html#catalog' },
   { slug: 'analyze', destination: '/index.html#catalog' },
   { slug: 'bell-that-remembers', destination: '/index.html#catalog' },
