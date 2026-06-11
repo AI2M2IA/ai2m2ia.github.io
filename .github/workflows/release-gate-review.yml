@@ -40,7 +40,7 @@ jobs:
           persist-credentials: false
 
       - name: Run Claude review
-        uses: anthropics/claude-code-action@7f37f2e37370b88fc5bd16496c0512c6e8aa2e45
+        uses: anthropics/claude-code-action@0f97b95b6536c26e5f6bd90faec370d41695beca
         with:
           # Auth via the Claude Max subscription (not API tokens). Generate
           # the token locally with `claude setup-token` and store it as the
