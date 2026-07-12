@@ -1,0 +1,97 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+web_modules/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Operating System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.cproject
+.settings/
+.vscode/
+*.sublime-workspace
+.antigravitycli/
+
+# Playwright / Test outputs
+test-results/
+playwright-report/
+blob-report/
+playwright/.local-browsers
+coverage/
+
+# Local environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# Test artifacts & debug captures
+tests/screenshots/
+*.webm
+
+# PWA icons (must be committed for installability)
+!pwa/assets/icon-192.png
+!pwa/assets/icon-512.png
+
+# Other PNGs (screenshots, test artifacts)
+*.png
+
+# AI Agents
+.qwen/
+.claude/
+.agents/
+.gemini/
+.google/
+.antigravity/
+.deepseek/
+GOOGLE.md
+GEMINI.md
+ANTIGRAVITY.md
+DEEPSEEK.md
+.wip/
+
+# Security-sensitive files
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+*.keystore
+*.asc
+*.gpg
+secrets.*
+*.secrets.*
+
+
+# Internal working documents — never commit (Language/Identity Policy)
+VITRINE_EXECUTION.md
+recreate-hub-from-zero.sh
+thorough-revision-*
+*.stale*
+.claude/settings.local.json
+.penname

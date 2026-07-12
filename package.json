@@ -1,0 +1,34 @@
+{
+  "name": "ai2m2ia.github.io",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "scripts": {
+    "build:api": "python3 tools/api/scripts/build_catalog.py",
+    "test": "npm run test:coverage && npm run test:e2e",
+    "test:ci": "npm test",
+    "test:unit": "npm run test:api:contract && npm run test:api:unit && npm run test:i18n && npm run test:security && npm run test:data",
+    "test:coverage": "npm run test:api:contract && npm run test:data && node --test --experimental-test-coverage --test-coverage-include=tools/api/lib/api-contract.js --test-coverage-include=tools/api/validate-api.js --test-coverage-include=tests/i18n.test.js --test-coverage-include=tests/security.test.js --test-coverage-lines=80 --test-coverage-branches=80 --test-coverage-functions=80 tools/api/tests/*.test.js tests/i18n.test.js tests/security.test.js",
+    "test:data": "node scripts/validate-data.js",
+    "test:api": "npm run test:api:contract && npm run test:api:unit && npm run test:api:e2e",
+    "test:api:contract": "node tools/api/validate-api.js --api-dir api",
+    "test:api:e2e": "playwright test --project=static-api",
+    "test:api:pwa": "npm run test:api:contract && npm run test:api:unit && playwright test --project=static-api --project=pwa",
+    "test:api:unit": "node --test tools/api/tests/*.test.js",
+    "test:e2e": "playwright test",
+    "test:e2e:desktop": "playwright test --project=desktop-chrome",
+    "test:e2e:mobile": "playwright test --project=mobile-chrome --project=mobile-safari",
+    "test:e2e:ui": "playwright test --ui",
+    "test:works": "playwright test --project=works",
+    "test:i18n": "node --test tests/i18n.test.js",
+    "test:security": "node --test tests/security.test.js",
+    "test:prod": "playwright test --config=playwright.prod.config.js",
+    "test:pwa": "playwright test --project=pwa"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
+    "@playwright/test": "1.60.0",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "playwright": "1.60.0"
+  }
+}

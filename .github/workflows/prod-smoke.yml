@@ -1,0 +1,93 @@
+name: Production Smoke
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  prod-smoke:
+    name: Prod smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run production smoke tests
+        run: npm run test:prod
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+        with:
+          name: prod-smoke-playwright-report
+          path: playwright-report/
+          if-no-files-found: ignore
+
+      - name: Create issue on failure
+        if: failure()
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const title = `🚨 Production smoke test failed - ${new Date().toISOString().split('T')[0]}`;
+            const body = `Production smoke tests failed on ${new Date().toISOString()}.
+
+            **Workflow Run:** ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}
+
+            **Commit:** ${context.sha}
+
+            Please investigate immediately. The production site at https://ai2m2ia.github.io may be experiencing issues.
+
+            <details>
+            <summary>What to check</summary>
+
+            - Download the Playwright report artifact from the workflow run
+            - Run \`npm run test:prod\` locally to reproduce
+            - Check https://ai2m2ia.github.io manually
+            - Verify recent deployments didn't break critical functionality
+
+            </details>`;
+
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'production-smoke-failure'
+            });
+
+            const existingIssue = issues.find(i => i.title.includes('Production smoke test failed'));
+
+            if (existingIssue) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssue.number,
+                body: `Another failure occurred: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                labels: ['bug', 'production', 'production-smoke-failure']
+              });
+            }

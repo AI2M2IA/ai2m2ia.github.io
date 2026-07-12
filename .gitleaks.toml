@@ -1,0 +1,10 @@
+title = "AI(2)M(2)IA gitleaks configuration"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "AWS SAA-C03 teaching book — S3 object key examples in code snippets, not credentials."
+paths = [
+  '''api/books/lets-learn-aws-together/content\.json''',
+]
