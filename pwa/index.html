@@ -64,9 +64,9 @@
         </div>
 
         <div class="library-modes" id="library-modes" role="tablist" aria-label="Library view mode">
-          <button type="button" class="library-mode active" data-mode="catalog" role="tab" aria-selected="true">Catalog</button>
-          <button type="button" class="library-mode" data-mode="downloaded" role="tab" aria-selected="false">Downloaded</button>
-          <button type="button" class="library-mode" data-mode="wishlist" role="tab" aria-selected="false">Wishlist</button>
+          <button type="button" class="library-mode active" id="library-tab-catalog" data-mode="catalog" role="tab" aria-selected="true" aria-controls="library-panel">Catalog</button>
+          <button type="button" class="library-mode" id="library-tab-downloaded" data-mode="downloaded" role="tab" aria-selected="false" aria-controls="library-panel" tabindex="-1">Downloaded</button>
+          <button type="button" class="library-mode" id="library-tab-wishlist" data-mode="wishlist" role="tab" aria-selected="false" aria-controls="library-panel" tabindex="-1">Wishlist</button>
         </div>
 
         <div class="toolbar" aria-label="Library filters">
@@ -91,7 +91,7 @@
           <span id="catalog-version"></span>
         </div>
 
-        <div class="book-grid" id="book-grid"></div>
+        <div class="book-grid" id="library-panel" role="tabpanel" aria-labelledby="library-tab-catalog" tabindex="0"></div>
       </section>
 
       <section class="reader-shell" id="reader-view" hidden>
@@ -128,6 +128,6 @@
       </article>
     </template>
 
-    <script src="assets/app.js" type="module"></script>
+    <script src="assets/app.js?v=20260601b" type="module"></script>
   </body>
 </html>

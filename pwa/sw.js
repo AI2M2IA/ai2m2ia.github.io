@@ -1,5 +1,5 @@
 const SW_CACHE_NAMESPACE = "ai2m2ia-pwa";
-const SW_CACHE_VERSION_FALLBACK = "20260601a";
+const SW_CACHE_VERSION_FALLBACK = "20260601b";
 
 const SW_CACHE_SEEDS = [
   "./",
