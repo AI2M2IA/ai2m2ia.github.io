@@ -8,10 +8,10 @@ test.describe('Static API', () => {
     expect(response.headers()['x-content-type-options']).toBe('nosniff');
 
     const catalog = await response.json();
-    expect(catalog.schemaVersion).toBe(1);
+    expect(catalog.schemaVersion).toBe(2);
     expect(catalog.apiBaseUrl).toBe('https://ai2m2ia.github.io');
     expect(catalog.apiPrefix).toBe('/api');
     expect(catalog.books.length).toBeGreaterThan(0);
-    expect(catalog.books[0].manifestUrl).toContain('/api/books/');
+    expect(catalog.books[0].spokeUrl).toMatch(/^https:\/\//);
   });
 });

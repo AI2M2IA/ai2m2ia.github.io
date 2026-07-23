@@ -3,7 +3,6 @@
   "private": true,
   "license": "AGPL-3.0-only",
   "scripts": {
-    "build:api": "python3 tools/api/scripts/build_catalog.py",
     "test": "npm run test:coverage && npm run test:e2e",
     "test:ci": "npm test",
     "test:unit": "npm run test:api:contract && npm run test:api:unit && npm run test:i18n && npm run test:security && npm run test:data",

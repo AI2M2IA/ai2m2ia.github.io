@@ -4,14 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#101820">
-    <meta name="description" content="Official PWA for reading AI(2)M(2)IA public books with offline support.">
+    <meta name="description" content="AI(2)M(2)IA book library — launch each book's own reader PWA.">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: https://ai2m2ia.github.io; connect-src 'self' https://ai2m2ia.github.io; worker-src 'self'; manifest-src 'self'; form-action 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: https://*.github.io; connect-src 'self' https://ai2m2ia.github.io; worker-src 'self'; manifest-src 'self'; form-action 'self'">
     <title>AI(2)M(2)IA Books</title>
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="../assets/fonts/fonts.css">
-  <script src="../lib/sanitize.js"></script>
+    <link rel="stylesheet" href="../assets/fonts/fonts.css">
+    <script src="../lib/sanitize.js"></script>
   </head>
   <body>
     <header class="topbar">
@@ -63,12 +63,6 @@
           <div class="status-pill" id="network-status">Syncing</div>
         </div>
 
-        <div class="library-modes" id="library-modes" role="tablist" aria-label="Library view mode">
-          <button type="button" class="library-mode active" id="library-tab-catalog" data-mode="catalog" role="tab" aria-selected="true" aria-controls="library-panel">Catalog</button>
-          <button type="button" class="library-mode" id="library-tab-downloaded" data-mode="downloaded" role="tab" aria-selected="false" aria-controls="library-panel" tabindex="-1">Downloaded</button>
-          <button type="button" class="library-mode" id="library-tab-wishlist" data-mode="wishlist" role="tab" aria-selected="false" aria-controls="library-panel" tabindex="-1">Wishlist</button>
-        </div>
-
         <div class="toolbar" aria-label="Library filters">
           <label class="search-field">
             <span id="search-label">Search</span>
@@ -91,43 +85,24 @@
           <span id="catalog-version"></span>
         </div>
 
-        <div class="book-grid" id="library-panel" role="tabpanel" aria-labelledby="library-tab-catalog" tabindex="0"></div>
-      </section>
-
-      <section class="reader-shell" id="reader-view" hidden>
-        <aside class="reader-sidebar">
-          <a class="back-link" href="#library">← Library</a>
-          <h2 id="reader-book-title">Book</h2>
-          <p id="reader-book-author"></p>
-          <div class="chapter-list" id="chapter-list"></div>
-        </aside>
-        <article class="reader-panel">
-          <div class="reader-tools">
-            <button id="prev-chapter" type="button">Previous</button>
-            <span id="reader-position"></span>
-            <button id="next-chapter" type="button">Next</button>
-          </div>
-          <h1 id="chapter-title"></h1>
-          <div class="chapter-body" id="chapter-body"></div>
-        </article>
+        <div class="book-grid" id="library-panel" role="list" aria-label="Books"></div>
       </section>
     </main>
 
     <template id="book-card-template">
-      <article class="book-card">
+      <article class="book-card" role="listitem">
         <div class="cover-slot"></div>
         <div class="book-copy">
           <div class="book-kicker"></div>
           <h2></h2>
           <p></p>
           <div class="book-actions">
-            <a class="read-link">Read</a>
-            <button class="download-button" type="button">Download</button>
+            <a class="read-link" rel="external">Read</a>
           </div>
         </div>
       </article>
     </template>
 
-    <script src="assets/app.js?v=20260601b" type="module"></script>
+    <script src="assets/app.js?v=20260723a" type="module"></script>
   </body>
 </html>
