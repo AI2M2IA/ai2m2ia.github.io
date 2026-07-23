@@ -52,12 +52,12 @@ coverage/
 tests/screenshots/
 *.webm
 
+# Other PNGs (screenshots, test artifacts)
+*.png
+
 # PWA icons (must be committed for installability)
 !pwa/assets/icon-192.png
 !pwa/assets/icon-512.png
-
-# Other PNGs (screenshots, test artifacts)
-*.png
 
 # AI Agents
 .qwen/

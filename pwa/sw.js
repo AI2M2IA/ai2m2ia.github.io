@@ -1,5 +1,5 @@
 const SW_CACHE_NAMESPACE = "ai2m2ia-pwa";
-const SW_CACHE_VERSION_FALLBACK = "20260601b";
+const SW_CACHE_VERSION_FALLBACK = "20260723a";
 
 const SW_CACHE_SEEDS = [
   "./",
@@ -54,21 +54,7 @@ async function fetchSeedText(path) {
 
 async function collectApiSeedPayloads() {
   const catalogPath = "../api/catalog.json";
-  const payloads = [await fetchSeedText(catalogPath)];
-
-  try {
-    const catalog = JSON.parse(payloads[0]);
-    const manifestUrls = (catalog.books || [])
-      .map(book => book?.manifestUrl)
-      .filter(url => typeof url === "string");
-    const uniqueManifestUrls = Array.from(new Set(manifestUrls));
-    const contentPayloads = await Promise.all(uniqueManifestUrls.map(url => fetchSeedText(url)));
-    payloads.push(...contentPayloads);
-  } catch {
-    // catalog unavailable or unexpected format: keep the existing catalog payload marker
-  }
-
-  return payloads;
+  return [await fetchSeedText(catalogPath)];
 }
 
 async function computeCacheVersionFromSeedFiles() {
