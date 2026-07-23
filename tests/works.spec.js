@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = `http://localhost:${process.env.AI2M2IA_TEST_PORT || '34781'}`;
 
 const WORKS = [
   { slug: 'lets-build-on-aws-together', destination: 'https://ai2m2ia.github.io/book-lets-build-on-aws-together/' },
