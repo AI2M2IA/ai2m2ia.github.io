@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || process.env.AI2M2IA_TEST_PORT || 34781;
 
 const MIME_TYPES = {
   '.html': 'text/html',

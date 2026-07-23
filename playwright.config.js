@@ -1,5 +1,7 @@
 const { defineConfig, devices } = require('@playwright/test');
 
+const TEST_PORT = process.env.AI2M2IA_TEST_PORT || '34781';
+
 module.exports = defineConfig({
   testDir: './tests',
   // Match only .spec.js files for Playwright, leaving i18n.test.js alone
@@ -10,7 +12,7 @@ module.exports = defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: `http://localhost:${TEST_PORT}`,
     trace: 'on-first-retry',
   },
   projects: [
@@ -51,9 +53,9 @@ module.exports = defineConfig({
     },
   ],
   webServer: {
-    command: 'node tests/server.js',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
+    command: `PORT=${TEST_PORT} node tests/server.js`,
+    url: `http://localhost:${TEST_PORT}`,
+    reuseExistingServer: false,
     timeout: 10000,
   },
 });

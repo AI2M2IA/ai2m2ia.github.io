@@ -13,9 +13,26 @@
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
 
-  const safeLink = typeof window.sanitize?.safeUrl === 'function'
-    ? (value) => window.sanitize.safeUrl(value, { external: true })
-    : (value) => String(value ?? '');
+  const safeLink = (value) => {
+    const candidate = typeof window.sanitize?.safeUrl === 'function'
+      ? window.sanitize.safeUrl(value, { external: true })
+      : (() => {
+          if (!value) return '';
+          try {
+            const url = new URL(value, window.location.href);
+            return ['http:', 'https:'].includes(url.protocol) ? url.href : '#';
+          } catch (_) {
+            return '#';
+          }
+        })();
+    if (!candidate || candidate === '#') return candidate;
+    try {
+      const url = new URL(candidate, window.location.href);
+      return ['http:', 'https:'].includes(url.protocol) ? url.href : '#';
+    } catch (_) {
+      return '#';
+    }
+  };
 
   (async function renderSources() {
     try {
@@ -31,7 +48,7 @@
 
       container.innerHTML = sources.map((source) => {
         const link = source.url
-          ? `<a class="source-link" href="${esc(safeLink(source.url))}" target="_blank" rel="noopener noreferrer">${esc(source.url)}</a>`
+          ? `<a class="source-link" href="${safeLink(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.url)}</a>`
           : '';
 
         return `

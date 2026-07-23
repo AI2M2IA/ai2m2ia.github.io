@@ -57,7 +57,7 @@ Do not merge with failing checks.
   - UI language = interface labels/buttons.
   - Book language = content availability/filter.
 - Avoid language leakage:
-  - No Brazilian Portuguese strings in English UI state.
+  - No foreign language strings in English UI state.
   - Preserve RTL behavior for `ar`, `fa`, `he`, `ur`.
 - For agent-to-human communication, use **American English** for instructions, status updates, and decisions, unless the user explicitly requests another language.
 
@@ -387,5 +387,5 @@ These rules apply to EVERY agent and tool (Claude, Codex, ChatGPT, Gemini/Antigr
 ALL repository artifacts MUST be written in American English: commit messages, documentation, review reports, code comments, file names, and specs.
 
 Exceptions:
-- Book content in its intended target language (e.g., cafe-com-leite is a Portuguese-language book; translation directories such as `chapters/<lang>/` or `translations/` keep their respective languages).
+
 - Internal working documents in any other language must NOT be committed — keep them outside the repository or .gitignored.

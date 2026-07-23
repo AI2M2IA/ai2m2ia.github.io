@@ -84,7 +84,7 @@ const UI_STRINGS = {
     bookPlaceholder: "Book",
     previous: "Previous",
     next: "Next",
-    chapterBlank: "<p>This chapter is blank.</p>",
+    chapterBlank: "This chapter is blank.",
     loadCatalogError: "Unable to load the catalog.",
     networkFallbackError: "No network connection and no offline copy is available.",
     booksCountForMode: (mode, visible, total) => {
@@ -139,7 +139,7 @@ const UI_STRINGS = {
     bookPlaceholder: "Livro",
     previous: "Anterior",
     next: "Próximo",
-    chapterBlank: "<p>Este capítulo está em branco.</p>",
+    chapterBlank: "Este capítulo está em branco.",
     loadCatalogError: "Não foi possível carregar o catálogo.",
     networkFallbackError: "Sem rede e sem cópia offline disponível.",
     booksCountForMode: (mode, visible, total) => {
@@ -194,7 +194,7 @@ const UI_STRINGS = {
     bookPlaceholder: "Libro",
     previous: "Anterior",
     next: "Siguiente",
-    chapterBlank: "<p>Este capítulo está en blanco.</p>",
+    chapterBlank: "Este capítulo está en blanco.",
     loadCatalogError: "No se pudo cargar el catálogo.",
     networkFallbackError: "Sin conexión y sin copia offline disponible.",
     booksCountForMode: (mode, visible, total) => {
@@ -249,7 +249,7 @@ const UI_STRINGS = {
     bookPlaceholder: "Livre",
     previous: "Précédent",
     next: "Suivant",
-    chapterBlank: "<p>Ce chapitre est vide.</p>",
+    chapterBlank: "Ce chapitre est vide.",
     loadCatalogError: "Impossible de charger le catalogue.",
     networkFallbackError: "Aucune connexion réseau et aucune copie hors ligne disponible.",
     booksCountForMode: (mode, visible, total) => {
@@ -304,7 +304,7 @@ const UI_STRINGS = {
     bookPlaceholder: "Libro",
     previous: "Precedente",
     next: "Successivo",
-    chapterBlank: "<p>Questo capitolo è vuoto.</p>",
+    chapterBlank: "Questo capitolo è vuoto.",
     loadCatalogError: "Impossibile caricare il catalogo.",
     networkFallbackError: "Nessuna connessione di rete e nessuna copia offline disponibile.",
     booksCountForMode: (mode, visible, total) => {
@@ -359,7 +359,7 @@ const UI_STRINGS = {
     bookPlaceholder: "Buch",
     previous: "Zurück",
     next: "Weiter",
-    chapterBlank: "<p>Dieses Kapitel ist leer.</p>",
+    chapterBlank: "Dieses Kapitel ist leer.",
     loadCatalogError: "Katalog konnte nicht geladen werden.",
     networkFallbackError: "Keine Netzwerkverbindung und keine Offline-Kopie verfügbar.",
     booksCountForMode: (mode, visible, total) => {
@@ -414,7 +414,7 @@ const UI_STRINGS = {
     bookPlaceholder: "Książka",
     previous: "Poprzedni",
     next: "Następny",
-    chapterBlank: "<p>Ten rozdział jest pusty.</p>",
+    chapterBlank: "Ten rozdział jest pusty.",
     loadCatalogError: "Nie udało się załadować katalogu.",
     networkFallbackError: "Brak połączenia sieciowego i brak kopii offline.",
     booksCountForMode: (mode, visible, total) => {
@@ -469,7 +469,7 @@ const UI_STRINGS = {
     bookPlaceholder: "Kitap",
     previous: "Önceki",
     next: "Sonraki",
-    chapterBlank: "<p>Bu bölüm boş.</p>",
+    chapterBlank: "Bu bölüm boş.",
     loadCatalogError: "Katalog yüklenemedi.",
     networkFallbackError: "Ağ bağlantısı yok ve çevrimdışı kopya mevcut değil.",
     booksCountForMode: (mode, visible, total) => {
@@ -524,7 +524,7 @@ const UI_STRINGS = {
     bookPlaceholder: "Книга",
     previous: "Назад",
     next: "Далее",
-    chapterBlank: "<p>Эта глава пуста.</p>",
+    chapterBlank: "Эта глава пуста.",
     loadCatalogError: "Не удалось загрузить каталог.",
     networkFallbackError: "Нет подключения к сети и нет доступной офлайн-копии.",
     booksCountForMode: (mode, visible, total) => {
@@ -579,7 +579,7 @@ const UI_STRINGS = {
     bookPlaceholder: "Buku",
     previous: "Sebelumnya",
     next: "Berikutnya",
-    chapterBlank: "<p>Bab ini kosong.</p>",
+    chapterBlank: "Bab ini kosong.",
     loadCatalogError: "Tidak dapat memuat katalog.",
     networkFallbackError: "Tidak ada koneksi jaringan dan tidak ada salinan offline yang tersedia.",
     booksCountForMode: (mode, visible, total) => {
@@ -634,7 +634,7 @@ const UI_STRINGS = {
     bookPlaceholder: "Sách",
     previous: "Trước",
     next: "Tiếp",
-    chapterBlank: "<p>Chương này trống.</p>",
+    chapterBlank: "Chương này trống.",
     loadCatalogError: "Không thể tải danh mục.",
     networkFallbackError: "Không có kết nối mạng và không có bản sao ngoại tuyến.",
     booksCountForMode: (mode, visible, total) => {
@@ -689,7 +689,7 @@ const UI_STRINGS = {
     bookPlaceholder: "Aklat",
     previous: "Nakaraan",
     next: "Susunod",
-    chapterBlank: "<p>Blangko ang kabanatang ito.</p>",
+    chapterBlank: "Blangko ang kabanatang ito.",
     loadCatalogError: "Hindi ma-load ang katalogo.",
     networkFallbackError: "Walang koneksyon sa network at walang available na offline na kopya.",
     booksCountForMode: (mode, visible, total) => {
@@ -744,7 +744,7 @@ const UI_STRINGS = {
     bookPlaceholder: "หนังสือ",
     previous: "ก่อนหน้า",
     next: "ถัดไป",
-    chapterBlank: "<p>บทนี้ว่างเปล่า</p>",
+    chapterBlank: "บทนี้ว่างเปล่า",
     loadCatalogError: "ไม่สามารถโหลดแค็ตตาล็อกได้",
     networkFallbackError: "ไม่มีการเชื่อมต่อเครือข่ายและไม่มีสำเนาออฟไลน์",
     booksCountForMode: (mode, visible, total) => {
@@ -799,7 +799,7 @@ const UI_STRINGS = {
     bookPlaceholder: "書籍",
     previous: "前へ",
     next: "次へ",
-    chapterBlank: "<p>この章は空白です。</p>",
+    chapterBlank: "この章は空白です。",
     loadCatalogError: "カタログを読み込めませんでした。",
     networkFallbackError: "ネットワーク接続がなく、オフラインのコピーもありません。",
     booksCountForMode: (mode, visible, total) => {
@@ -854,7 +854,7 @@ const UI_STRINGS = {
     bookPlaceholder: "书籍",
     previous: "上一章",
     next: "下一章",
-    chapterBlank: "<p>本章为空白。</p>",
+    chapterBlank: "本章为空白。",
     loadCatalogError: "无法加载目录。",
     networkFallbackError: "无网络连接且无可用离线副本。",
     booksCountForMode: (mode, visible, total) => {
@@ -909,7 +909,7 @@ const UI_STRINGS = {
     bookPlaceholder: "書籍",
     previous: "上一章",
     next: "下一章",
-    chapterBlank: "<p>本章為空白。</p>",
+    chapterBlank: "本章為空白。",
     loadCatalogError: "無法載入目錄。",
     networkFallbackError: "無網路連線且無可用離線副本。",
     booksCountForMode: (mode, visible, total) => {
@@ -964,7 +964,7 @@ const UI_STRINGS = {
     bookPlaceholder: "書",
     previous: "上一頁",
     next: "下一頁",
-    chapterBlank: "<p>呢章係空白嘅。</p>",
+    chapterBlank: "呢章係空白嘅。",
     loadCatalogError: "無法載入目錄。",
     networkFallbackError: "冇網絡連線，亦冇離線副本。",
     booksCountForMode: (mode, visible, total) => {
@@ -1019,7 +1019,7 @@ const UI_STRINGS = {
     bookPlaceholder: "책",
     previous: "이전",
     next: "다음",
-    chapterBlank: "<p>이 챕터는 비어 있습니다.</p>",
+    chapterBlank: "이 챕터는 비어 있습니다.",
     loadCatalogError: "카탈로그를 로드할 수 없습니다.",
     networkFallbackError: "네트워크 연결이 없고 오프라인 사본도 없습니다.",
     booksCountForMode: (mode, visible, total) => {
@@ -1074,7 +1074,7 @@ const UI_STRINGS = {
     bookPlaceholder: "पुस्तक",
     previous: "पिछला",
     next: "अगला",
-    chapterBlank: "<p>यह अध्याय खाली है।</p>",
+    chapterBlank: "यह अध्याय खाली है।",
     loadCatalogError: "कैटलॉग लोड नहीं हो सका।",
     networkFallbackError: "कोई नेटवर्क कनेक्शन नहीं और कोई ऑफ़लाइन कॉपी उपलब्ध नहीं।",
     booksCountForMode: (mode, visible, total) => {
@@ -1129,7 +1129,7 @@ const UI_STRINGS = {
     bookPlaceholder: "کتاب",
     previous: "پچھلا",
     next: "اگلا",
-    chapterBlank: "<p>یہ باب خالی ہے۔</p>",
+    chapterBlank: "یہ باب خالی ہے۔",
     loadCatalogError: "کیٹلاگ لوڈ نہیں ہو سکا۔",
     networkFallbackError: "کوئی نیٹ ورک کنکشن نہیں اور کوئی آف لائن کاپی دستیاب نہیں۔",
     booksCountForMode: (mode, visible, total) => {
@@ -1184,7 +1184,7 @@ const UI_STRINGS = {
     bookPlaceholder: "كتاب",
     previous: "السابق",
     next: "التالي",
-    chapterBlank: "<p>هذا الفصل فارغ.</p>",
+    chapterBlank: "هذا الفصل فارغ.",
     loadCatalogError: "تعذر تحميل الفهرس.",
     networkFallbackError: "لا يوجد اتصال بالإنترنت ولا نسخة متاحة بدون إنترنت.",
     booksCountForMode: (mode, visible, total) => {
@@ -1239,7 +1239,7 @@ const UI_STRINGS = {
     bookPlaceholder: "کتاب",
     previous: "قبلی",
     next: "بعدی",
-    chapterBlank: "<p>این فصل خالی است.</p>",
+    chapterBlank: "این فصل خالی است.",
     loadCatalogError: "بارگذاری فهرست امکان‌پذیر نیست.",
     networkFallbackError: "اتصال شبکه موجود نیست و نسخه آفلاین هم در دسترس نیست.",
     booksCountForMode: (mode, visible, total) => {
@@ -1294,7 +1294,7 @@ const UI_STRINGS = {
     bookPlaceholder: "ספר",
     previous: "הקודם",
     next: "הבא",
-    chapterBlank: "<p>פרק זה ריק.</p>",
+    chapterBlank: "פרק זה ריק.",
     loadCatalogError: "לא ניתן לטעון את הקטלוג.",
     networkFallbackError: "אין חיבור לרשת ואין עותק לא מקוון זמין.",
     booksCountForMode: (mode, visible, total) => {
@@ -1336,7 +1336,7 @@ const state = {
 const nodes = {
   libraryView: document.querySelector("#library-view"),
   readerView: document.querySelector("#reader-view"),
-  bookGrid: document.querySelector("#book-grid"),
+  bookGrid: document.querySelector("#library-panel"),
   count: document.querySelector("#catalog-count"),
   version: document.querySelector("#catalog-version"),
   status: document.querySelector("#network-status"),
@@ -1384,11 +1384,32 @@ function bindEvents() {
   nodes.libraryModes.addEventListener("click", event => {
     const button = event.target.closest(".library-mode");
     if (!button) return;
-    const mode = button.dataset.mode;
-    if (!LIBRARY_MODES.includes(mode)) return;
-    state.libraryMode = mode;
-    updateLibraryModeButtons();
-    renderLibrary();
+    selectLibraryMode(button.dataset.mode);
+  });
+  nodes.libraryModes.addEventListener("keydown", event => {
+    const buttons = [...nodes.libraryModes.querySelectorAll(".library-mode")];
+    const index = buttons.findIndex(button => button === document.activeElement);
+    if (index === -1) return;
+    let nextIndex = index;
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      nextIndex = (index + 1) % buttons.length;
+      event.preventDefault();
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      nextIndex = (index - 1 + buttons.length) % buttons.length;
+      event.preventDefault();
+    } else if (event.key === "Home") {
+      nextIndex = 0;
+      event.preventDefault();
+    } else if (event.key === "End") {
+      nextIndex = buttons.length - 1;
+      event.preventDefault();
+    } else if (event.key === "Enter" || event.key === " ") {
+      selectLibraryMode(buttons[index].dataset.mode);
+      event.preventDefault();
+    }
+    if (nextIndex !== index) {
+      buttons[nextIndex].focus();
+    }
   });
   nodes.uiLanguage.addEventListener("change", event => {
     state.uiLanguage = normalizeUiLanguage(event.target.value);
@@ -1714,7 +1735,14 @@ function setChapter(index) {
   const chapter = chapters[state.currentChapter];
 
   nodes.chapterTitle.textContent = chapter.title;
-  nodes.chapterBody.innerHTML = renderProse(chapter.text || "");
+  nodes.chapterBody.textContent = "";
+  if (!chapter.text?.trim()) {
+    const blank = document.createElement("p");
+    blank.textContent = t().chapterBlank;
+    nodes.chapterBody.append(blank);
+  } else {
+    nodes.chapterBody.innerHTML = renderProse(chapter.text);
+  }
   nodes.readerPosition.textContent = `${state.currentChapter + 1} / ${chapters.length}`;
   nodes.prev.disabled = state.currentChapter === 0;
   nodes.next.disabled = state.currentChapter === chapters.length - 1;
@@ -1739,7 +1767,7 @@ function setChapter(index) {
  * that could bypass the sanitization.
  */
 function renderProse(text) {
-  if (!text.trim()) return t().chapterBlank;
+  if (!text.trim()) return "";
   return text.split(/\n\s*\n+/).map(block => {
     const clean = escapeHtml(block.trim());
     if (!clean) return "";
@@ -1866,9 +1894,21 @@ function updateNetworkStatus() {
 }
 
 function registerServiceWorker() {
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js").catch(() => undefined);
-  }
+  if (!("serviceWorker" in navigator)) return;
+  navigator.serviceWorker.register("sw.js").then(registration => {
+    const notifyUpdate = () => {
+      if (registration.waiting && navigator.serviceWorker.controller) {
+        console.info("[AI2M2IA] A new version is ready. Reload to update.");
+      }
+    };
+    registration.addEventListener("updatefound", () => {
+      const worker = registration.installing;
+      worker?.addEventListener("statechange", () => {
+        if (worker.state === "installed") notifyUpdate();
+      });
+    });
+    notifyUpdate();
+  }).catch(() => undefined);
 }
 
 function labelFormat(format) {
@@ -1887,15 +1927,20 @@ function booksForMode(mode, downloaded, wishlist) {
 }
 
 async function removeBookFromCache(book) {
+  const cache = await caches.open(API_CACHE);
+  let urls = [];
   try {
-    const cache = await caches.open(API_CACHE);
     const manifestUrl = resolveApiUrl(book.manifestUrl);
     const manifest = await fetchJson(manifestUrl);
-    const urls = collectBookAssetUrls(book, manifest);
-    await Promise.all(urls.map(url => cache.delete(url)));
+    urls = collectBookAssetUrls(book, manifest);
   } catch (_) {
     // Best-effort cleanup: if manifest is unavailable, still clear local state.
   }
+  const cachedRequests = await cache.keys();
+  const orphanedUrls = cachedRequests
+    .map(request => request.url)
+    .filter(url => isTrustedBookAssetUrl(book.id, url));
+  await Promise.all([...new Set([...urls, ...orphanedUrls])].map(url => cache.delete(url)));
 }
 
 function groupBooks(books) {
@@ -2014,11 +2059,20 @@ function populateUiLanguageOptions() {
   nodes.uiLanguage.value = SUPPORTED_UI_LANGUAGES.includes(selected) ? selected : DEFAULT_UI_LANGUAGE;
 }
 
+function selectLibraryMode(mode) {
+  if (!LIBRARY_MODES.includes(mode)) return;
+  state.libraryMode = mode;
+  updateLibraryModeButtons();
+  renderLibrary();
+}
+
 function updateLibraryModeButtons() {
   nodes.libraryModes.querySelectorAll(".library-mode").forEach(button => {
     const active = button.dataset.mode === state.libraryMode;
     button.classList.toggle("active", active);
     button.setAttribute("aria-selected", String(active));
+    button.tabIndex = active ? 0 : -1;
+    if (active) nodes.bookGrid.setAttribute("aria-labelledby", button.id);
   });
 }
 
@@ -2051,6 +2105,6 @@ function formatDate(value) {
   try {
     return new Intl.DateTimeFormat(state.uiLanguage, { dateStyle: "medium" }).format(new Date(value));
   } catch {
-    return value;
+    return t().noDescription;
   }
 }
