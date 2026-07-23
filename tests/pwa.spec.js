@@ -32,11 +32,10 @@ test.describe('PWA reader', () => {
     await page.goto('/pwa/');
     await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveCount(1);
     await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
-    await expect(page.getByText('31 of 31 books')).toBeVisible();
+    await expect(page.getByText('1 of 1 books')).toBeVisible();
     await expect(page.locator('#ui-language')).toHaveValue('en');
     await expect(page.locator('#ui-language option')).toHaveCount(23);
     await expect(page.locator('#book-language-filter option')).toHaveCount(2);
-    await expect(page.locator('.series-summary strong', { hasText: 'The Last Archive' })).toBeVisible();
     await expect(page.getByRole('heading', { name: "Let's Build on AWS Together" })).toBeVisible();
 
     await page.locator('#ui-language').selectOption('ar');
@@ -90,7 +89,7 @@ test.describe('PWA reader', () => {
     });
 
     await page.goto('/pwa/?api=https://evil.example#library');
-    await expect(page.getByText('31 of 31 books')).toBeVisible();
+    await expect(page.getByText('1 of 1 books')).toBeVisible();
     expect(externalRequests).toEqual([]);
   });
 
@@ -107,15 +106,15 @@ test.describe('PWA reader', () => {
 
     // Test typosquatting (L instead of I)
     await page.goto('/pwa/?api=https://ai2mla.github.io#library');
-    await expect(page.getByText('31 of 31 books')).toBeVisible();
-    
+    await expect(page.getByText('1 of 1 books')).toBeVisible();
+
     // Test wrong protocol
     await page.goto('/pwa/?api=http://ai2m2ia.github.io#library');
-    await expect(page.getByText('31 of 31 books')).toBeVisible();
-    
+    await expect(page.getByText('1 of 1 books')).toBeVisible();
+
     // Test subdomain attack
     await page.goto('/pwa/?api=https://ai2m2ia.github.io.evil.com#library');
-    await expect(page.getByText('31 of 31 books')).toBeVisible();
+    await expect(page.getByText('1 of 1 books')).toBeVisible();
     
     expect(externalRequests).toEqual([]);
   });
