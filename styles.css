@@ -995,11 +995,7 @@ p + p { margin-top: 0.9em; }
   height: 480px;          /* fixed portrait height — readable in grid */
 }
 
-/* Coming-soon card */
-.media-card--coming-soon {
-  /* Removed opacity: 0.55 to fix WCAG contrast issues */
-  /* Instead, use muted colors directly */
-}
+/* Coming-soon card: muted colors replace low-opacity overlay for WCAG contrast */
 .media-card--coming-soon .media-embed-wrapper {
   background: var(--ink-2);
 }
@@ -1041,17 +1037,17 @@ p + p { margin-top: 0.9em; }
 }
 .media-platform-badge.youtube {
   background: rgba(255,0,0,0.18);
-  color: #c05050;
-  border: 1px solid rgba(255,0,0,0.25);
+  color: #ef9a9a;
+  border: 1px solid rgba(255,0,0,0.35);
 }
 .media-platform-badge.tiktok {
   background: rgba(105,201,208,0.15);
-  color: #3a8a90;
+  color: #6fc7cd;
   border: 1px solid rgba(105,201,208,0.28);
 }
 
 [data-theme="light"] .media-platform-badge.youtube {
-  color: #903030;
+  color: #8b1e1e;
 }
 [data-theme="light"] .media-platform-badge.tiktok {
   color: #1a6a70;
@@ -1214,11 +1210,13 @@ p + p { margin-top: 0.9em; }
   overflow: hidden;
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.5s var(--ease-out), opacity 0.4s, margin-top 0.4s;
+  visibility: hidden;
+  transition: max-height 0.5s var(--ease-out), opacity 0.4s, margin-top 0.4s, visibility 0.4s;
 }
 .audit-panel.open {
   max-height: 800px;
   opacity: 1;
+  visibility: visible;
 }
 
 .audit-panel h3 {
@@ -1336,7 +1334,7 @@ p + p { margin-top: 0.9em; }
 .footer-links a:hover { color: var(--gold); }
 
 /* --------------------------------------------------------------------------
-   WORK PAGE STYLES (works/*/index.html)
+   WORK PAGE STYLES (works/{id}/index.html)
    -------------------------------------------------------------------------- */
 .work-page-hero {
   padding: calc(var(--header-height) + 60px) 0 60px;
@@ -1452,7 +1450,7 @@ p + p { margin-top: 0.9em; }
    ANIMATIONS
    -------------------------------------------------------------------------- */
 @keyframes fadeInUp {
-  from { opacity: 1; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -1479,6 +1477,14 @@ p + p { margin-top: 0.9em; }
 .delay-1 { animation-delay: 0.1s; }
 .delay-2 { animation-delay: 0.2s; }
 .delay-3 { animation-delay: 0.3s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 
 /* --------------------------------------------------------------------------
    RESPONSIVE — Tablet

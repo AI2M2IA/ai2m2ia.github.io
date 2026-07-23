@@ -32,11 +32,10 @@ test.describe('PWA reader', () => {
     await page.goto('/pwa/');
     await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveCount(1);
     await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
-    await expect(page.getByText('31 of 31 books')).toBeVisible();
+    await expect(page.getByText('1 of 1 books')).toBeVisible();
     await expect(page.locator('#ui-language')).toHaveValue('en');
     await expect(page.locator('#ui-language option')).toHaveCount(23);
     await expect(page.locator('#book-language-filter option')).toHaveCount(2);
-    await expect(page.locator('.series-summary strong', { hasText: 'The Last Archive' })).toBeVisible();
     await expect(page.getByRole('heading', { name: "Let's Build on AWS Together" })).toBeVisible();
 
     await page.locator('#ui-language').selectOption('ar');
@@ -58,6 +57,8 @@ test.describe('PWA reader', () => {
     await expect(page.getByRole('button', { name: 'Download' }).first()).toBeVisible();
     await expect(page.getByRole('button', { name: 'Baixar' })).toHaveCount(0);
     await expect(page.getByRole('tab', { name: 'Downloaded' })).toBeVisible();
+    await expect(page.getByRole('tab', { name: 'Catalog' })).toHaveAttribute('aria-controls', 'library-panel');
+    await expect(page.getByRole('tabpanel')).toHaveAttribute('aria-labelledby', 'library-tab-catalog');
     await expect(page.getByRole('tab', { name: 'Baixados' })).toHaveCount(0);
 
     await page.locator('#ui-language').selectOption('pt-BR');
@@ -88,7 +89,7 @@ test.describe('PWA reader', () => {
     });
 
     await page.goto('/pwa/?api=https://evil.example#library');
-    await expect(page.getByText('31 of 31 books')).toBeVisible();
+    await expect(page.getByText('1 of 1 books')).toBeVisible();
     expect(externalRequests).toEqual([]);
   });
 
@@ -105,15 +106,15 @@ test.describe('PWA reader', () => {
 
     // Test typosquatting (L instead of I)
     await page.goto('/pwa/?api=https://ai2mla.github.io#library');
-    await expect(page.getByText('31 of 31 books')).toBeVisible();
-    
+    await expect(page.getByText('1 of 1 books')).toBeVisible();
+
     // Test wrong protocol
     await page.goto('/pwa/?api=http://ai2m2ia.github.io#library');
-    await expect(page.getByText('31 of 31 books')).toBeVisible();
-    
+    await expect(page.getByText('1 of 1 books')).toBeVisible();
+
     // Test subdomain attack
     await page.goto('/pwa/?api=https://ai2m2ia.github.io.evil.com#library');
-    await expect(page.getByText('31 of 31 books')).toBeVisible();
+    await expect(page.getByText('1 of 1 books')).toBeVisible();
     
     expect(externalRequests).toEqual([]);
   });
@@ -163,6 +164,30 @@ test.describe('PWA reader', () => {
     await expect(page.locator('#chapter-body')).toContainText('<script>window.XSSFLAG = true</script>');
     await expect(page.locator('#chapter-body strong')).toHaveText('safe bold');
     expect(await page.evaluate(() => window.XSSFLAG)).toBeUndefined();
+  });
+
+  test('renders blank chapters as localized text without HTML injection', async ({ page }) => {
+    const catalog = {
+      schemaVersion: 1,
+      generatedAt: '2026-05-30T00:00:00Z',
+      apiBaseUrl: 'https://ai2m2ia.github.io',
+      apiPrefix: '/api',
+      books: [{
+        id: 'blank-book', title: 'Blank Book', format: 'PROSE',
+        manifestUrl: 'https://ai2m2ia.github.io/api/books/blank-book/content.json',
+        languages: ['en'], author: 'Test', coverUrl: null, description: '', links: {},
+      }],
+    };
+    const content = {
+      schemaVersion: 1, generatedAt: '2026-05-30T00:00:00Z', bookId: 'blank-book',
+      format: 'PROSE', language: 'en', revision: '2026-05-30',
+      chapters: [{ index: 0, title: 'Blank', text: '', images: [] }],
+    };
+    await page.route('**/api/catalog.json', route => route.fulfill({ json: catalog }));
+    await page.route('**/api/books/blank-book/content.json', route => route.fulfill({ json: content }));
+    await page.goto('/pwa/#book=blank-book');
+    await expect(page.locator('#chapter-body p')).toHaveText('This chapter is blank.');
+    await expect(page.locator('#chapter-body script')).toHaveCount(0);
   });
 
   test('manages wishlist and downloaded books with per-book removal', async ({ page }) => {

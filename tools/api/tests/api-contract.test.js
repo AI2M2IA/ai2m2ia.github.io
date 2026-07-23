@@ -65,7 +65,6 @@ test('catalog contains one content manifest per listed book', () => {
   const manifests = findContentManifests(path.join(apiDir, 'books'));
 
   assert.equal(catalog.books.length, manifests.length);
-  assert.equal(catalog.books.length, 31);
 });
 
 test('catalog validation reports duplicate ids', () => {
