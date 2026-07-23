@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test.describe('PWA reader', () => {
+test.describe('PWA hub launcher', () => {
   test('exposes installable manifest icons', async ({ request }) => {
     const response = await request.get('/pwa/manifest.webmanifest');
     expect(response.ok()).toBeTruthy();
@@ -28,56 +28,37 @@ test.describe('PWA reader', () => {
     }
   });
 
-  test('opens the library and reader from local static files', async ({ page }) => {
+  test('opens the library and shows book cards with spoke links', async ({ page }) => {
     await page.goto('/pwa/');
     await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveCount(1);
     await expect(page.locator('meta[name="referrer"]')).toHaveAttribute('content', 'strict-origin-when-cross-origin');
     await expect(page.getByText('1 of 1 books')).toBeVisible();
     await expect(page.locator('#ui-language')).toHaveValue('en');
     await expect(page.locator('#ui-language option')).toHaveCount(23);
-    await expect(page.locator('#book-language-filter option')).toHaveCount(2);
     await expect(page.getByRole('heading', { name: "Let's Build on AWS Together" })).toBeVisible();
 
-    await page.locator('#ui-language').selectOption('ar');
-    await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
-    await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
-
-    await page.goto('/pwa/#book=lets-learn-aws-together');
-    await expect(page.getByRole('button', { name: 'Chapter 0: Before We Begin' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Chapter 0: Before We Begin' })).toBeVisible();
+    const readLink = page.locator('.read-link').first();
+    await expect(readLink).toBeVisible();
+    await expect(readLink).toHaveAttribute('href', 'https://ai2m2ia.github.io/book-lets-build-on-aws-together/');
+    await expect(readLink).toHaveAttribute('rel', 'external');
   });
 
-  test('keeps English UI clean and supports key locale switches', async ({ page }) => {
+  test('supports UI language switching with RTL', async ({ page }) => {
     await page.goto('/pwa/');
     const html = page.locator('html');
 
     await page.locator('#ui-language').selectOption('en');
     await expect(html).toHaveAttribute('lang', 'en');
     await expect(html).toHaveAttribute('dir', 'ltr');
-    await expect(page.getByRole('button', { name: 'Download' }).first()).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Baixar' })).toHaveCount(0);
-    await expect(page.getByRole('tab', { name: 'Downloaded' })).toBeVisible();
-    await expect(page.getByRole('tab', { name: 'Catalog' })).toHaveAttribute('aria-controls', 'library-panel');
-    await expect(page.getByRole('tabpanel')).toHaveAttribute('aria-labelledby', 'library-tab-catalog');
-    await expect(page.getByRole('tab', { name: 'Baixados' })).toHaveCount(0);
-
-    await page.locator('#ui-language').selectOption('pt-BR');
-    await expect(html).toHaveAttribute('lang', 'pt-BR');
-    await expect(html).toHaveAttribute('dir', 'ltr');
-    await expect(page.getByRole('button', { name: 'Baixar' }).first()).toBeVisible();
-    await expect(page.getByRole('tab', { name: 'Baixados' })).toBeVisible();
-
-    await page.locator('#ui-language').selectOption('ja');
-    await expect(html).toHaveAttribute('lang', 'ja');
-    await expect(html).toHaveAttribute('dir', 'ltr');
-    await expect(page.locator('.download-button').first()).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Baixar' })).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: "Let's Build on AWS Together" })).toBeVisible();
 
     await page.locator('#ui-language').selectOption('ar');
     await expect(html).toHaveAttribute('lang', 'ar');
     await expect(html).toHaveAttribute('dir', 'rtl');
-    await expect(page.locator('.download-button').first()).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Baixar' })).toHaveCount(0);
+
+    await page.locator('#ui-language').selectOption('ja');
+    await expect(html).toHaveAttribute('lang', 'ja');
+    await expect(html).toHaveAttribute('dir', 'ltr');
   });
 
   test('ignores unsupported API origins from query string', async ({ page }) => {
@@ -97,161 +78,85 @@ test.describe('PWA reader', () => {
     const externalRequests = [];
     page.on('request', request => {
       const url = request.url();
-      if (url.startsWith('https://ai2mla.github.io/') || 
+      if (url.startsWith('https://ai2mla.github.io/') ||
           url.startsWith('http://ai2m2ia.github.io/') ||
           url.startsWith('https://ai2m2ia.github.io.evil.com/')) {
         externalRequests.push(url);
       }
     });
 
-    // Test typosquatting (L instead of I)
     await page.goto('/pwa/?api=https://ai2mla.github.io#library');
     await expect(page.getByText('1 of 1 books')).toBeVisible();
 
-    // Test wrong protocol
     await page.goto('/pwa/?api=http://ai2m2ia.github.io#library');
     await expect(page.getByText('1 of 1 books')).toBeVisible();
 
-    // Test subdomain attack
     await page.goto('/pwa/?api=https://ai2m2ia.github.io.evil.com#library');
     await expect(page.getByText('1 of 1 books')).toBeVisible();
-    
+
     expect(externalRequests).toEqual([]);
   });
 
-  test('renders malicious prose as text instead of executable HTML', async ({ page }) => {
+  test('renders book cards that link to spoke PWAs with valid metadata', async ({ page }) => {
     const catalog = {
-      schemaVersion: 1,
-      generatedAt: '2026-05-30T00:00:00Z',
+      schemaVersion: 2,
+      generatedAt: '2026-07-23T00:00:00Z',
       apiBaseUrl: 'https://ai2m2ia.github.io',
       apiPrefix: '/api',
       books: [{
-        id: 'malicious-book',
-        title: 'Malicious Book',
+        id: 'test-book',
+        title: 'Test Book',
         format: 'PROSE',
-        manifestUrl: 'https://ai2m2ia.github.io/api/books/malicious-book/content.json',
+        spokeUrl: 'https://ai2m2ia.github.io/book-test/',
         languages: ['en'],
-        author: 'Security Test',
+        author: 'AI(2)M(2)IA',
         coverUrl: null,
-        description: 'Regression fixture.',
-        links: {},
-      }],
-    };
-    const content = {
-      schemaVersion: 1,
-      generatedAt: '2026-05-30T00:00:00Z',
-      bookId: 'malicious-book',
-      format: 'PROSE',
-      language: 'en',
-      revision: '2026-05-30',
-      chapters: [{
-        index: 0,
-        title: 'Payloads',
-        text: '## <img src=x onerror="window.XSSFLAG = true">\\n\\n<script>window.XSSFLAG = true</script>\\n\\n**safe bold** and `safe code`',
-        images: [],
+        description: 'A test book for launcher verification.',
       }],
     };
 
     await page.route('**/api/catalog.json', route => route.fulfill({ json: catalog }));
-    await page.route('**/api/books/malicious-book/content.json', route => route.fulfill({ json: content }));
+    await page.goto('/pwa/');
 
-    await page.goto('/pwa/#book=malicious-book');
+    await expect(page.getByText('1 of 1 books')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Test Book' })).toBeVisible();
 
-    await expect(page.getByRole('heading', { name: 'Payloads' })).toBeVisible();
-    await expect(page.locator('#chapter-body img')).toHaveCount(0);
-    await expect(page.locator('#chapter-body script')).toHaveCount(0);
-    await expect(page.locator('#chapter-body')).toContainText('<img src=x onerror="window.XSSFLAG = true">');
-    await expect(page.locator('#chapter-body')).toContainText('<script>window.XSSFLAG = true</script>');
-    await expect(page.locator('#chapter-body strong')).toHaveText('safe bold');
-    expect(await page.evaluate(() => window.XSSFLAG)).toBeUndefined();
+    const readLink = page.locator('.read-link').first();
+    await expect(readLink).toHaveAttribute('href', 'https://ai2m2ia.github.io/book-test/');
+    await expect(readLink).toHaveText('Read');
   });
 
-  test('renders blank chapters as localized text without HTML injection', async ({ page }) => {
+  test('does not render any reader view or download controls', async ({ page }) => {
+    await page.goto('/pwa/');
+
+    await expect(page.locator('#reader-view')).toHaveCount(0);
+    await expect(page.locator('.download-button')).toHaveCount(0);
+    await expect(page.locator('.wishlist-button')).toHaveCount(0);
+    await expect(page.locator('.library-mode')).toHaveCount(0);
+    await expect(page.locator('#chapter-body')).toHaveCount(0);
+  });
+
+  test('rejects non-HTTPS spoke URLs in catalog data', async ({ page }) => {
     const catalog = {
-      schemaVersion: 1,
-      generatedAt: '2026-05-30T00:00:00Z',
+      schemaVersion: 2,
+      generatedAt: '2026-07-23T00:00:00Z',
       apiBaseUrl: 'https://ai2m2ia.github.io',
       apiPrefix: '/api',
       books: [{
-        id: 'blank-book', title: 'Blank Book', format: 'PROSE',
-        manifestUrl: 'https://ai2m2ia.github.io/api/books/blank-book/content.json',
-        languages: ['en'], author: 'Test', coverUrl: null, description: '', links: {},
+        id: 'insecure-book',
+        title: 'Insecure Book',
+        spokeUrl: 'http://ai2m2ia.github.io/book-insecure/',
+        languages: ['en'],
+        author: 'AI(2)M(2)IA',
+        coverUrl: null,
+        description: 'Should be rejected.',
       }],
     };
-    const content = {
-      schemaVersion: 1, generatedAt: '2026-05-30T00:00:00Z', bookId: 'blank-book',
-      format: 'PROSE', language: 'en', revision: '2026-05-30',
-      chapters: [{ index: 0, title: 'Blank', text: '', images: [] }],
-    };
-    await page.route('**/api/catalog.json', route => route.fulfill({ json: catalog }));
-    await page.route('**/api/books/blank-book/content.json', route => route.fulfill({ json: content }));
-    await page.goto('/pwa/#book=blank-book');
-    await expect(page.locator('#chapter-body p')).toHaveText('This chapter is blank.');
-    await expect(page.locator('#chapter-body script')).toHaveCount(0);
-  });
-
-  test('manages wishlist and downloaded books with per-book removal', async ({ page }) => {
-    const catalog = {
-      schemaVersion: 1,
-      generatedAt: '2026-05-31T00:00:00Z',
-      apiBaseUrl: 'https://ai2m2ia.github.io',
-      apiPrefix: '/api',
-      books: [
-        {
-          id: 'book-one',
-          title: 'Book One',
-          format: 'PROSE',
-          manifestUrl: 'https://ai2m2ia.github.io/api/books/book-one/content.json',
-          languages: ['en'],
-          author: 'AI(2)M(2)IA',
-          coverUrl: 'https://ai2m2ia.github.io/api/books/book-one/cover.jpg',
-          description: 'First fixture book',
-          links: {},
-        },
-        {
-          id: 'book-two',
-          title: 'Book Two',
-          format: 'PROSE',
-          manifestUrl: 'https://ai2m2ia.github.io/api/books/book-two/content.json',
-          languages: ['en'],
-          author: 'AI(2)M(2)IA',
-          coverUrl: 'https://ai2m2ia.github.io/api/books/book-two/cover.jpg',
-          description: 'Second fixture book',
-          links: {},
-        }
-      ],
-    };
-    const content = {
-      schemaVersion: 1,
-      generatedAt: '2026-05-31T00:00:00Z',
-      format: 'PROSE',
-      language: 'en',
-      revision: '2026-05-31',
-      chapters: [{ index: 0, title: 'Chapter 0: Start', text: 'Hello world.', images: [] }],
-    };
 
     await page.route('**/api/catalog.json', route => route.fulfill({ json: catalog }));
-    await page.route('**/api/books/book-one/content.json', route => route.fulfill({ json: { ...content, bookId: 'book-one' } }));
-    await page.route('**/api/books/book-two/content.json', route => route.fulfill({ json: { ...content, bookId: 'book-two' } }));
-    await page.route('**/api/books/book-one/cover.jpg', route => route.fulfill({ status: 200, body: 'cover1', contentType: 'image/jpeg' }));
-    await page.route('**/api/books/book-two/cover.jpg', route => route.fulfill({ status: 200, body: 'cover2', contentType: 'image/jpeg' }));
-
     await page.goto('/pwa/');
-    await expect(page.getByText('2 of 2 books')).toBeVisible();
 
-    const firstCard = page.locator('.book-card').first();
-    await firstCard.getByRole('button', { name: 'Save for later' }).click();
-    await page.getByRole('tab', { name: 'Wishlist' }).click();
-    await expect(page.getByText('1 of 1 saved')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Book One' })).toBeVisible();
-
-    await page.getByRole('tab', { name: 'Catalog' }).click();
-    await firstCard.getByRole('button', { name: 'Download' }).click();
-    await page.getByRole('tab', { name: 'Downloaded' }).click();
-    await expect(page.getByText('1 of 1 downloaded')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Book One' })).toBeVisible();
-
-    await page.getByRole('button', { name: 'Remove download' }).click();
-    await expect(page.getByText('No downloaded books found.')).toBeVisible();
+    await expect(page.getByText('0 of 0 books')).toBeVisible();
+    await expect(page.locator('.read-link')).toHaveCount(0);
   });
 });

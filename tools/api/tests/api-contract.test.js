@@ -2,13 +2,11 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 const test = require('node:test');
 const {
-  findContentManifests,
   isAbsoluteUrl,
-  localPathForApiUrl,
+  isHttpsUrl,
   readJson,
   validateApi,
   validateCatalog,
-  validateContent,
   validateJsonAgainstSchema,
 } = require('../lib/api-contract');
 
@@ -23,27 +21,13 @@ test('URL validation accepts only HTTP(S) absolute URLs and null', () => {
   assert.equal(isAbsoluteUrl('notaurl'), false);
 });
 
-test('maps canonical API URLs to local files', () => {
-  const catalog = {
-    apiBaseUrl: 'https://ai2m2ia.github.io',
-    apiPrefix: '/api',
-  };
-
-  assert.equal(
-    localPathForApiUrl(apiDir, catalog, 'https://ai2m2ia.github.io/api/books/example/content.json'),
-    path.join(apiDir, 'books/example/content.json'),
-  );
-  assert.equal(localPathForApiUrl(apiDir, catalog, 'https://example.com/api/books/example/content.json'), null);
-});
-
-test('rejects API URLs that escape the local API directory', () => {
-  const catalog = {
-    apiBaseUrl: 'https://ai2m2ia.github.io',
-    apiPrefix: '/api',
-  };
-
-  assert.equal(localPathForApiUrl(apiDir, catalog, 'https://ai2m2ia.github.io/api/../../package.json'), null);
-  assert.equal(localPathForApiUrl(apiDir, catalog, 'https://ai2m2ia.github.io/api/books/../../../package.json'), null);
+test('isHttpsUrl accepts only HTTPS URLs', () => {
+  assert.equal(isHttpsUrl('https://ai2m2ia.github.io/book/'), true);
+  assert.equal(isHttpsUrl('http://ai2m2ia.github.io/book/'), false);
+  assert.equal(isHttpsUrl('notaurl'), false);
+  assert.equal(isHttpsUrl(null), false);
+  assert.equal(isHttpsUrl(undefined), false);
+  assert.equal(isHttpsUrl(''), false);
 });
 
 test('validates the published API contract', () => {
@@ -60,13 +44,6 @@ test('JSON Schema validation rejects unexpected catalog fields', () => {
   assert.match(validateJsonAgainstSchema(catalog, schema, 'catalog').join('\n'), /must NOT have additional properties/);
 });
 
-test('catalog contains one content manifest per listed book', () => {
-  const catalog = readJson(path.join(apiDir, 'catalog.json'));
-  const manifests = findContentManifests(path.join(apiDir, 'books'));
-
-  assert.equal(catalog.books.length, manifests.length);
-});
-
 test('catalog validation reports duplicate ids', () => {
   const catalog = readJson(path.join(apiDir, 'catalog.json'));
   const duplicate = {
@@ -77,17 +54,74 @@ test('catalog validation reports duplicate ids', () => {
   assert.match(validateCatalog(duplicate, apiDir).join('\n'), /duplicated/);
 });
 
-test('content validation reports malformed chapters', () => {
-  const errors = validateContent({
-    schemaVersion: 1,
-    generatedAt: '2026-05-30T00:00:00Z',
-    bookId: 'sample',
-    format: 'PROSE',
-    language: 'en',
-    revision: '2026-05-30',
-    chapters: [{ index: -1, title: '' }],
-  }, path.join(apiDir, 'books/sample/content.json'));
+test('catalog validation rejects non-HTTPS spoke URLs', () => {
+  const catalog = readJson(path.join(apiDir, 'catalog.json'));
+  const bad = {
+    ...catalog,
+    books: [{ ...catalog.books[0], spokeUrl: 'http://example.com/book/' }],
+  };
 
-  assert.match(errors.join('\n'), /index must be >= 0/);
-  assert.match(errors.join('\n'), /title is required/);
+  assert.match(validateCatalog(bad, apiDir).join('\n'), /spokeUrl must be an https URL/);
+});
+
+test('catalog validation rejects missing spokeUrl', () => {
+  const catalog = readJson(path.join(apiDir, 'catalog.json'));
+  const bad = {
+    ...catalog,
+    books: [{ ...catalog.books[0], spokeUrl: undefined }],
+  };
+
+  const errors = validateCatalog(bad, apiDir);
+  assert.ok(errors.some(e => /spokeUrl is required/.test(e)));
+});
+
+test('catalog validation rejects missing author', () => {
+  const catalog = readJson(path.join(apiDir, 'catalog.json'));
+  const bad = {
+    ...catalog,
+    books: [{ ...catalog.books[0], author: '' }],
+  };
+
+  const errors = validateCatalog(bad, apiDir);
+  assert.ok(errors.some(e => /author is required/.test(e)));
+});
+
+test('catalog validation rejects duplicate spoke URLs', () => {
+  const catalog = readJson(path.join(apiDir, 'catalog.json'));
+  const bad = {
+    ...catalog,
+    books: [
+      { ...catalog.books[0], id: 'book-a' },
+      { ...catalog.books[0], id: 'book-b' },
+    ],
+  };
+
+  assert.match(validateCatalog(bad, apiDir).join('\n'), /spokeUrl is duplicated/);
+});
+
+test('catalog validation rejects empty books list', () => {
+  const catalog = readJson(path.join(apiDir, 'catalog.json'));
+  const bad = { ...catalog, books: [] };
+
+  const errors = validateCatalog(bad, apiDir);
+  assert.ok(errors.some(e => /non-empty list/.test(e)));
+});
+
+test('catalog validation rejects schemaVersion 1', () => {
+  const catalog = readJson(path.join(apiDir, 'catalog.json'));
+  const bad = { ...catalog, schemaVersion: 1 };
+
+  assert.match(validateCatalog(bad, apiDir).join('\n'), /schemaVersion must be 2/);
+});
+
+test('catalog contains exactly the expected spoke entries', () => {
+  const catalog = readJson(path.join(apiDir, 'catalog.json'));
+  assert.equal(catalog.books.length, 1);
+  assert.equal(catalog.books[0].id, 'lets-build-on-aws-together');
+  assert.equal(catalog.books[0].spokeUrl, 'https://ai2m2ia.github.io/book-lets-build-on-aws-together/');
+});
+
+test('no hosted content directory exists', () => {
+  const booksDir = path.join(apiDir, 'books');
+  assert.equal(require('node:fs').existsSync(booksDir), false);
 });
