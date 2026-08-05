@@ -142,7 +142,7 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
     expect(resetVisibleCount).toBe(totalCount);
   });
 
-  test('should render catalog cards with valid external destinations', async ({ page }) => {
+  test('should render catalog cards with valid destinations', async ({ page }) => {
     const booksGrid = page.locator('#books-grid');
     const cards = booksGrid.locator('.book-card');
     const totalCards = await cards.count();
@@ -168,11 +168,28 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
         const href = await link.getAttribute('href');
         const target = await link.getAttribute('target');
         const rel = await link.getAttribute('rel');
+        // Works without an independent spoke deployment link in-site to their
+        // own /works/ page instead of out to an external destination.
+        const isInternal = !!href && href.startsWith('works/');
 
         expect(href, `Card "${title}" link #${j} must have href`).toBeTruthy();
-        expect(href, `Card "${title}" link #${j} must be external`).toMatch(/^https?:\/\//);
-        expect(target, `Card "${title}" link #${j} should open in new tab`).toBe('_blank');
-        expect((rel || '').toLowerCase(), `Card "${title}" link #${j} should include rel=noopener`).toMatch(/\bnoopener\b/);
+
+        if (isInternal) {
+          expect(target, `Card "${title}" internal link #${j} should stay in the same tab`).toBeNull();
+        } else {
+          expect(href, `Card "${title}" link #${j} must be external`).toMatch(/^https?:\/\//);
+          expect(target, `Card "${title}" link #${j} should open in new tab`).toBe('_blank');
+          expect((rel || '').toLowerCase(), `Card "${title}" link #${j} should include rel=noopener`).toMatch(/\bnoopener\b/);
+        }
+      }
+
+      // Titles without their own spoke deployment expose an "Explore" link
+      // to their own /works/ page as the first primary link.
+      if (title !== "Let's Build on AWS Together" && linkCount > 0) {
+        const exploreLink = links.first();
+        await expect(exploreLink.locator('span'), `Card "${title}" first link should be the in-site Explore link`).toHaveText(/Explore/i);
+        const exploreHref = await exploreLink.getAttribute('href');
+        expect(exploreHref, `Card "${title}" Explore link should route to its own work page`).toMatch(/^works\/[a-z0-9-]+\/$/);
       }
 
       if (title === "Let's Build on AWS Together") {
