@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const { SPOKE_WORK_TITLES } = require('./spoke-works');
 
 test.describe('AI(2)M(2)IA Website E2E Tests', () => {
   
@@ -158,9 +159,10 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
 
       expect(hasDestination, `Card "${title}" should have at least one destination`).toBe(true);
 
-      // AWS card must expose both study app and Kindle links.
-      if (title === "Let's Build on AWS Together") {
-        expect(linkCount, 'AWS card should expose two external links').toBe(2);
+      // Spoke-deployment cards (see ./spoke-works.js) must expose both a
+      // study-app link and a Kindle link.
+      if (SPOKE_WORK_TITLES.includes(title)) {
+        expect(linkCount, `Spoke card "${title}" should expose two external links`).toBe(2);
       }
 
       for (let j = 0; j < linkCount; j++) {
@@ -185,13 +187,17 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
 
       // Titles without their own spoke deployment expose an "Explore" link
       // to their own /works/ page as the first primary link.
-      if (title !== "Let's Build on AWS Together" && linkCount > 0) {
+      if (!SPOKE_WORK_TITLES.includes(title) && linkCount > 0) {
         const exploreLink = links.first();
         await expect(exploreLink.locator('span'), `Card "${title}" first link should be the in-site Explore link`).toHaveText(/Explore/i);
         const exploreHref = await exploreLink.getAttribute('href');
         expect(exploreHref, `Card "${title}" Explore link should route to its own work page`).toMatch(/^works\/[a-z0-9-]+\/$/);
       }
 
+      // Content checks below are deliberately specific to the AWS book's own
+      // copy — a future second spoke work would need its own dedicated
+      // assertions here too, since "tag says cloud guidebook" isn't a
+      // property that generalizes across arbitrary spoke works.
       if (title === "Let's Build on AWS Together") {
         const awsTag = await card.locator('.book-tag').innerText();
         const awsSummary = await card.locator('.book-summary').innerText();
