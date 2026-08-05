@@ -625,6 +625,7 @@ const CatalogRenderer = {
 
     const studyUrl = safeUrl(work.studyUrl, { external: true });
     const studyLabel = String(work.studyLabel || I18N.t('learnMore') || 'Study app');
+    const detailUrl = safeUrl(work.route);
     const kindleUrl = safeUrl(work.amazonUrl, { external: true });
     const kindleLabel = String(work.kindleLabel || I18N.t('buyOnAmazon') || 'Kindle');
     const tagKey = `workTag_${work.id}`;
@@ -639,6 +640,13 @@ const CatalogRenderer = {
       primaryLinks.push(`
             <a class="book-link" href="${escapeHtml(studyUrl)}" target="_blank" rel="noopener">
               <span>${escapeHtml(studyLabel)}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>`);
+    } else if (detailUrl && detailUrl !== '#') {
+      /* No independent spoke deployment — link to this work's own page on this site instead. */
+      primaryLinks.push(`
+            <a class="book-link" href="${escapeHtml(detailUrl)}">
+              <span>${escapeHtml(I18N.t('learnMore') || 'Explore')}</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>`);
     }
