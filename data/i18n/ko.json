@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "ko",
   "label": "한국어",
   "strings": {
@@ -77,6 +77,7 @@
     "authorshipHumanAI": "인간 + AI",
     "wipBadge": "집필 중",
     "workTag_the-princess-and-the-turtle": "에픽 판타지",
-    "workSummary_the-princess-and-the-turtle": "한 어부가 부상당한 바다거북을 구하고 시간이 다르게 흐르는 수중 왕국으로 이끌려 간다. 바다 민족들 사이에 전쟁이 다가오고, 사랑은 역경 속에서 더욱 강해진다."
+    "workSummary_the-princess-and-the-turtle": "한 어부가 부상당한 바다거북을 구하고 시간이 다르게 흐르는 수중 왕국으로 이끌려 간다. 바다 민족들 사이에 전쟁이 다가오고, 사랑은 역경 속에서 더욱 강해진다.",
+    "filterTechnical": "기술"
   }
 }

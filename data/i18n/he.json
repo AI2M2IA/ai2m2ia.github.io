@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "he",
   "label": "עברית",
   "strings": {
@@ -77,6 +77,7 @@
     "authorshipHumanAI": "אדם + בינה מלאכותית",
     "wipBadge": "בכתיבה",
     "workTag_the-princess-and-the-turtle": "פנטזיה אפית",
-    "workSummary_the-princess-and-the-turtle": "דייג מציל צב ים פצוע ומובל לממלכה תת-ימית שבה הזמן זורם אחרת, המלחמה מאיימת בין עמי הים, והאהבה מתחזקת מול הקשיים."
+    "workSummary_the-princess-and-the-turtle": "דייג מציל צב ים פצוע ומובל לממלכה תת-ימית שבה הזמן זורם אחרת, המלחמה מאיימת בין עמי הים, והאהבה מתחזקת מול הקשיים.",
+    "filterTechnical": "טכני"
   }
 }

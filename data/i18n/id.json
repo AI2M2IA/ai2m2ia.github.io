@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "id",
   "label": "Bahasa Indonesia",
   "strings": {
@@ -77,6 +77,7 @@
     "authorshipHumanAI": "Manusia + AI",
     "wipBadge": "Sedang dibuat",
     "workTag_the-princess-and-the-turtle": "Fantasi epik",
-    "workSummary_the-princess-and-the-turtle": "Seorang nelayan menyelamatkan seekor penyu laut yang terluka dan dibawa ke kerajaan bawah laut di mana waktu bergerak berbeda, perang mengancam antara bangsa-bangsa laut, dan cinta tumbuh semakin kuat melalui kesulitan."
+    "workSummary_the-princess-and-the-turtle": "Seorang nelayan menyelamatkan seekor penyu laut yang terluka dan dibawa ke kerajaan bawah laut di mana waktu bergerak berbeda, perang mengancam antara bangsa-bangsa laut, dan cinta tumbuh semakin kuat melalui kesulitan.",
+    "filterTechnical": "Teknis"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "es-419",
   "label": "Español (Latinoamérica)",
   "strings": {
@@ -77,6 +77,7 @@
     "authorshipHumanAI": "Humano + IA",
     "wipBadge": "En progreso",
     "workTag_the-princess-and-the-turtle": "Fantasía épica",
-    "workSummary_the-princess-and-the-turtle": "Un pescador salva a una tortuga marina herida y es llevado a un reino submarino donde el tiempo transcurre de forma diferente, la guerra amenaza entre los pueblos del mar y el amor crece más fuerte en la adversidad."
+    "workSummary_the-princess-and-the-turtle": "Un pescador salva a una tortuga marina herida y es llevado a un reino submarino donde el tiempo transcurre de forma diferente, la guerra amenaza entre los pueblos del mar y el amor crece más fuerte en la adversidad.",
+    "filterTechnical": "Técnico"
   }
 }

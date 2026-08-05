@@ -31,7 +31,7 @@
           },
           "genre": {
             "type": "string",
-            "enum": ["progression", "dark-fantasy", "war", "fantasy"]
+            "enum": ["progression", "dark-fantasy", "war", "fantasy", "technical"]
           },
           "tag": {
             "type": "string"

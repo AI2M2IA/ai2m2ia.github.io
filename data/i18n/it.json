@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "it",
   "label": "Italiano",
   "strings": {
@@ -77,6 +77,7 @@
     "authorshipHumanAI": "Umano + IA",
     "wipBadge": "In corso",
     "workTag_the-princess-and-the-turtle": "Fantasy epico",
-    "workSummary_the-princess-and-the-turtle": "Un pescatore salva una tartaruga marina ferita e viene portato in un regno sottomarino dove il tempo scorre diversamente, la guerra incombe tra i popoli del mare e l'amore cresce più forte nell'avversità."
+    "workSummary_the-princess-and-the-turtle": "Un pescatore salva una tartaruga marina ferita e viene portato in un regno sottomarino dove il tempo scorre diversamente, la guerra incombe tra i popoli del mare e l'amore cresce più forte nell'avversità.",
+    "filterTechnical": "Tecnico"
   }
 }

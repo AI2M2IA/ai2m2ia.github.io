@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "pl",
   "label": "Polski",
   "strings": {
@@ -77,6 +77,7 @@
     "authorshipHumanAI": "Człowiek + AI",
     "wipBadge": "W trakcie",
     "workTag_the-princess-and-the-turtle": "Epicka fantazja",
-    "workSummary_the-princess-and-the-turtle": "Rybak ratuje rannego żółwia morskiego i zostaje zabrany do podwodnego królestwa, gdzie czas płynie inaczej, między ludami morza grozi wojna, a miłość staje się silniejsza poprzez przeciwności losu."
+    "workSummary_the-princess-and-the-turtle": "Rybak ratuje rannego żółwia morskiego i zostaje zabrany do podwodnego królestwa, gdzie czas płynie inaczej, między ludami morza grozi wojna, a miłość staje się silniejsza poprzez przeciwności losu.",
+    "filterTechnical": "Technika"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "de",
   "label": "Deutsch",
   "strings": {
@@ -77,6 +77,7 @@
     "authorshipHumanAI": "Mensch + KI",
     "wipBadge": "In Arbeit",
     "workTag_the-princess-and-the-turtle": "Epische Fantasy",
-    "workSummary_the-princess-and-the-turtle": "Ein Fischer rettet eine verwundete Meeresschildkröte und wird in ein Unterwasserreich gebracht, in dem die Zeit anders verläuft, ein Krieg zwischen den Meeresvölkern droht und die Liebe durch die Widrigkeiten stärker wird."
+    "workSummary_the-princess-and-the-turtle": "Ein Fischer rettet eine verwundete Meeresschildkröte und wird in ein Unterwasserreich gebracht, in dem die Zeit anders verläuft, ein Krieg zwischen den Meeresvölkern droht und die Liebe durch die Widrigkeiten stärker wird.",
+    "filterTechnical": "Technik"
   }
 }

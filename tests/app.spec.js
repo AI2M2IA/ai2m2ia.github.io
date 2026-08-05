@@ -143,6 +143,24 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
     expect(resetVisibleCount).toBe(totalCount);
   });
 
+  test('should classify the AWS guidebook as Technical, not a fiction genre', async ({ page }) => {
+    // "Let's Build on AWS Together" is a non-fiction cloud-computing guide —
+    // it should never surface under a fiction genre filter (it used to be
+    // tagged "progression", which put it in the same bucket as the actual
+    // progression-fantasy novels).
+    const awsCard = page.locator('.book-card[data-id="lets-build-on-aws-together"]');
+    await expect(awsCard).toHaveAttribute('data-genre', 'technical');
+
+    const progressionTab = page.locator('.filter-tab[data-filter="progression"]');
+    await progressionTab.click();
+    await expect(awsCard).toHaveClass(/hidden/);
+
+    const technicalTab = page.locator('.filter-tab[data-filter="technical"]');
+    await expect(technicalTab).toHaveAttribute('data-i18n', 'filterTechnical');
+    await technicalTab.click();
+    await expect(awsCard).not.toHaveClass(/hidden/);
+  });
+
   test('should render catalog cards with valid destinations', async ({ page }) => {
     const booksGrid = page.locator('#books-grid');
     const cards = booksGrid.locator('.book-card');

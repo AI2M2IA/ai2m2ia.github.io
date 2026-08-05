@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "tr",
   "label": "Türkçe",
   "strings": {
@@ -77,6 +77,7 @@
     "authorshipHumanAI": "İnsan + Yapay Zeka",
     "wipBadge": "Devam ediyor",
     "workTag_the-princess-and-the-turtle": "Destansı fantezi",
-    "workSummary_the-princess-and-the-turtle": "Bir balıkçı yaralı bir deniz kaplumbağasını kurtarır ve zamanın farklı aktığı, deniz halkları arasında savaşın kapıda beklediği ve aşkın zorluklar içinde güçlendiği sualtı bir krallığa götürülür."
+    "workSummary_the-princess-and-the-turtle": "Bir balıkçı yaralı bir deniz kaplumbağasını kurtarır ve zamanın farklı aktığı, deniz halkları arasında savaşın kapıda beklediği ve aşkın zorluklar içinde güçlendiği sualtı bir krallığa götürülür.",
+    "filterTechnical": "Teknik"
   }
 }

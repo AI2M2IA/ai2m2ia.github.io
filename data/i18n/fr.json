@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "fr",
   "label": "Français",
   "strings": {
@@ -77,6 +77,7 @@
     "authorshipHumanAI": "Humain + IA",
     "wipBadge": "En cours",
     "workTag_the-princess-and-the-turtle": "Fantasy épique",
-    "workSummary_the-princess-and-the-turtle": "Un pêcheur sauve une tortue de mer blessée et est emmené dans un royaume sous-marin où le temps s'écoule différemment, la guerre menace entre les peuples de la mer et l'amour grandit plus fort dans l'adversité."
+    "workSummary_the-princess-and-the-turtle": "Un pêcheur sauve une tortue de mer blessée et est emmené dans un royaume sous-marin où le temps s'écoule différemment, la guerre menace entre les peuples de la mer et l'amour grandit plus fort dans l'adversité.",
+    "filterTechnical": "Technique"
   }
 }

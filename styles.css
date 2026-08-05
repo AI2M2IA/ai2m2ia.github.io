@@ -758,12 +758,14 @@ p + p { margin-top: 0.9em; }
 .tag-war          { background: var(--amber-dim); color: var(--amber-bright); border: 1px solid var(--amber-border); }
 .tag-start        { background: var(--gold-dim); color: var(--gold-bright); border: 1px solid var(--gold-border); }
 .tag-fantasy      { background: rgba(96, 130, 201, 0.12); color: #7ea8e0; border: 1px solid rgba(96, 130, 201, 0.28); }
+.tag-technical    { background: var(--purple-dim); color: var(--purple-bright); border: 1px solid var(--purple-border); }
 
 [data-theme="light"] .tag-progression { color: var(--teal-tag); }
 [data-theme="light"] .tag-dark-fantasy { color: var(--rose-tag); }
 [data-theme="light"] .tag-war { color: var(--amber-tag); }
 [data-theme="light"] .tag-start { color: var(--gold); }
 [data-theme="light"] .tag-fantasy { color: #365f95; }
+[data-theme="light"] .tag-technical { color: var(--purple-tag); }
 
 /* ── Authorship badges + WIP indicator ─────────────────────────────────── */
 .book-authorship {

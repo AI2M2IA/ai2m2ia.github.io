@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "fil",
   "label": "Filipino",
   "strings": {
@@ -77,6 +77,7 @@
     "authorshipHumanAI": "Tao + AI",
     "wipBadge": "Isinusulat pa",
     "workTag_the-princess-and-the-turtle": "Epic fantasy",
-    "workSummary_the-princess-and-the-turtle": "Isang mangingisda ang nagligtas sa isang sugatan na pawikan at dinala sa isang kaharian sa ilalim ng dagat kung saan naiiba ang takbo ng panahon, nagbabanta ang digmaan sa mga bayan ng dagat, at lumalaki ang pag-ibig sa gitna ng kagipitan."
+    "workSummary_the-princess-and-the-turtle": "Isang mangingisda ang nagligtas sa isang sugatan na pawikan at dinala sa isang kaharian sa ilalim ng dagat kung saan naiiba ang takbo ng panahon, nagbabanta ang digmaan sa mga bayan ng dagat, at lumalaki ang pag-ibig sa gitna ng kagipitan.",
+    "filterTechnical": "Teknikal"
   }
 }

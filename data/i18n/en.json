@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "en",
   "label": "English",
   "strings": {
@@ -77,6 +77,7 @@
     "authorshipHumanAI": "Human + AI",
     "wipBadge": "In Progress",
     "workTag_the-princess-and-the-turtle": "Epic Fantasy",
-    "workSummary_the-princess-and-the-turtle": "A fisherman saves a wounded sea turtle and is taken to an underwater kingdom where time moves differently, war looms between sea peoples, and love grows stronger through adversity."
+    "workSummary_the-princess-and-the-turtle": "A fisherman saves a wounded sea turtle and is taken to an underwater kingdom where time moves differently, war looms between sea peoples, and love grows stronger through adversity.",
+    "filterTechnical": "Technical"
   }
 }

@@ -17,7 +17,7 @@ const REQUIRED_KEYS = [
   'navCatalog', 'navMedia', 'navPhilosophy',
   'heroPrimaryCTA', 'heroSecondaryCTA',
   'catalogEyebrow', 'catalogTitle', 'catalogLead',
-  'filterAll', 'filterProgression', 'filterDark', 'filterWar', 'filterFantasy',
+  'filterAll', 'filterProgression', 'filterDark', 'filterWar', 'filterFantasy', 'filterTechnical',
   'authorshipHuman', 'authorshipHumanAI', 'wipBadge',
   'learnMore', 'buyOnAmazon',
   ...WORK_IDS.map((id) => `workTag_${id}`),

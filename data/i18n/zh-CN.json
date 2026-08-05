@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "zh-CN",
   "label": "中文（简体）",
   "strings": {
@@ -77,6 +77,7 @@
     "authorshipHumanAI": "人类 + AI",
     "wipBadge": "创作中",
     "workTag_the-princess-and-the-turtle": "史诗奇幻",
-    "workSummary_the-princess-and-the-turtle": "一名渔夫救起一只受伤的海龟，被带入一个时间流速迥异的水下王国。海洋诸族之间战争逼近，爱情在逆境中愈加深厚。"
+    "workSummary_the-princess-and-the-turtle": "一名渔夫救起一只受伤的海龟，被带入一个时间流速迥异的水下王国。海洋诸族之间战争逼近，爱情在逆境中愈加深厚。",
+    "filterTechnical": "技术"
   }
 }
