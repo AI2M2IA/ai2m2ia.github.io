@@ -1,17 +1,15 @@
 const { test, expect } = require('@playwright/test');
+const { SPOKE_WORKS, SPOKE_WORK_IDS } = require('./spoke-works');
 
 const BASE_URL = `http://localhost:${process.env.AI2M2IA_TEST_PORT || '34781'}`;
 
 const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 /*
- * lets-build-on-aws-together is the only work with an independent spoke
- * deployment (see api/catalog.json's hub-and-spoke model). Its /works/ page
- * exists purely to forward readers to that spoke — it legitimately redirects.
+ * Works with their own spoke deployment (see ./spoke-works.js) redirect out
+ * to it instead of showing an in-site page.
  */
-const REDIRECTS = [
-  { slug: 'lets-build-on-aws-together', destination: 'https://ai2m2ia.github.io/book-lets-build-on-aws-together/' },
-];
+const REDIRECTS = SPOKE_WORKS.map(({ id, destination }) => ({ slug: id, destination }));
 
 /*
  * Every other work now has a real, standalone page (restored in Etapa 2 —
@@ -70,10 +68,24 @@ test.describe('Work pages', () => {
       await expect(link, `expected a catalog link to works/${slug}/`).toHaveCount(1);
     }
 
-    // The AWS book keeps its external spoke link only — no redundant internal one,
-    // since /works/lets-build-on-aws-together/ just redirects back out to the same place.
-    const awsCard = page.locator('.book-card[data-id="lets-build-on-aws-together"]');
-    await expect(awsCard.locator('a.book-link[href^="works/"]')).toHaveCount(0);
+    // Works with their own spoke deployment keep their external link only —
+    // no redundant internal one, since their /works/<slug>/ page just
+    // redirects back out to that same spoke.
+    for (const id of SPOKE_WORK_IDS) {
+      const spokeCard = page.locator(`.book-card[data-id="${id}"]`);
+      await expect(spokeCard.locator('a.book-link[href^="works/"]')).toHaveCount(0);
+    }
+  });
+
+  test('REAL_PAGES + SPOKE_WORKS covers every work in data/works.json', async () => {
+    // Guards against a new entry in data/works.json going untested because
+    // nobody remembered to add it to one of these two lists.
+    const works = require('../data/works.json');
+    const knownIds = new Set([...REAL_PAGES.map(w => w.slug), ...SPOKE_WORK_IDS]);
+    const actualIds = works.workFamilies.map(w => w.id);
+
+    expect(actualIds.filter(id => !knownIds.has(id))).toEqual([]);
+    expect([...knownIds].filter(id => !actualIds.includes(id))).toEqual([]);
   });
 
   test('reflects the saved site language on <html> like every other page, but keeps page content in English', async ({ page }) => {
