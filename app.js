@@ -981,7 +981,7 @@ function showSectionError(containerId, resourceName) {
   const notice = document.createElement('div');
   notice.className = 'data-error-notice';
   notice.setAttribute('role', 'alert');
-  notice.innerHTML = '<p style="margin:0;padding:1rem;text-align:center;color:var(--text-muted,#999);font-size:0.95rem;">'
+  notice.innerHTML = '<p>'
     + 'Unable to load ' + escapeHtml(resourceName) + '. Please check your connection and reload.</p>';
   container.prepend(notice);
 }
