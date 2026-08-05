@@ -14,8 +14,8 @@ const WORK_IDS = [
 ];
 
 const REQUIRED_KEYS = [
-  'navCatalog', 'navMedia', 'navPhilosophy',
-  'heroPrimaryCTA', 'heroSecondaryCTA',
+  'navCatalog', 'navMedia', 'navPhilosophy', 'navReadOnline',
+  'heroPrimaryCTA', 'heroSecondaryCTA', 'heroTertiaryCTA',
   'catalogEyebrow', 'catalogTitle', 'catalogLead',
   'filterAll', 'filterProgression', 'filterDark', 'filterWar', 'filterFantasy',
   'authorshipHuman', 'authorshipHumanAI', 'wipBadge',

@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "pl",
   "label": "Polski",
   "strings": {
@@ -10,8 +10,8 @@
     "navPhilosophy": "AI i Odpowiedzialność",
     "heroEyebrow": "Narracje Kształtowane przez Hybrydowe Umysły",
     "heroLead": "Jedna niemożliwa książka na raz. Czytaj fantasy progresji, gotycką dark fantasy i spekulatywną fikcję wojenną zbudowane wokół złożonych systemów i postaci, które nie rozwiązują się łatwo.",
-    "heroPrimaryCTA": "Odkryj Katalog",
-    "heroSecondaryCTA": "Poznaj Naszą Metodę",
+    "heroPrimaryCTA": "Zacznij od Level Zero",
+    "heroSecondaryCTA": "Zobacz Próbki",
     "heroNote": "AI przyspiesza produkcję. Ludzkie kierownictwo, struktura, rewizja, smak i etyka pozostają całkowicie nieprzekazywalne.",
     "charSeriesLevelZero": "Level Zero / Analyze",
     "charSeriesCrater": "The Crater Gospel / Bell",
@@ -77,6 +77,8 @@
     "authorshipHumanAI": "Człowiek + AI",
     "wipBadge": "W trakcie",
     "workTag_the-princess-and-the-turtle": "Epicka fantazja",
-    "workSummary_the-princess-and-the-turtle": "Rybak ratuje rannego żółwia morskiego i zostaje zabrany do podwodnego królestwa, gdzie czas płynie inaczej, między ludami morza grozi wojna, a miłość staje się silniejsza poprzez przeciwności losu."
+    "workSummary_the-princess-and-the-turtle": "Rybak ratuje rannego żółwia morskiego i zostaje zabrany do podwodnego królestwa, gdzie czas płynie inaczej, między ludami morza grozi wojna, a miłość staje się silniejsza poprzez przeciwności losu.",
+    "heroTertiaryCTA": "Odkryj Katalog",
+    "navReadOnline": "Czytaj Online"
   }
 }

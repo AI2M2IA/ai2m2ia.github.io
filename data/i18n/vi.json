@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "vi",
   "label": "Tiếng Việt",
   "strings": {
@@ -10,8 +10,8 @@
     "navPhilosophy": "AI và Trách nhiệm",
     "heroEyebrow": "Những Câu Chuyện Được Định Hình Bởi Những Tâm Trí Lai",
     "heroLead": "Từng cuốn sách không thể một lúc. Đọc tiểu thuyết giả tưởng tiến bộ, dark fantasy gothic và tiểu thuyết chiến tranh suy đoán được xây dựng xung quanh các hệ thống phức tạp và những nhân vật không được giải quyết dễ dàng.",
-    "heroPrimaryCTA": "Khám phá Danh mục",
-    "heroSecondaryCTA": "Tìm Hiểu Phương Pháp",
+    "heroPrimaryCTA": "Bắt đầu với Level Zero",
+    "heroSecondaryCTA": "Xem Mẫu",
     "heroNote": "AI đẩy nhanh quá trình sản xuất. Định hướng của con người, cấu trúc, chỉnh sửa, thị hiếu và đạo đức vẫn hoàn toàn không thể ủy thác.",
     "charSeriesLevelZero": "Level Zero / Analyze",
     "charSeriesCrater": "The Crater Gospel / Bell",
@@ -77,6 +77,8 @@
     "authorshipHumanAI": "Con người + AI",
     "wipBadge": "Đang tiến hành",
     "workTag_the-princess-and-the-turtle": "Kỳ ảo sử thi",
-    "workSummary_the-princess-and-the-turtle": "Một ngư dân cứu một con rùa biển bị thương và được đưa đến một vương quốc dưới đáy biển nơi thời gian trôi qua khác biệt, chiến tranh rình rập giữa các dân tộc biển cả và tình yêu lớn mạnh hơn qua nghịch cảnh."
+    "workSummary_the-princess-and-the-turtle": "Một ngư dân cứu một con rùa biển bị thương và được đưa đến một vương quốc dưới đáy biển nơi thời gian trôi qua khác biệt, chiến tranh rình rập giữa các dân tộc biển cả và tình yêu lớn mạnh hơn qua nghịch cảnh.",
+    "heroTertiaryCTA": "Khám phá Danh mục",
+    "navReadOnline": "Đọc Trực Tuyến"
   }
 }
