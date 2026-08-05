@@ -11,13 +11,45 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data: https://ai2m2ia.github.io; connect-src 'self' https://ai2m2ia.github.io; frame-src https://www.youtube-nocookie.com https://www.tiktok.com; worker-src 'self'; manifest-src 'self'; form-action 'self'">
 
   <!-- Canonical & social -->
+  <link rel="canonical" href="https://ai2m2ia.github.io/">
   <meta property="og:title" content="AI(2)M(2)IA | AI-Assisted Literary Fiction">
   <meta property="og:description" content="One impossible book at a time. Progression fantasy, gothic dark fantasy, and speculative war fiction.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ai2m2ia.github.io/">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI(2)M(2)IA | AI-Assisted Literary Fiction">
+  <meta name="twitter:description" content="One impossible book at a time. Progression fantasy, gothic dark fantasy, and speculative war fiction.">
+
+  <!-- Structured data: no book content, only publicly-linked author identity -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://ai2m2ia.github.io/#website",
+        "url": "https://ai2m2ia.github.io/",
+        "name": "AI(2)M(2)IA",
+        "description": "AI(2)M(2)IA — one impossible book at a time. Progression fantasy, gothic dark fantasy, and speculative war fiction built with full AI-process transparency.",
+        "publisher": { "@id": "https://ai2m2ia.github.io/#author" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://ai2m2ia.github.io/#author",
+        "name": "AI(2)M(2)IA",
+        "url": "https://ai2m2ia.github.io/",
+        "sameAs": [
+          "https://www.amazon.com/stores/AI%282%29M%282%29IA-AI%282%29M%282%29IA/author/B0GYDYRL75",
+          "https://www.youtube.com/@AI2M2IA",
+          "https://www.tiktok.com/@ai2m2ia"
+        ]
+      }
+    ]
+  }
+  </script>
 
   <!-- Prevent flash of un-themed content -->
-  <script src="theme-init.js?v=20260601a"></script>
+  <script src="theme-init.js?v=20260805a"></script>
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -26,12 +58,12 @@
 	  <!-- Typography -->
 	      
 	  <!-- Stylesheet -->
-	  <link rel="stylesheet" href="styles.css?v=20260601a">
+	  <link rel="stylesheet" href="styles.css?v=20260805a">
 	  <link rel="stylesheet" href="assets/fonts/fonts.css">
   <script src="lib/sanitize.js"></script>
 
 	  <!-- Application logic (deferred) -->
-	  <script src="app.js?v=20260601a" defer></script>
+	  <script src="app.js?v=20260805a" defer></script>
 	</head>
 
 <body>

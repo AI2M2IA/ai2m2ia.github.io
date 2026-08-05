@@ -1285,6 +1285,14 @@ p + p { margin-top: 0.9em; }
   margin-bottom: 12px;
 }
 
+.data-error-notice p {
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
 /* --------------------------------------------------------------------------
    FOOTER
    -------------------------------------------------------------------------- */
@@ -1417,6 +1425,8 @@ p + p { margin-top: 0.9em; }
   gap: 12px;
   margin-top: 4px;
 }
+.mt-md { margin-top: 16px; }
+.mt-lg { margin-top: 28px; }
 .volume-item {
   background: var(--bg-panel);
   border: 1px solid var(--border);
