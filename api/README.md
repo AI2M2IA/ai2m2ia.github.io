@@ -1,30 +1,34 @@
 # AI(2)M(2)IA Static Books API
 
-Static JSON contract served from GitHub Pages.
+Static JSON contract served from GitHub Pages, describing the hub-and-spoke
+book catalog: each entry points to a book's own independently deployed site
+("spoke"), not to content hosted in this repository.
 
 ## Endpoints
 
 - Catalog: `/api/catalog.json`
-- Book content: `/api/books/<book-id>/content.json`
-- Book covers: `/api/books/<book-id>/cover.jpg`
-- Schemas: `/api/schemas/catalog.schema.json` and `/api/schemas/content.schema.json`
+- Schema: `/api/schemas/catalog.schema.json`
 
-Some catalog entries can intentionally expose `coverUrl: null`. At the moment,
-volumes 17-30 of `The Last Archive` do not have public cover files yet; clients
-should render their fallback cover state until those assets are added.
+There is no per-book content or cover endpoint in this repository. Each
+catalog entry's `spokeUrl` points to that book's own site, and `coverUrl`
+(when present) is an absolute URL to an image hosted there or in this
+repository's own `assets/`. A book with no independent spoke (for example,
+a title sold only through a third-party storefront) is simply not listed in
+`catalog.json` rather than stubbed with a placeholder entry.
 
-Production URLs use the canonical site origin:
+Production URL uses the canonical site origin:
 
 ```text
 https://ai2m2ia.github.io/api/catalog.json
-https://ai2m2ia.github.io/api/books/<book-id>/content.json
 ```
 
 ## Contract
 
-The catalog contains `schemaVersion`, generation metadata, and absolute
-`manifestUrl` values for each book. Clients should fetch the catalog first and
-then follow each book's `manifestUrl`.
+The catalog contains `schemaVersion`, generation metadata, and one entry per
+book with a required, unique, HTTPS `spokeUrl`. Clients should fetch the
+catalog and treat each `spokeUrl` as the book's canonical reading destination.
+See `api/schemas/catalog.schema.json` and `tools/api/lib/api-contract.js` for
+the full set of required fields and validation rules.
 
 ## Validation
 
@@ -34,26 +38,12 @@ From this repository root:
 npm run test:api:contract
 ```
 
-## Build Tools
+## Maintenance
 
-The API build and validation tools live in `tools/api`. The generator is
-currently Python; contract validation and tests run in Node.js through
-`package.json`, using AJV against the JSON Schemas plus local integrity checks.
-
-```bash
-npm run build:api
-npm run test:api
-```
-
-`npm run build:api` intentionally has no machine-specific default workspace.
-Set `AI2M2IA_WORKSPACE` or pass both source directories explicitly:
-
-```bash
-AI2M2IA_WORKSPACE=/path/to/workspace npm run build:api
-
-python3 tools/api/scripts/build_catalog.py \
-  --aws-book-dir /path/to/book-lets-build-on-aws-together \
-  --last-archive-dir /path/to/the-last-archive
-```
-
-For publication safety, `--out-dir` must stay inside this repository.
+`api/catalog.json` is currently maintained by hand and validated with the
+command above; there is no generator script. (An earlier Python generator,
+`tools/api/scripts/build_catalog.py`, was removed when the catalog moved to
+the spoke model — see the `refactor(pwa): hub-and-spoke` commit — and no
+`npm run build:api` command exists today.) When adding a book with its own
+independent spoke site, add its entry directly to `api/catalog.json` and run
+the validation command above before committing.
