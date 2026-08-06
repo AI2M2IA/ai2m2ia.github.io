@@ -51,6 +51,11 @@ module.exports = defineConfig({
       use: { ...devices['Desktop Chrome'] },
       testMatch: '**/accessibility.spec.js',
     },
+    {
+      name: 'seo',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: '**/seo.spec.js',
+    },
   ],
   webServer: {
     command: `PORT=${TEST_PORT} node tests/server.js`,
