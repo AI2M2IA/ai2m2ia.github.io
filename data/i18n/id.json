@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "id",
   "label": "Bahasa Indonesia",
   "strings": {
@@ -10,8 +10,8 @@
     "navPhilosophy": "AI dan Tanggung Jawab",
     "heroEyebrow": "Narasi yang Dibentuk oleh Pikiran Hibrida",
     "heroLead": "Satu buku mustahil pada satu waktu. Baca fantasi perkembangan, dark fantasy gotik, dan fiksi perang spekulatif yang dibangun di sekitar sistem kompleks dan karakter yang tidak diselesaikan dengan mudah.",
-    "heroPrimaryCTA": "Jelajahi Katalog",
-    "heroSecondaryCTA": "Baca Tentang Metode Kami",
+    "heroPrimaryCTA": "Mulai dengan Level Zero",
+    "heroSecondaryCTA": "Lihat Sampel",
     "heroNote": "AI mempercepat produksi. Arahan manusia, struktur, revisi, selera, dan etika tetap sepenuhnya tidak dapat didelegasikan.",
     "charSeriesLevelZero": "Level Zero / Analyze",
     "charSeriesCrater": "The Crater Gospel / Bell",
@@ -77,6 +77,8 @@
     "authorshipHumanAI": "Manusia + AI",
     "wipBadge": "Sedang dibuat",
     "workTag_the-princess-and-the-turtle": "Fantasi epik",
-    "workSummary_the-princess-and-the-turtle": "Seorang nelayan menyelamatkan seekor penyu laut yang terluka dan dibawa ke kerajaan bawah laut di mana waktu bergerak berbeda, perang mengancam antara bangsa-bangsa laut, dan cinta tumbuh semakin kuat melalui kesulitan."
+    "workSummary_the-princess-and-the-turtle": "Seorang nelayan menyelamatkan seekor penyu laut yang terluka dan dibawa ke kerajaan bawah laut di mana waktu bergerak berbeda, perang mengancam antara bangsa-bangsa laut, dan cinta tumbuh semakin kuat melalui kesulitan.",
+    "heroTertiaryCTA": "Jelajahi Katalog",
+    "navReadOnline": "Baca Online"
   }
 }

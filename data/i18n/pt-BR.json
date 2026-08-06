@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "pt-BR",
   "label": "Português (BR)",
   "strings": {
@@ -10,8 +10,8 @@
     "navPhilosophy": "IA & Responsabilidade",
     "heroEyebrow": "Narrativas Moldadas por Mentes Híbridas",
     "heroLead": "Um livro impossível de cada vez. Leia fantasia de progressão, dark fantasy gótica e ficção especulativa de guerra criada em torno de sistemas complexos e personagens que não se resolvem facilmente.",
-    "heroPrimaryCTA": "Explorar Catálogo",
-    "heroSecondaryCTA": "Conhecer Nosso Método",
+    "heroPrimaryCTA": "Começar com Level Zero",
+    "heroSecondaryCTA": "Ver Amostras",
     "heroNote": "A IA acelera a produção. Direção humana, estrutura, revisão, gosto e ética permanecem completamente não delegáveis.",
     "charSeriesLevelZero": "Level Zero / Analyze",
     "charSeriesCrater": "The Crater Gospel / Bell",
@@ -77,6 +77,8 @@
     "authorshipHumanAI": "Humano + IA",
     "wipBadge": "Em andamento",
     "workTag_the-princess-and-the-turtle": "Fantasia Épica",
-    "workSummary_the-princess-and-the-turtle": "Um pescador salva uma tartaruga marinha ferida e é levado a um reino submarino onde o tempo se move de forma diferente, a guerra se aproxima entre os povos do mar e o amor cresce mais forte através da adversidade."
+    "workSummary_the-princess-and-the-turtle": "Um pescador salva uma tartaruga marinha ferida e é levado a um reino submarino onde o tempo se move de forma diferente, a guerra se aproxima entre os povos do mar e o amor cresce mais forte através da adversidade.",
+    "heroTertiaryCTA": "Explorar Catálogo",
+    "navReadOnline": "Ler Online"
   }
 }
