@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "fil",
   "label": "Filipino",
   "strings": {
@@ -10,8 +10,8 @@
     "navPhilosophy": "AI at Responsibilidad",
     "heroEyebrow": "Mga Kuwentong Hinubog ng Mga Hybrid na Isipan",
     "heroLead": "Isang imposibleng libro sa isang pagkakataon. Basahin ang progression fantasy, gothic dark fantasy, at speculative war fiction na binuo sa paligid ng mga kumplikadong sistema at mga karakterna hindi madaling naresolba.",
-    "heroPrimaryCTA": "I-explore ang Katalogo",
-    "heroSecondaryCTA": "Basahin ang Aming Pamamaraan",
+    "heroPrimaryCTA": "Magsimula sa Level Zero",
+    "heroSecondaryCTA": "Panoorin ang mga Sample",
     "heroNote": "Pinabibilis ng AI ang produksyon. Nananatiling ganap na hindi maitatalaga ang direksyon ng tao, istraktura, rebisyon, panlasa, at etika.",
     "charSeriesLevelZero": "Level Zero / Analyze",
     "charSeriesCrater": "The Crater Gospel / Bell",
@@ -77,6 +77,8 @@
     "authorshipHumanAI": "Tao + AI",
     "wipBadge": "Isinusulat pa",
     "workTag_the-princess-and-the-turtle": "Epic fantasy",
-    "workSummary_the-princess-and-the-turtle": "Isang mangingisda ang nagligtas sa isang sugatan na pawikan at dinala sa isang kaharian sa ilalim ng dagat kung saan naiiba ang takbo ng panahon, nagbabanta ang digmaan sa mga bayan ng dagat, at lumalaki ang pag-ibig sa gitna ng kagipitan."
+    "workSummary_the-princess-and-the-turtle": "Isang mangingisda ang nagligtas sa isang sugatan na pawikan at dinala sa isang kaharian sa ilalim ng dagat kung saan naiiba ang takbo ng panahon, nagbabanta ang digmaan sa mga bayan ng dagat, at lumalaki ang pag-ibig sa gitna ng kagipitan.",
+    "heroTertiaryCTA": "I-explore ang Katalogo",
+    "navReadOnline": "Basahin Online"
   }
 }

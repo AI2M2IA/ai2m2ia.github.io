@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "ja",
   "label": "日本語",
   "strings": {
@@ -10,8 +10,8 @@
     "navPhilosophy": "AIと責任",
     "heroEyebrow": "ハイブリッドな知性が形成する物語",
     "heroLead": "一度に一冊の不可能な本。複雑なシステムと単純に解決しないキャラクターを中心に構築された、進行系ファンタジー、ゴシックダークファンタジー、投機的戦争小説をお読みください。",
-    "heroPrimaryCTA": "カタログを探索",
-    "heroSecondaryCTA": "私たちの手法を読む",
+    "heroPrimaryCTA": "Level Zeroから始める",
+    "heroSecondaryCTA": "サンプルを見る",
     "heroNote": "AIは制作を加速します。人間の方向性、構造、改訂、趣味、倫理は完全に委任できないままです。",
     "charSeriesLevelZero": "Level Zero / Analyze",
     "charSeriesCrater": "The Crater Gospel / Bell",
@@ -77,6 +77,8 @@
     "authorshipHumanAI": "人間 + AI",
     "wipBadge": "執筆中",
     "workTag_the-princess-and-the-turtle": "エピック・ファンタジー",
-    "workSummary_the-princess-and-the-turtle": "漁師が傷ついたウミガメを救い、時間が異なる流れ方をする水中の王国へと連れて行かれる。海の民の間で戦争が迫り、試練の中で愛は深まっていく。"
+    "workSummary_the-princess-and-the-turtle": "漁師が傷ついたウミガメを救い、時間が異なる流れ方をする水中の王国へと連れて行かれる。海の民の間で戦争が迫り、試練の中で愛は深まっていく。",
+    "heroTertiaryCTA": "カタログを探索",
+    "navReadOnline": "オンラインで読む"
   }
 }

@@ -56,7 +56,7 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
     const langMenuBtn = page.locator('#lang-menu-btn');
     const langMenuText = langMenuBtn.locator('.lang-text');
     const langDropdown = page.locator('#lang-dropdown');
-    const exploreBtn = page.locator('a[data-i18n="heroPrimaryCTA"]');
+    const primaryCtaBtn = page.locator('a[data-i18n="heroPrimaryCTA"]');
     const labelFor = lang => ({
       'pt-BR': 'PT-BR',
       'es-419': 'ES',
@@ -70,7 +70,7 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
 
     for (const lang of ALL_LANGS) {
       // 1. Get the expected translation text
-      let expectedText = 'Explore Catalog'; // English fallback
+      let expectedText = 'Start with Level Zero'; // English fallback
       if (lang !== 'en') {
         if (!ALL_LANGS.includes(lang)) {
           throw new Error(`Invalid language code: ${lang}`);
@@ -104,7 +104,7 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
       await expect(html).toHaveAttribute('dir', expectedDir);
 
       // 6. Verify the text translated correctly
-      await expect(exploreBtn).toHaveText(expectedText);
+      await expect(primaryCtaBtn).toHaveText(expectedText);
       await expect(langMenuText).toHaveText(labelFor(lang));
     }
   });
@@ -210,6 +210,53 @@ test.describe('AI(2)M(2)IA Website E2E Tests', () => {
         await expect(awsLinks.nth(1), 'AWS second link should now be the Amazon purchase link').toHaveText(/Buy on Amazon/i);
       }
     }
+  });
+
+  test('should restructure hero actions into four distinct CTAs', async ({ page }) => {
+    const actions = page.locator('.hero-actions .btn');
+    await expect(actions).toHaveCount(4);
+
+    await expect(actions.nth(0)).toHaveAttribute('href', 'works/level-zero/');
+    await expect(actions.nth(0)).toHaveClass(/btn-primary/);
+    await expect(actions.nth(1)).toHaveAttribute('href', '#media');
+    await expect(actions.nth(2)).toHaveAttribute('href', '#catalog');
+    await expect(actions.nth(3)).toHaveAttribute('href', 'pwa/');
+  });
+
+  test('should expose Characters and Media Samples in primary navigation', async ({ page }) => {
+    const nav = page.locator('.site-nav');
+    await expect(nav.locator('a[href="#characters"]')).toBeVisible();
+    await expect(nav.locator('a[href="#media"]')).toBeVisible();
+    // Order matters: Catalog, Characters, Media, Philosophy, Read Online.
+    const hrefs = await nav.locator('a').evaluateAll(links => links.map(l => l.getAttribute('href')));
+    expect(hrefs).toEqual(['#catalog', '#characters', '#media', '#philosophy', 'pwa/']);
+  });
+
+  test('should render the characters section with character dossier cards', async ({ page }) => {
+    const grid = page.locator('#characters-grid');
+    const cards = grid.locator('.character-card');
+    await expect(cards.first()).toBeVisible();
+    expect(await cards.count()).toBeGreaterThan(0);
+
+    const firstCard = cards.first();
+    await expect(firstCard.locator('h3')).not.toBeEmpty();
+    await expect(firstCard.locator('.char-title-role')).not.toBeEmpty();
+    await expect(firstCard.locator('.char-desc')).not.toBeEmpty();
+  });
+
+  test('should render the media section with media sample cards', async ({ page }) => {
+    const grid = page.locator('#media-grid');
+    const cards = grid.locator('.media-card');
+    await expect(cards.first()).toBeVisible();
+    expect(await cards.count()).toBeGreaterThan(0);
+  });
+
+  test('should render analogy cards alongside the disclosure statement', async ({ page }) => {
+    const analogyCards = page.locator('.analogy-cards .analogy-card');
+    await expect(analogyCards).toHaveCount(2);
+    await expect(analogyCards.nth(0).locator('h4')).toHaveText(/Calculator Analogy/i);
+    await expect(analogyCards.nth(1).locator('h4')).toHaveText(/Typewriter Analogy/i);
+    await expect(page.locator('.responsibility-text')).toBeVisible();
   });
 
   test('should refresh cached works payload when lastUpdated changes', async ({ page }) => {

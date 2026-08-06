@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-29",
+  "lastUpdated": "2026-08-05",
   "lang": "fr",
   "label": "Français",
   "strings": {
@@ -10,8 +10,8 @@
     "navPhilosophy": "IA et Responsabilité",
     "heroEyebrow": "Récits Façonnés par des Esprits Hybrides",
     "heroLead": "Un livre impossible à la fois. Lisez de la fantasy de progression, de la dark fantasy gothique et de la fiction de guerre spéculative construites autour de systèmes complexes et de personnages qui ne se résolvent pas facilement.",
-    "heroPrimaryCTA": "Explorer le Catalogue",
-    "heroSecondaryCTA": "Découvrir Notre Méthode",
+    "heroPrimaryCTA": "Commencer par Level Zero",
+    "heroSecondaryCTA": "Voir des Extraits",
     "heroNote": "L'IA accélère la production. La direction humaine, la structure, la révision, le goût et l'éthique restent entièrement non délégables.",
     "charSeriesLevelZero": "Level Zero / Analyze",
     "charSeriesCrater": "The Crater Gospel / Bell",
@@ -77,6 +77,8 @@
     "authorshipHumanAI": "Humain + IA",
     "wipBadge": "En cours",
     "workTag_the-princess-and-the-turtle": "Fantasy épique",
-    "workSummary_the-princess-and-the-turtle": "Un pêcheur sauve une tortue de mer blessée et est emmené dans un royaume sous-marin où le temps s'écoule différemment, la guerre menace entre les peuples de la mer et l'amour grandit plus fort dans l'adversité."
+    "workSummary_the-princess-and-the-turtle": "Un pêcheur sauve une tortue de mer blessée et est emmené dans un royaume sous-marin où le temps s'écoule différemment, la guerre menace entre les peuples de la mer et l'amour grandit plus fort dans l'adversité.",
+    "heroTertiaryCTA": "Explorer le Catalogue",
+    "navReadOnline": "Lire en Ligne"
   }
 }
