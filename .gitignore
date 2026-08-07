@@ -95,3 +95,9 @@ thorough-revision-*
 *.stale*
 .claude/settings.local.json
 .penname
+
+# Branch handoff artifacts (git bundles + PR/handoff notes) — delivery
+# scaffolding for review, never meant to land in the tree itself
+*.bundle
+*-pr-description.md
+*-resumo.md
