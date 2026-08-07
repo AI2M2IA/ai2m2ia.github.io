@@ -136,6 +136,7 @@ const I18N = {
     filterDark:          'Gothic & Dark Fantasy',
     filterWar:           'Speculative War',
     filterFantasy:       'Epic Fantasy',
+    filterTechnical:     'Technical',
     loading:             'Loading content…',
     /* Work tags & summaries (fallback = English; other langs fetched remotely) */
     'workTag_level-zero':                  'Recommended start',
@@ -595,7 +596,8 @@ const CatalogRenderer = {
     progression:    'tag-progression',
     'dark-fantasy': 'tag-dark-fantasy',
     war:            'tag-war',
-    fantasy:        'tag-fantasy'
+    fantasy:        'tag-fantasy',
+    technical:      'tag-technical'
   },
 
   render() {
