@@ -56,6 +56,29 @@ test.describe('Work pages', () => {
 
       // Every restored page links back to the catalog.
       await expect(page.getByRole('link', { name: /catalog/i }).first()).toHaveAttribute('href', '../../index.html#catalog');
+
+      // Open Graph: enough for a shared link to render a real card, even
+      // without og:image (no cover-art/social-image decision made yet).
+      await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'book');
+      await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', `https://ai2m2ia.github.io/works/${slug}/`);
+      await expect(page.locator('meta[property="og:title"]')).toHaveCount(1);
+
+      // Structured data: a Book + BreadcrumbList graph, no book content —
+      // just the same catalog metadata already public elsewhere on the page.
+      const ldJson = await page.locator('script[type="application/ld+json"]').first().textContent();
+      const ld = JSON.parse(ldJson);
+      const book = ld['@graph'].find(node => node['@type'] === 'Book');
+      const breadcrumbs = ld['@graph'].find(node => node['@type'] === 'BreadcrumbList');
+
+      expect(book).toBeTruthy();
+      expect(book.name).toBe(title);
+      expect(book.url).toBe(`https://ai2m2ia.github.io/works/${slug}/`);
+      expect(book.author['@id']).toBe('https://ai2m2ia.github.io/#author');
+
+      expect(breadcrumbs).toBeTruthy();
+      const lastCrumb = breadcrumbs.itemListElement.at(-1);
+      expect(lastCrumb.name).toBe(title);
+      expect(lastCrumb.item).toBe(`https://ai2m2ia.github.io/works/${slug}/`);
     });
   }
 
