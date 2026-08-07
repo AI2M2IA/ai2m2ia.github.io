@@ -52,6 +52,17 @@ test.describe('Accessibility Tests (WCAG 2.1 AA)', () => {
     }
   });
 
+  test('404 page should have no accessibility violations', async ({ page }) => {
+    await page.goto('/404.html');
+    await page.waitForLoadState('networkidle');
+
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+      .analyze();
+
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+
   test('should have proper heading hierarchy', async ({ page }) => {
     await page.goto('/');
     
