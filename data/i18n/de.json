@@ -10,8 +10,8 @@
     "navPhilosophy": "KI & Verantwortung",
     "heroEyebrow": "Erzählungen, Geformt von Hybriden Geistern",
     "heroLead": "Ein unmögliches Buch nach dem anderen. Lesen Sie Progressions-Fantasy, gothische Dark Fantasy und spekulative Kriegsliteratur, aufgebaut auf komplexen Systemen und Charakteren, die sich nicht einfach auflösen.",
-    "heroPrimaryCTA": "Katalog Erkunden",
-    "heroSecondaryCTA": "Unsere Methode Kennenlernen",
+    "heroPrimaryCTA": "Mit Level Zero Beginnen",
+    "heroSecondaryCTA": "Proben Ansehen",
     "heroNote": "KI beschleunigt die Produktion. Menschliche Führung, Struktur, Überarbeitung, Geschmack und Ethik bleiben vollständig nicht delegierbar.",
     "charSeriesLevelZero": "Level Zero / Analyze",
     "charSeriesCrater": "The Crater Gospel / Bell",
@@ -78,6 +78,8 @@
     "wipBadge": "In Arbeit",
     "workTag_the-princess-and-the-turtle": "Epische Fantasy",
     "workSummary_the-princess-and-the-turtle": "Ein Fischer rettet eine verwundete Meeresschildkröte und wird in ein Unterwasserreich gebracht, in dem die Zeit anders verläuft, ein Krieg zwischen den Meeresvölkern droht und die Liebe durch die Widrigkeiten stärker wird.",
+    "heroTertiaryCTA": "Katalog Erkunden",
+    "navReadOnline": "Online Lesen",
     "filterTechnical": "Technik"
   }
 }

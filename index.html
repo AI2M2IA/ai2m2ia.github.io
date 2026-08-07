@@ -58,12 +58,12 @@
 	  <!-- Typography -->
 	      
 	  <!-- Stylesheet -->
-	  <link rel="stylesheet" href="styles.css?v=20260805a">
+	  <link rel="stylesheet" href="styles.css?v=20260805b">
 	  <link rel="stylesheet" href="assets/fonts/fonts.css">
   <script src="lib/sanitize.js"></script>
 
 	  <!-- Application logic (deferred) -->
-	  <script src="app.js?v=20260805a" defer></script>
+	  <script src="app.js?v=20260805b" defer></script>
 	</head>
 
 <body>
@@ -88,8 +88,10 @@
       <nav class="site-nav" aria-label="Primary navigation">
         <ul>
           <li><a href="#catalog"    data-i18n="navCatalog">Catalog</a></li>
+          <li><a href="#characters" data-i18n="navCharacters">Characters</a></li>
+          <li><a href="#media"      data-i18n="navMedia">Media Samples</a></li>
           <li><a href="#philosophy" data-i18n="navPhilosophy">AI &amp; Responsibility</a></li>
-          <li><a href="pwa/" aria-label="Open the AI(2)M(2)IA reading app">Read Online</a></li>
+          <li><a href="pwa/" data-i18n="navReadOnline" aria-label="Open the AI(2)M(2)IA reading app">Read Online</a></li>
         </ul>
       </nav>
 
@@ -145,9 +147,10 @@
         <p class="hero-lead" data-i18n="heroLead">One impossible book at a time. Read progression fantasy, gothic dark fantasy, and speculative war fiction built around complex systems and characters who do not resolve cleanly.</p>
 
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#catalog" data-i18n="heroPrimaryCTA">Explore Catalog</a>
-          <a class="btn btn-secondary" href="#philosophy" data-i18n="heroSecondaryCTA">Read About Our Method</a>
-          <a class="btn btn-secondary" href="pwa/">Read Online</a>
+          <a class="btn btn-primary" href="works/level-zero/" data-i18n="heroPrimaryCTA">Start with Level Zero</a>
+          <a class="btn btn-secondary" href="#media" data-i18n="heroSecondaryCTA">Watch Samples</a>
+          <a class="btn btn-outline" href="#catalog" data-i18n="heroTertiaryCTA">Explore Catalog</a>
+          <a class="btn btn-outline" href="pwa/" data-i18n="navReadOnline">Read Online</a>
         </div>
 
         <p class="hero-note" data-i18n="heroNote">AI accelerates production. Human direction, structure, revision, taste, and ethics remain completely non-delegable.</p>
@@ -224,6 +227,46 @@
     <hr class="rule">
 
     <!-- ======================================================
+         CHARACTERS
+         ====================================================== -->
+    <section id="characters" class="section characters-section" aria-labelledby="characters-heading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow" data-i18n="charactersEyebrow">Character Dossiers</span>
+          <h2 id="characters-heading" class="section-title" data-i18n="charactersTitle">Meet the protagonists</h2>
+          <p class="section-lead" data-i18n="charactersLead">Spoiler-light portraits and identities from the main series.</p>
+        </div>
+
+        <!-- Character roster — populated by app.js -->
+        <div id="characters-grid" class="character-showcase-grid" aria-label="Character roster">
+          <p class="grid-loading" data-i18n="loading">Loading content…</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <!-- ======================================================
+         MEDIA SAMPLES
+         ====================================================== -->
+    <section id="media" class="section media-section" aria-labelledby="media-heading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow" data-i18n="mediaEyebrow">Audio &amp; Video Samples</span>
+          <h2 id="media-heading" class="section-title" data-i18n="mediaTitle">Audiobook previews &amp; trailers</h2>
+          <p class="section-lead" data-i18n="mediaLead">Third-party players load only on request, respecting your bandwidth and privacy. YouTube embeds do not autoplay.</p>
+        </div>
+
+        <!-- Media samples — populated by app.js -->
+        <div id="media-grid" class="media-grid" aria-label="Media samples">
+          <p class="grid-loading" data-i18n="loading">Loading content…</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <!-- ======================================================
          PHILOSOPHY / AI RESPONSIBILITY
          ====================================================== -->
     <section id="philosophy" class="section philosophy-section" aria-labelledby="philosophy-heading">
@@ -239,6 +282,7 @@
           <div class="philosophy-copy">
             <h3 data-i18n="philDisclosureTitle">Full Disclosure Statement</h3>
             <p id="author-disclosure" class="disclosure-text">Loading…</p>
+            <p class="responsibility-text" data-i18n="philResponsibilityText">Tools can speed writing; they never replace responsibility. Humans keep control of truth, taste, and publication judgment.</p>
 
             <div class="philosophy-actions">
               <a id="full-disclosure-link" class="btn btn-outline"
@@ -247,6 +291,43 @@
               <a class="btn btn-secondary"
                  href="https://www.amazon.com/stores/AI%282%29M%282%29IA-AI%282%29M%282%29IA/author/B0GYDYRL75"
                  target="_blank" rel="noopener noreferrer">Amazon Author Page</a>
+            </div>
+          </div>
+
+          <!-- Analogy cards -->
+          <div class="analogy-cards">
+            <div class="analogy-card">
+              <div class="analogy-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="2" width="14" height="20" rx="2"/>
+                  <line x1="8" y1="6" x2="16" y2="6"/>
+                  <line x1="8" y1="11" x2="8" y2="11"/>
+                  <line x1="12" y1="11" x2="12" y2="11"/>
+                  <line x1="16" y1="11" x2="16" y2="11"/>
+                  <line x1="8" y1="15" x2="8" y2="15"/>
+                  <line x1="12" y1="15" x2="12" y2="15"/>
+                  <line x1="16" y1="15" x2="16" y2="15"/>
+                  <line x1="8" y1="19" x2="8" y2="19"/>
+                  <line x1="12" y1="19" x2="12" y2="19"/>
+                  <line x1="16" y1="19" x2="16" y2="19"/>
+                </svg>
+              </div>
+              <h4 data-i18n="analogyCalcTitle">The Calculator Analogy</h4>
+              <p data-i18n="analogyCalcText">Computers and calculators reduce mechanical burden, but a human remains responsible for the problem, the interpretation, and the consequences of the result.</p>
+            </div>
+            <div class="analogy-card">
+              <div class="analogy-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 14V8a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v6"/>
+                  <path d="M9 5V3M15 5V3"/>
+                  <rect x="3" y="14" width="18" height="6" rx="1"/>
+                  <line x1="8" y1="17" x2="8" y2="17"/>
+                  <line x1="12" y1="17" x2="12" y2="17"/>
+                  <line x1="16" y1="17" x2="16" y2="17"/>
+                </svg>
+              </div>
+              <h4 data-i18n="analogyTypeTitle">The Typewriter Analogy</h4>
+              <p data-i18n="analogyTypeText">A typewriter changes the physical act of writing without making the machine the author. AI changes drafting mechanics, but the human remains responsible for judgment and publication.</p>
             </div>
           </div>
         </div>

@@ -117,10 +117,12 @@ const I18N = {
     navCharacters:       'Characters',
     navMedia:            'Media Samples',
     navPhilosophy:       'AI & Responsibility',
+    navReadOnline:       'Read Online',
     heroEyebrow:         'Narratives Shaped by Hybrid Minds',
     heroLead:            'One impossible book at a time. Read progression fantasy, gothic dark fantasy, and speculative war fiction built around complex systems and characters who do not resolve cleanly.',
-    heroPrimaryCTA:      'Explore Catalog',
-    heroSecondaryCTA:    'Read About Our Method',
+    heroPrimaryCTA:      'Start with Level Zero',
+    heroSecondaryCTA:    'Watch Samples',
+    heroTertiaryCTA:     'Explore Catalog',
     heroNote:            'AI accelerates production. Human direction, structure, revision, taste, and ethics remain completely non-delegable.',
     charSeriesLevelZero: 'Level Zero / Analyze',
     charSeriesCrater:    'The Crater Gospel / Bell',
@@ -1012,7 +1014,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 3. Fetch content data (wrapped in error boundary)
   try {
-    await DataStore.loadAll(['works', 'author']);
+    await DataStore.loadAll(['works', 'author', 'media']);
   } catch (err) {
     console.error('[AI2M2IA] DataStore.loadAll() failed:', err);
   }
@@ -1023,12 +1025,33 @@ document.addEventListener('DOMContentLoaded', async () => {
       CatalogRenderer.render();
       CatalogRenderer.initFilters();
     } else {
-      showSectionError('books-grid', 'catalog');
       throw new Error('Missing catalog payload');
     }
   } catch (err) {
     console.error('[AI2M2IA] Catalog rendering failed:', err);
     showSectionError('books-grid', 'catalog');
+  }
+
+  try {
+    if (DataStore.works?.characters?.length) {
+      CharacterRenderer.render();
+    } else {
+      throw new Error('Missing characters payload');
+    }
+  } catch (err) {
+    console.error('[AI2M2IA] Character rendering failed:', err);
+    showSectionError('characters-grid', 'character roster');
+  }
+
+  try {
+    if (DataStore.media?.items?.length) {
+      MediaRenderer.render();
+    } else {
+      throw new Error('Missing media payload');
+    }
+  } catch (err) {
+    console.error('[AI2M2IA] Media rendering failed:', err);
+    showSectionError('media-grid', 'media samples');
   }
 
   try {

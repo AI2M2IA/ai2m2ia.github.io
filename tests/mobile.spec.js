@@ -74,7 +74,7 @@ test.describe('AI(2)M(2)IA Website Mobile E2E Tests', () => {
     const html = page.locator('html');
     const langMenuBtn = page.locator('#lang-menu-btn');
     const langDropdown = page.locator('#lang-dropdown');
-    const exploreBtn = page.locator('a[data-i18n="heroPrimaryCTA"]');
+    const primaryCtaBtn = page.locator('a[data-i18n="heroPrimaryCTA"]');
 
     await expect(langMenuBtn).toBeVisible();
 
@@ -91,7 +91,7 @@ test.describe('AI(2)M(2)IA Website Mobile E2E Tests', () => {
 
     // Verify lang attribute and text update
     await expect(html).toHaveAttribute('lang', 'pt-BR');
-    await expect(exploreBtn).toHaveText('Explorar Catálogo');
+    await expect(primaryCtaBtn).toHaveText('Começar com Level Zero');
   });
 
   test('should stack books catalog in a single column layout on mobile', async ({ page }) => {

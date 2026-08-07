@@ -10,8 +10,8 @@
     "navPhilosophy": "AI & Responsibility",
     "heroEyebrow": "Narratives Shaped by Hybrid Minds",
     "heroLead": "One impossible book at a time. Read progression fantasy, gothic dark fantasy, and speculative war fiction built around complex systems and characters who do not resolve cleanly.",
-    "heroPrimaryCTA": "Explore Catalog",
-    "heroSecondaryCTA": "Read About Our Method",
+    "heroPrimaryCTA": "Start with Level Zero",
+    "heroSecondaryCTA": "Watch Samples",
     "heroNote": "AI accelerates production. Human direction, structure, revision, taste, and ethics remain completely non-delegable.",
     "charSeriesLevelZero": "Level Zero / Analyze",
     "charSeriesCrater": "The Crater Gospel / Bell",
@@ -78,6 +78,8 @@
     "wipBadge": "In Progress",
     "workTag_the-princess-and-the-turtle": "Epic Fantasy",
     "workSummary_the-princess-and-the-turtle": "A fisherman saves a wounded sea turtle and is taken to an underwater kingdom where time moves differently, war looms between sea peoples, and love grows stronger through adversity.",
+    "heroTertiaryCTA": "Explore Catalog",
+    "navReadOnline": "Read Online",
     "filterTechnical": "Technical"
   }
 }

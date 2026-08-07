@@ -10,8 +10,8 @@
     "navPhilosophy": "AI ואחריות",
     "heroEyebrow": "נרטיבים המעוצבים על ידי מוחות היברידיים",
     "heroLead": "ספר בלתי אפשרי אחד בכל פעם. קרא פנטזיית התקדמות, פנטזיה אפלה גותית, וספרות מלחמה ספקולטיבית הבנויים סביב מערכות מורכבות ודמויות שאינן נפתרות בקלות.",
-    "heroPrimaryCTA": "חקור קטלוג",
-    "heroSecondaryCTA": "קרא על השיטה שלנו",
+    "heroPrimaryCTA": "התחל עם Level Zero",
+    "heroSecondaryCTA": "צפה בדוגמאות",
     "heroNote": "AI מאיץ את הייצור. הכוונה אנושית, מבנה, עריכה, טעם ואתיקה נותרים בלתי ניתנים להאצלה לחלוטין.",
     "charSeriesLevelZero": "Level Zero / Analyze",
     "charSeriesCrater": "The Crater Gospel / Bell",
@@ -78,6 +78,8 @@
     "wipBadge": "בכתיבה",
     "workTag_the-princess-and-the-turtle": "פנטזיה אפית",
     "workSummary_the-princess-and-the-turtle": "דייג מציל צב ים פצוע ומובל לממלכה תת-ימית שבה הזמן זורם אחרת, המלחמה מאיימת בין עמי הים, והאהבה מתחזקת מול הקשיים.",
+    "heroTertiaryCTA": "חקור קטלוג",
+    "navReadOnline": "קרא באינטרנט",
     "filterTechnical": "טכני"
   }
 }

@@ -10,8 +10,8 @@
     "navPhilosophy": "الذكاء الاصطناعي والمسؤولية",
     "heroEyebrow": "روايات يُشكّلها عقل هجين",
     "heroLead": "كتاب مستحيل في كل مرة. اقرأ الفانتازيا التطورية، والفانتازيا المظلمة القوطية، والخيال العلمي الحربي التأملي المبنية حول أنظمة معقدة وشخصيات لا تُحَل بسهولة.",
-    "heroPrimaryCTA": "استكشاف الفهرس",
-    "heroSecondaryCTA": "الاطلاع على منهجنا",
+    "heroPrimaryCTA": "البدء مع Level Zero",
+    "heroSecondaryCTA": "مشاهدة العينات",
     "heroNote": "يُسرّع الذكاء الاصطناعي الإنتاج. التوجيه البشري والبنية والمراجعة والذوق والأخلاق تبقى غير قابلة للتفويض كلياً.",
     "charSeriesLevelZero": "Level Zero / Analyze",
     "charSeriesCrater": "The Crater Gospel / Bell",
@@ -78,6 +78,8 @@
     "wipBadge": "قيد الكتابة",
     "workTag_the-princess-and-the-turtle": "فانتازيا ملحمية",
     "workSummary_the-princess-and-the-turtle": "ينقذ صياد سلحفاة بحرية مصابة ويُقاد إلى مملكة تحت الماء حيث يسري الوقت بشكل مختلف، وتلوح الحرب في الأفق بين شعوب البحر، ويزداد الحب قوةً في مواجهة الشدائد.",
+    "heroTertiaryCTA": "استكشاف الفهرس",
+    "navReadOnline": "القراءة عبر الإنترنت",
     "filterTechnical": "تقنية"
   }
 }

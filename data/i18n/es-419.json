@@ -10,8 +10,8 @@
     "navPhilosophy": "IA y Responsabilidad",
     "heroEyebrow": "Narrativas Formadas por Mentes Híbridas",
     "heroLead": "Un libro imposible a la vez. Lee fantasía de progresión, dark fantasy gótica y ficción bélica especulativa construida en torno a sistemas complejos y personajes que no se resuelven fácilmente.",
-    "heroPrimaryCTA": "Explorar Catálogo",
-    "heroSecondaryCTA": "Descubrir Nuestro Método",
+    "heroPrimaryCTA": "Empezar con Level Zero",
+    "heroSecondaryCTA": "Ver Muestras",
     "heroNote": "La IA acelera la producción. La dirección humana, la estructura, la revisión, el gusto y la ética siguen siendo completamente no delegables.",
     "charSeriesLevelZero": "Level Zero / Analyze",
     "charSeriesCrater": "The Crater Gospel / Bell",
@@ -78,6 +78,8 @@
     "wipBadge": "En progreso",
     "workTag_the-princess-and-the-turtle": "Fantasía épica",
     "workSummary_the-princess-and-the-turtle": "Un pescador salva a una tortuga marina herida y es llevado a un reino submarino donde el tiempo transcurre de forma diferente, la guerra amenaza entre los pueblos del mar y el amor crece más fuerte en la adversidad.",
+    "heroTertiaryCTA": "Explorar Catálogo",
+    "navReadOnline": "Leer en Línea",
     "filterTechnical": "Técnico"
   }
 }

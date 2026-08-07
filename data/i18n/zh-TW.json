@@ -10,8 +10,8 @@
     "navPhilosophy": "AI與責任",
     "heroEyebrow": "由混合思維塑造的敘事",
     "heroLead": "一次一本不可能的書。閱讀圍繞複雜系統和無法輕易解決的角色構建的進階奇幻、哥德黑暗奇幻和推測性戰爭小說。",
-    "heroPrimaryCTA": "探索書目",
-    "heroSecondaryCTA": "了解我們的方法",
+    "heroPrimaryCTA": "從Level Zero開始",
+    "heroSecondaryCTA": "觀看樣本",
     "heroNote": "AI加速了創作。人類的指導、結構、修訂、品味和倫理仍然完全不可委託。",
     "charSeriesLevelZero": "Level Zero / Analyze",
     "charSeriesCrater": "The Crater Gospel / Bell",
@@ -78,6 +78,8 @@
     "wipBadge": "創作中",
     "workTag_the-princess-and-the-turtle": "史詩奇幻",
     "workSummary_the-princess-and-the-turtle": "一名漁夫救起一隻受傷的海龜，被帶入一個時間流速迥異的水下王國。海洋諸族之間戰爭逼近，愛情在逆境中愈加深厚。",
+    "heroTertiaryCTA": "探索書目",
+    "navReadOnline": "線上閱讀",
     "filterTechnical": "技術"
   }
 }
